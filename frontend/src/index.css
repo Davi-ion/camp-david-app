@@ -1727,15 +1727,24 @@ label {
   line-height: 1.5;
 }
 
-/* Responsive Scaling */
+/* Responsive Scaling & Mobile Scrolling */
 @media (max-width: 1024px) {
-  .cinema-main {
-    grid-template-columns: 1fr;
-    padding: 100px 24px 40px;
-    gap: 36px;
+  .login-cinema-container {
     height: auto;
     min-height: 100vh;
+    min-height: 100dvh;
     overflow-y: auto;
+    overflow-x: hidden;
+    -webkit-overflow-scrolling: touch;
+  }
+
+  .cinema-main {
+    grid-template-columns: 1fr;
+    padding: 84px 20px 48px;
+    gap: 32px;
+    height: auto;
+    min-height: auto;
+    overflow-y: visible;
   }
 
   .cinema-hero-content {
@@ -1745,15 +1754,16 @@ label {
   }
 
   .cinema-title {
-    font-size: clamp(2.5rem, 8vw, 4rem);
+    font-size: clamp(2.2rem, 7vw, 3.8rem);
   }
 
   .cinema-login-wrap {
     justify-content: center;
+    padding-bottom: 24px;
   }
 
   .cinema-header {
-    padding: 20px 24px;
+    padding: 16px 20px;
   }
 }
 
