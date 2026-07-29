@@ -313,7 +313,7 @@ export default function RollCall() {
                   flex: 1,
                   minWidth: 64,
                   padding: '8px 12px',
-                  borderRadius: 12,
+                  borderRadius: 9999,
                   border: isActive ? '2px solid var(--teal, #0F766E)' : '1px solid var(--border, #E2E8F0)',
                   background: isActive ? 'var(--teal, #0F766E)' : '#FFFFFF',
                   color: isActive ? '#FFFFFF' : 'var(--text, #0F172A)',
@@ -370,14 +370,14 @@ export default function RollCall() {
         {/* 3. Search and Filters */}
         <div style={{ marginTop: 16, display: 'flex', flexWrap: 'wrap', gap: 10, alignItems: 'center' }}>
           <div style={{ flex: 1, minWidth: 240, position: 'relative' }}>
-            <IconSearch size={18} style={{ position: 'absolute', left: 12, top: '50%', transform: 'translateY(-50%)', color: '#94A3B8' }} />
+            <IconSearch size={18} style={{ position: 'absolute', left: 14, top: '50%', transform: 'translateY(-50%)', color: '#94A3B8' }} />
             <input
               type="text"
               placeholder="Search campers by name, reg # or bed..."
               value={search}
               onChange={(e) => setSearch(e.target.value)}
               className="input-field"
-              style={{ paddingLeft: 38, width: '100%', fontSize: '0.875rem' }}
+              style={{ paddingLeft: 40, width: '100%', fontSize: '0.875rem', borderRadius: 9999 }}
             />
           </div>
 
@@ -387,7 +387,7 @@ export default function RollCall() {
               value={platoonFilter}
               onChange={(e) => setPlatoonFilter(e.target.value)}
               className="input-field"
-              style={{ width: 140, fontSize: '0.8125rem' }}
+              style={{ width: 140, fontSize: '0.8125rem', borderRadius: 9999 }}
             >
               <option value="all">All Platoons</option>
               {platoonOptions.map(p => (
@@ -402,7 +402,7 @@ export default function RollCall() {
               value={dormFilter}
               onChange={(e) => setDormFilter(e.target.value)}
               className="input-field"
-              style={{ width: 130, fontSize: '0.8125rem' }}
+              style={{ width: 130, fontSize: '0.8125rem', borderRadius: 9999 }}
             >
               <option value="all">All Dorms</option>
               {dormOptions.map(d => (
@@ -418,21 +418,21 @@ export default function RollCall() {
             <button 
               className="btn btn-secondary btn-sm" 
               onClick={() => handleBulk('present')} 
-              style={{ flex: 1, padding: '8px 12px', fontSize: '0.8125rem', display: 'inline-flex', alignItems: 'center', justifyContent: 'center', gap: 6, borderRadius: 8 }}
+              style={{ flex: 1, padding: '8px 16px', fontSize: '0.8125rem', display: 'inline-flex', alignItems: 'center', justifyContent: 'center', gap: 6, borderRadius: 9999 }}
             >
               <IconCheck size={16} color="#10B981" /> Mark All Present
             </button>
             <button
               className="btn btn-secondary btn-sm"
               onClick={() => handleBulk('absent')}
-              style={{ flex: 1, padding: '8px 12px', fontSize: '0.8125rem', display: 'inline-flex', alignItems: 'center', justifyContent: 'center', gap: 6, borderRadius: 8, color: '#EF4444' }}
+              style={{ flex: 1, padding: '8px 16px', fontSize: '0.8125rem', display: 'inline-flex', alignItems: 'center', justifyContent: 'center', gap: 6, borderRadius: 9999, color: '#EF4444' }}
             >
               <IconX size={16} color="#EF4444" /> Mark All Absent
             </button>
             <button
               className="btn btn-secondary btn-sm"
               onClick={() => handleBulk(null)}
-              style={{ padding: '8px 12px', fontSize: '0.8125rem', display: 'inline-flex', alignItems: 'center', justifyContent: 'center', gap: 4, borderRadius: 8 }}
+              style={{ padding: '8px 16px', fontSize: '0.8125rem', display: 'inline-flex', alignItems: 'center', justifyContent: 'center', gap: 4, borderRadius: 9999 }}
               title="Reset All"
             >
               <IconRotateClockwise size={16} /> Reset
@@ -457,7 +457,7 @@ export default function RollCall() {
                   className="camper-row" 
                   style={{ 
                     background: '#fff', 
-                    borderRadius: 14, 
+                    borderRadius: 16, 
                     padding: '12px 16px', 
                     border: status === 'present' ? '1.5px solid #A7F3D0' :
                             status === 'absent' ? '1.5px solid #FCA5A5' :
@@ -476,7 +476,8 @@ export default function RollCall() {
                                  status === 'excused' ? '#F59E0B' : '#64748B',
                       color: '#fff',
                       fontWeight: 700,
-                      flexShrink: 0
+                      flexShrink: 0,
+                      borderRadius: 9999
                     }}>
                       {getInitials(camper.name)}
                     </div>
@@ -495,22 +496,24 @@ export default function RollCall() {
                   </div>
 
                   {/* Quick Action Status Toggles */}
-                  <div className="status-buttons" style={{ display: 'flex', gap: 4, flexShrink: 0 }}>
+                  <div className="status-buttons" style={{ display: 'flex', gap: 6, flexShrink: 0 }}>
                     <button
                       className={`status-btn ${status === 'present' ? 'present' : ''}`}
                       onClick={() => handleMark(camper.id, 'present')}
                       title="Mark Present"
                       style={{
-                        width: 34,
-                        height: 34,
-                        borderRadius: 8,
+                        width: 36,
+                        height: 36,
+                        borderRadius: 9999,
                         border: '1px solid var(--border)',
                         background: status === 'present' ? '#10B981' : '#F8FAFC',
                         color: status === 'present' ? '#FFFFFF' : '#64748B',
                         cursor: 'pointer',
                         display: 'inline-flex',
                         alignItems: 'center',
-                        justifyContent: 'center'
+                        justifyContent: 'center',
+                        boxShadow: status === 'present' ? '0 2px 8px rgba(16, 185, 129, 0.3)' : 'none',
+                        transition: 'all 0.15s ease'
                       }}
                     >
                       <IconCheck size={18} />
@@ -520,16 +523,18 @@ export default function RollCall() {
                       onClick={() => handleMark(camper.id, 'absent')}
                       title="Mark Absent"
                       style={{
-                        width: 34,
-                        height: 34,
-                        borderRadius: 8,
+                        width: 36,
+                        height: 36,
+                        borderRadius: 9999,
                         border: '1px solid var(--border)',
                         background: status === 'absent' ? '#EF4444' : '#F8FAFC',
                         color: status === 'absent' ? '#FFFFFF' : '#64748B',
                         cursor: 'pointer',
                         display: 'inline-flex',
                         alignItems: 'center',
-                        justifyContent: 'center'
+                        justifyContent: 'center',
+                        boxShadow: status === 'absent' ? '0 2px 8px rgba(239, 68, 68, 0.3)' : 'none',
+                        transition: 'all 0.15s ease'
                       }}
                     >
                       <IconX size={18} />
@@ -539,16 +544,18 @@ export default function RollCall() {
                       onClick={() => handleMark(camper.id, 'excused')}
                       title="Mark Excused"
                       style={{
-                        width: 34,
-                        height: 34,
-                        borderRadius: 8,
+                        width: 36,
+                        height: 36,
+                        borderRadius: 9999,
                         border: '1px solid var(--border)',
                         background: status === 'excused' ? '#F59E0B' : '#F8FAFC',
                         color: status === 'excused' ? '#FFFFFF' : '#64748B',
                         cursor: 'pointer',
                         display: 'inline-flex',
                         alignItems: 'center',
-                        justifyContent: 'center'
+                        justifyContent: 'center',
+                        boxShadow: status === 'excused' ? '0 2px 8px rgba(245, 158, 11, 0.3)' : 'none',
+                        transition: 'all 0.15s ease'
                       }}
                     >
                       <IconMinus size={18} />
