@@ -124,7 +124,7 @@ export function AppProvider({ children }) {
     localStorage.setItem('campDavid2026', JSON.stringify(rest));
   }, [state]);
 
-  // Sync live campers & attendance from backend API into AppContext state
+  // Sync live campers & attendance from backend API into AppContext state (and poll every 15s for multi-device sync)
   useEffect(() => {
     const fetchData = async () => {
       const token = localStorage.getItem('camp_token');
@@ -159,6 +159,10 @@ export function AppProvider({ children }) {
     };
 
     fetchData();
+
+    // Background poll every 15 seconds to fetch live updates from other devices
+    const interval = setInterval(fetchData, 15000);
+    return () => clearInterval(interval);
   }, [state.currentUser]);
 
   return (
