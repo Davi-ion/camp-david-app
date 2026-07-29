@@ -120,56 +120,58 @@ export default function Incidents() {
 
   return (
     <div className="page">
-      {/* Home-style Header with bg-incidents */}
-      <div className="dash-header bg-incidents">
-        <div className="container">
-          <div className="dash-header-top">
-            <div className="dash-brand">
-              <div className="dash-logo" style={{ background: 'transparent' }}>
-                <img src="/logo-white.png" alt="Camp David Logo" style={{ width: '100%', height: '100%', objectFit: 'contain' }} />
-              </div>
-              Camp David 2026
-            </div>
-            <div style={{ display: 'flex', alignItems: 'center', gap: 16 }}>
-              <NotificationCentre lightMode={false} />
-              <UserMenu lightMode={true} />
-            </div>
-          </div>
-
-          <p className="dash-greeting">Health, Welfare & Safety Log</p>
-          <h1 className="dash-name">Incident Tracker</h1>
-
-          <div className="dash-day-strip" style={{ marginBottom: 16 }}>
-            <span className="dash-day-badge" style={{ background: openCount > 0 ? 'rgba(239, 68, 68, 0.35)' : 'rgba(255,255,255,0.2)' }}>
-              {openCount} OPEN INCIDENT{openCount !== 1 ? 'S' : ''}
-            </span>
-            <span>{state.incidents.length} Total Incidents Logged</span>
-          </div>
-
-          {/* Quick Stat Pill Glass Card */}
-          <div className="now-card">
-            <div className="now-card-label">
-              <span className="now-dot" />
-              INCIDENT OVERVIEW
-            </div>
-            <div style={{ display: 'grid', gridTemplateColumns: 'repeat(3, 1fr)', gap: 10, marginTop: 12 }}>
-              <div style={{ textAlign: 'center', padding: '10px 4px', background: 'rgba(255,255,255,0.12)', borderRadius: 12 }}>
-                <div style={{ fontSize: '1.25rem', fontWeight: 700, color: '#F87171' }}>
-                  {state.incidents.filter(i => i.type === 'medical').length}
+      {/* Sticky Header */}
+      <div style={{ position: 'sticky', top: 0, zIndex: 100, background: 'var(--bg, #F8FAFC)' }}>
+        <div className="dash-header bg-incidents" style={{ paddingBottom: 16 }}>
+          <div className="container">
+            <div className="dash-header-top">
+              <div className="dash-brand">
+                <div className="dash-logo" style={{ background: 'transparent' }}>
+                  <img src="/logo-white.png" alt="Camp David Logo" style={{ width: '100%', height: '100%', objectFit: 'contain' }} />
                 </div>
-                <div style={{ fontSize: '0.75rem', color: 'rgba(255,255,255,0.95)', marginTop: 2 }}>Medical</div>
+                Camp David 2026
               </div>
-              <div style={{ textAlign: 'center', padding: '10px 4px', background: 'rgba(255,255,255,0.12)', borderRadius: 12 }}>
-                <div style={{ fontSize: '1.25rem', fontWeight: 700, color: '#FBBF24' }}>
-                  {state.incidents.filter(i => i.type === 'behavioural').length}
-                </div>
-                <div style={{ fontSize: '0.75rem', color: 'rgba(255,255,255,0.95)', marginTop: 2 }}>Behavioural</div>
+              <div style={{ display: 'flex', alignItems: 'center', gap: 16 }}>
+                <NotificationCentre lightMode={false} />
+                <UserMenu lightMode={true} />
               </div>
-              <div style={{ textAlign: 'center', padding: '10px 4px', background: 'rgba(255,255,255,0.12)', borderRadius: 12 }}>
-                <div style={{ fontSize: '1.25rem', fontWeight: 700, color: '#60A5FA' }}>
-                  {state.incidents.filter(i => i.type === 'welfare').length}
+            </div>
+
+            <p className="dash-greeting">Health, Welfare & Safety Log</p>
+            <h1 className="dash-name">Incident Tracker</h1>
+
+            <div className="dash-day-strip" style={{ marginBottom: 12 }}>
+              <span className="dash-day-badge" style={{ background: openCount > 0 ? 'rgba(239, 68, 68, 0.35)' : 'rgba(255,255,255,0.2)' }}>
+                {openCount} OPEN INCIDENT{openCount !== 1 ? 'S' : ''}
+              </span>
+              <span>{state.incidents.length} Total Incidents Logged</span>
+            </div>
+
+            {/* Quick Stat Pill Glass Card */}
+            <div className="now-card" style={{ marginBottom: 0, padding: '14px 18px', border: '1px solid rgba(255, 255, 255, 0.3)', boxShadow: 'none' }}>
+              <div className="now-card-label">
+                <span className="now-dot" />
+                INCIDENT OVERVIEW
+              </div>
+              <div style={{ display: 'grid', gridTemplateColumns: 'repeat(3, 1fr)', gap: 10, marginTop: 10 }}>
+                <div style={{ textAlign: 'center', padding: '8px 4px', background: 'rgba(255,255,255,0.12)', borderRadius: 10 }}>
+                  <div style={{ fontSize: '1.125rem', fontWeight: 700, color: '#F87171' }}>
+                    {state.incidents.filter(i => i.type === 'medical' || i.category === 'medical').length}
+                  </div>
+                  <div style={{ fontSize: '0.75rem', color: 'rgba(255,255,255,0.95)', marginTop: 2 }}>Medical</div>
                 </div>
-                <div style={{ fontSize: '0.75rem', color: 'rgba(255,255,255,0.95)', marginTop: 2 }}>Welfare</div>
+                <div style={{ textAlign: 'center', padding: '8px 4px', background: 'rgba(255,255,255,0.12)', borderRadius: 10 }}>
+                  <div style={{ fontSize: '1.125rem', fontWeight: 700, color: '#FBBF24' }}>
+                    {state.incidents.filter(i => i.type === 'behavioural' || i.category === 'behavioural').length}
+                  </div>
+                  <div style={{ fontSize: '0.75rem', color: 'rgba(255,255,255,0.95)', marginTop: 2 }}>Behavioural</div>
+                </div>
+                <div style={{ textAlign: 'center', padding: '8px 4px', background: 'rgba(255,255,255,0.12)', borderRadius: 10 }}>
+                  <div style={{ fontSize: '1.125rem', fontWeight: 700, color: '#60A5FA' }}>
+                    {state.incidents.filter(i => i.type === 'welfare' || i.category === 'welfare').length}
+                  </div>
+                  <div style={{ fontSize: '0.75rem', color: 'rgba(255,255,255,0.95)', marginTop: 2 }}>Welfare</div>
+                </div>
               </div>
             </div>
           </div>

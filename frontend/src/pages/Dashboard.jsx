@@ -138,48 +138,50 @@ export default function Dashboard() {
 
   return (
     <div className="page">
-      {/* Dashboard Header */}
-      <div className="dash-header">
-        <div className="container">
-          <div className="dash-header-top">
-            <div className="dash-brand">
-              <div className="dash-logo" style={{ background: 'transparent' }}>
-                <img src="/logo-white.png" alt="Camp David Logo" style={{ width: '100%', height: '100%', objectFit: 'contain' }} />
-              </div>
-              Camp David 2026
-            </div>
-            <div style={{ display: 'flex', alignItems: 'center', gap: 16 }}>
-              <NotificationCentre lightMode={false} />
-              <UserMenu lightMode={true} />
-            </div>
-          </div>
-
-          <p className="dash-greeting">{greeting},</p>
-          <h1 className="dash-name">{user?.name || 'Staff Member'}</h1>
-          <div style={{ fontSize: '0.875rem', color: 'rgba(255,255,255,0.8)', marginTop: 4, marginBottom: 16 }}>
-            {user?.roleName || user?.role} {user?.platoonKey ? `· ${user.platoonKey.toUpperCase()} PLATOON` : (user?.department ? `· ${user.department.toUpperCase()}` : '')}
-          </div>
-
-          <div className="dash-day-strip">
-            <span className="dash-day-badge">DAY {campDay.dayNum} OF 5</span>
-            <span>{campDay.full} · {timeStr}</span>
-          </div>
-
-          {current && (
-            <div className="now-card">
-              <div className="now-card-label">
-                <span className="now-dot" />
-                HAPPENING NOW
-              </div>
-              <div className="now-card-header" style={{ display: 'flex', justifyContent: 'space-between', alignItems: 'center' }}>
-                <div className="now-card-title">{current.title}</div>
-                <div className="now-card-time">
-                  {current.time} – {current.end}
+      {/* Sticky Dashboard Header */}
+      <div style={{ position: 'sticky', top: 0, zIndex: 100, background: 'var(--bg, #F8FAFC)' }}>
+        <div className="dash-header">
+          <div className="container">
+            <div className="dash-header-top">
+              <div className="dash-brand">
+                <div className="dash-logo" style={{ background: 'transparent' }}>
+                  <img src="/logo-white.png" alt="Camp David Logo" style={{ width: '100%', height: '100%', objectFit: 'contain' }} />
                 </div>
+                Camp David 2026
               </div>
-              <div className="now-card-meta">{current.location} · All Groups</div>
+              <div style={{ display: 'flex', alignItems: 'center', gap: 16 }}>
+                <NotificationCentre lightMode={false} />
+                <UserMenu lightMode={true} />
+              </div>
             </div>
-          )}
+
+            <p className="dash-greeting">{greeting},</p>
+            <h1 className="dash-name">{user?.name || 'Staff Member'}</h1>
+            <div style={{ fontSize: '0.875rem', color: 'rgba(255,255,255,0.8)', marginTop: 4, marginBottom: 16 }}>
+              {user?.roleName || user?.role} {user?.platoonKey ? `· ${user.platoonKey.toUpperCase()} PLATOON` : (user?.department ? `· ${user.department.toUpperCase()}` : '')}
+            </div>
+
+            <div className="dash-day-strip">
+              <span className="dash-day-badge">DAY {campDay.dayNum} OF 5</span>
+              <span>{campDay.full} · {timeStr}</span>
+            </div>
+
+            {current && (
+              <div className="now-card" style={{ marginBottom: 0, padding: '14px 18px', border: '1px solid rgba(255, 255, 255, 0.3)', boxShadow: 'none' }}>
+                <div className="now-card-label">
+                  <span className="now-dot" />
+                  HAPPENING NOW
+                </div>
+                <div className="now-card-header" style={{ display: 'flex', justifyContent: 'space-between', alignItems: 'center' }}>
+                  <div className="now-card-title">{current.title}</div>
+                  <div className="now-card-time">
+                    {current.time} – {current.end}
+                  </div>
+                </div>
+                <div className="now-card-meta">{current.location} · All Groups</div>
+              </div>
+            )}
+          </div>
         </div>
       </div>
 

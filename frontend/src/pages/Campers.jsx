@@ -158,48 +158,50 @@ export default function Campers() {
 
   return (
     <div className="page">
-      {/* Home-style Header with bg-campers */}
-      <div className="dash-header bg-campers">
-        <div className="container">
-          <div className="dash-header-top">
-            <div className="dash-brand">
-              <div className="dash-logo" style={{ background: 'transparent' }}>
-                <img src="/logo-white.png" alt="Camp David Logo" style={{ width: '100%', height: '100%', objectFit: 'contain' }} />
+      {/* Sticky Header */}
+      <div style={{ position: 'sticky', top: 0, zIndex: 100, background: 'var(--bg, #F8FAFC)' }}>
+        <div className="dash-header bg-campers" style={{ paddingBottom: 16 }}>
+          <div className="container">
+            <div className="dash-header-top">
+              <div className="dash-brand">
+                <div className="dash-logo" style={{ background: 'transparent' }}>
+                  <img src="/logo-white.png" alt="Camp David Logo" style={{ width: '100%', height: '100%', objectFit: 'contain' }} />
+                </div>
+                Camp David 2026
               </div>
-              Camp David 2026
-            </div>
-            <div style={{ display: 'flex', alignItems: 'center', gap: 16 }}>
-              <NotificationCentre lightMode={false} />
-              <UserMenu lightMode={true} />
-            </div>
-          </div>
-
-          <p className="dash-greeting">Directory & Profiles</p>
-          <h1 className="dash-name">Campers</h1>
-
-          <div className="dash-day-strip" style={{ marginBottom: 16 }}>
-            <span className="dash-day-badge">{filteredCampers.length} CAMPERS REGISTERED</span>
-            <span>Medical Alerts & Contacts</span>
-          </div>
-
-          {/* Quick Glass Summary Card */}
-          <div className="now-card">
-            <div className="now-card-label">
-              <span className="now-dot" />
-              DIRECTORY SUMMARY
-            </div>
-            <div style={{ display: 'grid', gridTemplateColumns: 'repeat(3, 1fr)', gap: 10, marginTop: 12 }}>
-              <div style={{ textAlign: 'center', padding: '10px 4px', background: 'rgba(255,255,255,0.12)', borderRadius: 12 }}>
-                <div style={{ fontSize: '1.25rem', fontWeight: 700, color: '#4ADE80' }}>{filteredCampers.length}</div>
-                <div style={{ fontSize: '0.75rem', color: 'rgba(255,255,255,0.95)', marginTop: 2 }}>Active Campers</div>
+              <div style={{ display: 'flex', alignItems: 'center', gap: 16 }}>
+                <NotificationCentre lightMode={false} />
+                <UserMenu lightMode={true} />
               </div>
-              <div style={{ textAlign: 'center', padding: '10px 4px', background: 'rgba(255,255,255,0.12)', borderRadius: 12 }}>
-                <div style={{ fontSize: '1.25rem', fontWeight: 700, color: '#FBBF24' }}>{medicalCount}</div>
-                <div style={{ fontSize: '0.75rem', color: 'rgba(255,255,255,0.95)', marginTop: 2 }}>Medical Alerts</div>
+            </div>
+
+            <p className="dash-greeting">Directory & Profiles</p>
+            <h1 className="dash-name">Campers</h1>
+
+            <div className="dash-day-strip" style={{ marginBottom: 12 }}>
+              <span className="dash-day-badge">{filteredCampers.length} CAMPERS REGISTERED</span>
+              <span>Medical Alerts & Contacts</span>
+            </div>
+
+            {/* Quick Glass Summary Card */}
+            <div className="now-card" style={{ marginBottom: 0, padding: '14px 18px', border: '1px solid rgba(255, 255, 255, 0.3)', boxShadow: 'none' }}>
+              <div className="now-card-label">
+                <span className="now-dot" />
+                DIRECTORY SUMMARY
               </div>
-              <div style={{ textAlign: 'center', padding: '10px 4px', background: 'rgba(255,255,255,0.12)', borderRadius: 12 }}>
-                <div style={{ fontSize: '1.25rem', fontWeight: 700, color: '#60A5FA' }}>{platoonOptions.length || 16}</div>
-                <div style={{ fontSize: '0.75rem', color: 'rgba(255,255,255,0.95)', marginTop: 2 }}>Platoons / Groups</div>
+              <div style={{ display: 'grid', gridTemplateColumns: 'repeat(3, 1fr)', gap: 10, marginTop: 10 }}>
+                <div style={{ textAlign: 'center', padding: '8px 4px', background: 'rgba(255,255,255,0.12)', borderRadius: 10 }}>
+                  <div style={{ fontSize: '1.125rem', fontWeight: 700, color: '#4ADE80' }}>{filteredCampers.length}</div>
+                  <div style={{ fontSize: '0.75rem', color: 'rgba(255,255,255,0.95)', marginTop: 2 }}>Active Campers</div>
+                </div>
+                <div style={{ textAlign: 'center', padding: '8px 4px', background: 'rgba(255,255,255,0.12)', borderRadius: 10 }}>
+                  <div style={{ fontSize: '1.125rem', fontWeight: 700, color: '#FBBF24' }}>{medicalCount}</div>
+                  <div style={{ fontSize: '0.75rem', color: 'rgba(255,255,255,0.95)', marginTop: 2 }}>Medical Alerts</div>
+                </div>
+                <div style={{ textAlign: 'center', padding: '8px 4px', background: 'rgba(255,255,255,0.12)', borderRadius: 10 }}>
+                  <div style={{ fontSize: '1.125rem', fontWeight: 700, color: '#60A5FA' }}>{platoonOptions.length || 16}</div>
+                  <div style={{ fontSize: '0.75rem', color: 'rgba(255,255,255,0.95)', marginTop: 2 }}>Platoons / Groups</div>
+                </div>
               </div>
             </div>
           </div>

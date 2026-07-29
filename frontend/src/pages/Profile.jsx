@@ -88,21 +88,43 @@ export default function Profile() {
   timeline.sort((a, b) => a.time.localeCompare(b.time));
 
   return (
-    <div className="container" style={{ paddingTop: 20 }}>
-      {/* Profile Header */}
-      <div className="card" style={{ display: 'flex', alignItems: 'center', gap: 16, marginBottom: 24, padding: 20 }}>
-        <img 
-          src={user?.avatar && (user.avatar.startsWith('/') || user.avatar.startsWith('http')) ? user.avatar : '/avatars/character1.jpg'} 
-          alt={user?.name || 'Profile Avatar'} 
-          style={{ width: 64, height: 64, borderRadius: 9999, objectFit: 'cover', border: '3px solid var(--teal)', boxShadow: '0 4px 12px rgba(0,0,0,0.1)' }}
-        />
-        <div>
-          <h2 style={{ margin: 0 }}>{user?.name}</h2>
-          <div style={{ color: 'var(--text-secondary)', fontSize: '0.875rem', marginTop: 4 }}>
-            {user?.roleName || user?.role} • {user?.department || 'Staff'}
+    <div className="page">
+      {/* Sticky Header */}
+      <div style={{ position: 'sticky', top: 0, zIndex: 100, background: 'var(--bg, #F8FAFC)' }}>
+        <div className="dash-header" style={{ paddingBottom: 16 }}>
+          <div className="container">
+            <div className="dash-header-top">
+              <div className="dash-brand">
+                <div className="dash-logo" style={{ background: 'transparent' }}>
+                  <img src="/logo-white.png" alt="Camp David Logo" style={{ width: '100%', height: '100%', objectFit: 'contain' }} />
+                </div>
+                Camp David 2026
+              </div>
+              <div style={{ display: 'flex', alignItems: 'center', gap: 16 }}>
+                <NotificationCentre lightMode={false} />
+                <UserMenu lightMode={true} />
+              </div>
+            </div>
+
+            <div style={{ display: 'flex', alignItems: 'center', gap: 16, marginTop: 8 }}>
+              <img 
+                src={user?.avatar && (user.avatar.startsWith('/') || user.avatar.startsWith('http')) ? user.avatar : '/avatars/character1.jpg'} 
+                alt={user?.name || 'Profile Avatar'} 
+                style={{ width: 52, height: 52, borderRadius: 9999, objectFit: 'cover', border: '2px solid rgba(255,255,255,0.8)' }}
+              />
+              <div>
+                <p className="dash-greeting" style={{ margin: 0 }}>Staff Profile & Assignments</p>
+                <h1 className="dash-name" style={{ margin: 0, fontSize: '1.375rem' }}>{user?.name || 'Staff Member'}</h1>
+                <div style={{ fontSize: '0.8125rem', color: 'rgba(255,255,255,0.85)', marginTop: 2 }}>
+                  {user?.roleName || user?.role} • {user?.department || 'Staff'}
+                </div>
+              </div>
+            </div>
           </div>
         </div>
       </div>
+
+      <div className="container" style={{ paddingTop: 16 }}>
 
       <div style={{ display: 'grid', gap: 24 }}>
         
@@ -203,6 +225,7 @@ export default function Profile() {
           )}
         </div>
 
+        </div>
       </div>
     </div>
   );

@@ -301,173 +301,182 @@ export default function RollCall() {
 
   return (
     <div className="page">
-      {/* Header */}
-      <div className="dash-header bg-rollcall">
-        <div className="container">
-          <div className="dash-header-top">
-            <div className="dash-brand">
-              <div className="dash-logo" style={{ background: 'transparent' }}>
-                <img src="/logo-white.png" alt="Camp David Logo" style={{ width: '100%', height: '100%', objectFit: 'contain' }} />
+      {/* Sticky Top Section */}
+      <div style={{ position: 'sticky', top: 0, zIndex: 100, background: 'var(--bg, #F8FAFC)' }}>
+        {/* Header */}
+        <div className="dash-header bg-rollcall" style={{ paddingBottom: 16 }}>
+          <div className="container">
+            <div className="dash-header-top">
+              <div className="dash-brand">
+                <div className="dash-logo" style={{ background: 'transparent' }}>
+                  <img src="/logo-white.png" alt="Camp David Logo" style={{ width: '100%', height: '100%', objectFit: 'contain' }} />
+                </div>
+                Camp David 2026
               </div>
-              Camp David 2026
+              <div style={{ display: 'flex', alignItems: 'center', gap: 16 }}>
+                <NotificationCentre lightMode={false} />
+                <UserMenu lightMode={true} />
+              </div>
             </div>
-            <div style={{ display: 'flex', alignItems: 'center', gap: 16 }}>
-              <NotificationCentre lightMode={false} />
-              <UserMenu lightMode={true} />
+
+            <div style={{ display: 'flex', justifyContent: 'space-between', alignItems: 'flex-end', marginBottom: 12 }}>
+              <div>
+                <p className="dash-greeting" style={{ margin: 0 }}>Daily Check-In & Roll Call</p>
+                <h1 className="dash-name" style={{ margin: 0 }}>Attendance</h1>
+              </div>
+              <button 
+                onClick={() => setHistoryModalOpen(true)}
+                style={{
+                  background: 'rgba(255, 255, 255, 0.25)',
+                  color: '#FFFFFF',
+                  border: '1px solid rgba(255, 255, 255, 0.4)',
+                  borderRadius: 9999,
+                  padding: '8px 16px',
+                  fontSize: '0.8125rem',
+                  fontWeight: 600,
+                  cursor: 'pointer',
+                  display: 'inline-flex',
+                  alignItems: 'center',
+                  gap: 6,
+                  backdropFilter: 'blur(8px)',
+                  boxShadow: '0 2px 10px rgba(0,0,0,0.1)',
+                  transition: 'all 0.15s ease'
+                }}
+              >
+                <IconHistory size={16} /> Attendance History
+              </button>
+            </div>
+
+            <div className="dash-day-strip" style={{ marginBottom: 12 }}>
+              <span className="dash-day-badge">DAY {campDay.dayNum} OF 5</span>
+              <span>{campDay.full} · {activeSessionObj?.label || 'Active Check-in'}</span>
+            </div>
+
+            {/* Attendance Progress Card */}
+            <div className="now-card" style={{ marginBottom: 0, padding: '14px 18px', border: '1px solid rgba(255, 255, 255, 0.3)', boxShadow: 'none' }}>
+              <div className="now-card-label" style={{ display: 'flex', justifyContent: 'space-between', alignItems: 'center' }}>
+                <span>
+                  <span className="now-dot" />
+                  {activeSessionObj?.label || 'SESSION'} ROLL CALL ({percentComplete}% DONE)
+                </span>
+                <span style={{ fontSize: '0.8125rem', fontWeight: 600, color: 'rgba(255,255,255,0.9)' }}>
+                  {summary.present + summary.absent + summary.excused} / {summary.total} Checked
+                </span>
+              </div>
+
+              {/* Progress Bar */}
+              <div style={{ height: 6, background: 'rgba(255,255,255,0.2)', borderRadius: 99, marginTop: 8, overflow: 'hidden' }}>
+                <div style={{ width: `${percentComplete}%`, height: '100%', background: '#4ADE80', transition: 'width 0.3s ease' }} />
+              </div>
+
+              {/* Summary Grid */}
+              <div style={{ display: 'grid', gridTemplateColumns: 'repeat(4, 1fr)', gap: 8, marginTop: 10 }}>
+                <div 
+                  onClick={() => setStatusFilter(statusFilter === 'present' ? 'all' : 'present')}
+                  style={{ textAlign: 'center', padding: '6px 4px', background: statusFilter === 'present' ? 'rgba(255,255,255,0.25)' : 'rgba(255,255,255,0.12)', borderRadius: 10, cursor: 'pointer', border: statusFilter === 'present' ? '1px solid #ffffff' : 'none' }}
+                >
+                  <div style={{ fontSize: '1.125rem', fontWeight: 700, color: '#ffffff' }}>{summary.present}</div>
+                  <div style={{ fontSize: '0.75rem', color: 'rgba(255,255,255,0.95)', marginTop: 2 }}>Present</div>
+                </div>
+                <div 
+                  onClick={() => setStatusFilter(statusFilter === 'absent' ? 'all' : 'absent')}
+                  style={{ textAlign: 'center', padding: '6px 4px', background: statusFilter === 'absent' ? 'rgba(255,255,255,0.25)' : 'rgba(255,255,255,0.12)', borderRadius: 10, cursor: 'pointer', border: statusFilter === 'absent' ? '1px solid #ffffff' : 'none' }}
+                >
+                  <div style={{ fontSize: '1.125rem', fontWeight: 700, color: '#ffffff' }}>{summary.absent}</div>
+                  <div style={{ fontSize: '0.75rem', color: 'rgba(255,255,255,0.95)', marginTop: 2 }}>Absent</div>
+                </div>
+                <div 
+                  onClick={() => setStatusFilter(statusFilter === 'excused' ? 'all' : 'excused')}
+                  style={{ textAlign: 'center', padding: '6px 4px', background: statusFilter === 'excused' ? 'rgba(255,255,255,0.25)' : 'rgba(255,255,255,0.12)', borderRadius: 10, cursor: 'pointer', border: statusFilter === 'excused' ? '1px solid #ffffff' : 'none' }}
+                >
+                  <div style={{ fontSize: '1.125rem', fontWeight: 700, color: '#ffffff' }}>{summary.excused}</div>
+                  <div style={{ fontSize: '0.75rem', color: 'rgba(255,255,255,0.95)', marginTop: 2 }}>Excused</div>
+                </div>
+                <div 
+                  onClick={() => setStatusFilter(statusFilter === 'pending' ? 'all' : 'pending')}
+                  style={{ textAlign: 'center', padding: '6px 4px', background: statusFilter === 'pending' ? 'rgba(255,255,255,0.25)' : 'rgba(255,255,255,0.12)', borderRadius: 10, cursor: 'pointer', border: statusFilter === 'pending' ? '1px solid #ffffff' : 'none' }}
+                >
+                  <div style={{ fontSize: '1.125rem', fontWeight: 700, color: '#ffffff' }}>{summary.pending}</div>
+                  <div style={{ fontSize: '0.75rem', color: 'rgba(255,255,255,0.95)', marginTop: 2 }}>Pending</div>
+                </div>
+              </div>
             </div>
           </div>
+        </div>
 
-          <div style={{ display: 'flex', justifyContent: 'space-between', alignItems: 'flex-end', marginBottom: 12 }}>
-            <div>
-              <p className="dash-greeting" style={{ margin: 0 }}>Daily Check-In & Roll Call</p>
-              <h1 className="dash-name" style={{ margin: 0 }}>Attendance</h1>
-            </div>
-            <button 
-              onClick={() => setHistoryModalOpen(true)}
-              style={{
-                background: 'rgba(255, 255, 255, 0.25)',
-                color: '#FFFFFF',
-                border: '1px solid rgba(255, 255, 255, 0.4)',
-                borderRadius: 9999,
-                padding: '8px 16px',
-                fontSize: '0.8125rem',
-                fontWeight: 600,
-                cursor: 'pointer',
-                display: 'inline-flex',
-                alignItems: 'center',
-                gap: 6,
-                backdropFilter: 'blur(8px)',
-                boxShadow: '0 2px 10px rgba(0,0,0,0.1)',
-                transition: 'all 0.15s ease'
-              }}
-            >
-              <IconHistory size={16} /> Attendance History
-            </button>
-          </div>
-
-          <div className="dash-day-strip" style={{ marginBottom: 16 }}>
-            <span className="dash-day-badge">DAY {campDay.dayNum} OF 5</span>
-            <span>{campDay.full} · {activeSessionObj?.label || 'Active Check-in'}</span>
-          </div>
-
-          {/* Attendance Progress Card */}
-          <div className="now-card">
-            <div className="now-card-label" style={{ display: 'flex', justifyContent: 'space-between', alignItems: 'center' }}>
-              <span>
-                <span className="now-dot" />
-                {activeSessionObj?.label || 'SESSION'} ROLL CALL ({percentComplete}% DONE)
-              </span>
-              <span style={{ fontSize: '0.8125rem', fontWeight: 600, color: 'rgba(255,255,255,0.9)' }}>
-                {summary.present + summary.absent + summary.excused} / {summary.total} Checked
-              </span>
+        {/* Day & Session Selector Bar */}
+        <div style={{ background: 'var(--bg, #F8FAFC)', padding: '10px 0', borderBottom: '1px solid var(--border, #E2E8F0)', boxShadow: '0 4px 12px rgba(0,0,0,0.04)' }}>
+          <div className="container">
+            {/* 1. Day Selector Pills */}
+            <div style={{ display: 'flex', gap: 8, overflowX: 'auto', paddingBottom: 4 }}>
+              {CAMP_DAYS.map((d) => {
+                const isActive = selectedDay === d.key;
+                return (
+                  <button
+                    key={d.key}
+                    onClick={() => { setSelectedDay(d.key); setSelectedSession(null); }}
+                    style={{
+                      flex: 1,
+                      minWidth: 64,
+                      padding: '6px 12px',
+                      borderRadius: 9999,
+                      border: isActive ? '2px solid var(--teal, #0F766E)' : '1px solid var(--border, #E2E8F0)',
+                      background: isActive ? 'var(--teal, #0F766E)' : '#FFFFFF',
+                      color: isActive ? '#FFFFFF' : 'var(--text, #0F172A)',
+                      cursor: 'pointer',
+                      fontWeight: 600,
+                      fontSize: '0.8125rem',
+                      display: 'flex',
+                      flexDirection: 'column',
+                      alignItems: 'center',
+                      gap: 2,
+                      boxShadow: isActive ? '0 4px 12px rgba(15, 118, 110, 0.2)' : 'none',
+                      transition: 'all 0.2s ease'
+                    }}
+                  >
+                    <span>{d.label}</span>
+                    <span style={{ fontSize: '0.6875rem', opacity: isActive ? 0.9 : 0.6 }}>
+                      {d.date.slice(8)}/{d.date.slice(5, 7)}
+                    </span>
+                  </button>
+                );
+              })}
             </div>
 
-            {/* Progress Bar */}
-            <div style={{ height: 6, background: 'rgba(255,255,255,0.2)', borderRadius: 99, marginTop: 10, overflow: 'hidden' }}>
-              <div style={{ width: `${percentComplete}%`, height: '100%', background: '#4ADE80', transition: 'width 0.3s ease' }} />
-            </div>
-
-            {/* Summary Grid */}
-            <div style={{ display: 'grid', gridTemplateColumns: 'repeat(4, 1fr)', gap: 8, marginTop: 12 }}>
-              <div 
-                onClick={() => setStatusFilter(statusFilter === 'present' ? 'all' : 'present')}
-                style={{ textAlign: 'center', padding: '8px 4px', background: statusFilter === 'present' ? 'rgba(255,255,255,0.25)' : 'rgba(255,255,255,0.12)', borderRadius: 10, cursor: 'pointer', border: statusFilter === 'present' ? '1px solid #ffffff' : 'none' }}
-              >
-                <div style={{ fontSize: '1.25rem', fontWeight: 700, color: '#ffffff' }}>{summary.present}</div>
-                <div style={{ fontSize: '0.75rem', color: 'rgba(255,255,255,0.95)', marginTop: 2 }}>Present</div>
-              </div>
-              <div 
-                onClick={() => setStatusFilter(statusFilter === 'absent' ? 'all' : 'absent')}
-                style={{ textAlign: 'center', padding: '8px 4px', background: statusFilter === 'absent' ? 'rgba(255,255,255,0.25)' : 'rgba(255,255,255,0.12)', borderRadius: 10, cursor: 'pointer', border: statusFilter === 'absent' ? '1px solid #ffffff' : 'none' }}
-              >
-                <div style={{ fontSize: '1.25rem', fontWeight: 700, color: '#ffffff' }}>{summary.absent}</div>
-                <div style={{ fontSize: '0.75rem', color: 'rgba(255,255,255,0.95)', marginTop: 2 }}>Absent</div>
-              </div>
-              <div 
-                onClick={() => setStatusFilter(statusFilter === 'excused' ? 'all' : 'excused')}
-                style={{ textAlign: 'center', padding: '8px 4px', background: statusFilter === 'excused' ? 'rgba(255,255,255,0.25)' : 'rgba(255,255,255,0.12)', borderRadius: 10, cursor: 'pointer', border: statusFilter === 'excused' ? '1px solid #ffffff' : 'none' }}
-              >
-                <div style={{ fontSize: '1.25rem', fontWeight: 700, color: '#ffffff' }}>{summary.excused}</div>
-                <div style={{ fontSize: '0.75rem', color: 'rgba(255,255,255,0.95)', marginTop: 2 }}>Excused</div>
-              </div>
-              <div 
-                onClick={() => setStatusFilter(statusFilter === 'pending' ? 'all' : 'pending')}
-                style={{ textAlign: 'center', padding: '8px 4px', background: statusFilter === 'pending' ? 'rgba(255,255,255,0.25)' : 'rgba(255,255,255,0.12)', borderRadius: 10, cursor: 'pointer', border: statusFilter === 'pending' ? '1px solid #ffffff' : 'none' }}
-              >
-                <div style={{ fontSize: '1.25rem', fontWeight: 700, color: '#ffffff' }}>{summary.pending}</div>
-                <div style={{ fontSize: '0.75rem', color: 'rgba(255,255,255,0.95)', marginTop: 2 }}>Pending</div>
-              </div>
+            {/* 2. Session Selector */}
+            <div style={{ display: 'flex', gap: 8, marginTop: 8, overflowX: 'auto' }}>
+              {daySessions.map((s) => {
+                const isActive = activeSession === s.key;
+                return (
+                  <button
+                    key={s.key}
+                    onClick={() => setSelectedSession(s.key)}
+                    style={{
+                      padding: '6px 14px',
+                      borderRadius: 9999,
+                      border: isActive ? '1.5px solid var(--teal, #0F766E)' : '1px solid var(--border, #E2E8F0)',
+                      background: isActive ? '#F0FDF4' : '#FFFFFF',
+                      color: isActive ? 'var(--teal, #0F766E)' : 'var(--text-secondary, #475569)',
+                      cursor: 'pointer',
+                      fontWeight: isActive ? 700 : 500,
+                      fontSize: '0.8125rem',
+                      display: 'inline-flex',
+                      alignItems: 'center',
+                      gap: 6,
+                      transition: 'all 0.15s ease'
+                    }}
+                  >
+                    {getSessionIcon(s.key)}
+                    {s.label} ({s.time})
+                  </button>
+                );
+              })}
             </div>
           </div>
         </div>
       </div>
 
-      <div className="container" style={{ paddingTop: 20 }}>
-        {/* 1. Day Selector Pills */}
-        <div style={{ display: 'flex', gap: 8, overflowX: 'auto', paddingBottom: 4 }}>
-          {CAMP_DAYS.map((d) => {
-            const isActive = selectedDay === d.key;
-            return (
-              <button
-                key={d.key}
-                onClick={() => { setSelectedDay(d.key); setSelectedSession(null); }}
-                style={{
-                  flex: 1,
-                  minWidth: 64,
-                  padding: '8px 12px',
-                  borderRadius: 9999,
-                  border: isActive ? '2px solid var(--teal, #0F766E)' : '1px solid var(--border, #E2E8F0)',
-                  background: isActive ? 'var(--teal, #0F766E)' : '#FFFFFF',
-                  color: isActive ? '#FFFFFF' : 'var(--text, #0F172A)',
-                  cursor: 'pointer',
-                  fontWeight: 600,
-                  fontSize: '0.8125rem',
-                  display: 'flex',
-                  flexDirection: 'column',
-                  alignItems: 'center',
-                  gap: 2,
-                  boxShadow: isActive ? '0 4px 12px rgba(15, 118, 110, 0.2)' : 'none',
-                  transition: 'all 0.2s ease'
-                }}
-              >
-                <span>{d.label}</span>
-                <span style={{ fontSize: '0.6875rem', opacity: isActive ? 0.9 : 0.6 }}>
-                  {d.date.slice(8)}/{d.date.slice(5, 7)}
-                </span>
-              </button>
-            );
-          })}
-        </div>
-
-        {/* 2. Session Selector */}
-        <div style={{ display: 'flex', gap: 8, marginTop: 12, overflowX: 'auto' }}>
-          {daySessions.map((s) => {
-            const isActive = activeSession === s.key;
-            return (
-              <button
-                key={s.key}
-                onClick={() => setSelectedSession(s.key)}
-                style={{
-                  padding: '8px 16px',
-                  borderRadius: 9999,
-                  border: isActive ? '1.5px solid var(--teal, #0F766E)' : '1px solid var(--border, #E2E8F0)',
-                  background: isActive ? '#F0FDF4' : '#FFFFFF',
-                  color: isActive ? 'var(--teal, #0F766E)' : 'var(--text-secondary, #475569)',
-                  cursor: 'pointer',
-                  fontWeight: isActive ? 700 : 500,
-                  fontSize: '0.8125rem',
-                  display: 'inline-flex',
-                  alignItems: 'center',
-                  gap: 6,
-                  transition: 'all 0.15s ease'
-                }}
-              >
-                {getSessionIcon(s.key)}
-                {s.label} ({s.time})
-              </button>
-            );
-          })}
-        </div>
+      <div className="container" style={{ paddingTop: 16 }}>
 
         {/* 3. Search and Filters */}
         <div style={{ marginTop: 16, display: 'flex', flexWrap: 'wrap', gap: 10, alignItems: 'center' }}>
