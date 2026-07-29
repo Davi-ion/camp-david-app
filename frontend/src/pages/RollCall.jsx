@@ -416,28 +416,74 @@ export default function RollCall() {
 
         {/* 4. Quick Bulk Actions */}
         {sessionKey && (
-          <div style={{ display: 'flex', gap: 10, marginTop: 14 }}>
+          <div style={{ display: 'flex', gap: 12, marginTop: 14 }}>
             <button 
-              className="btn btn-secondary btn-sm" 
               onClick={() => handleBulk('present')} 
-              style={{ flex: 1, padding: '8px 16px', fontSize: '0.8125rem', display: 'inline-flex', alignItems: 'center', justifyContent: 'center', gap: 6, borderRadius: 9999 }}
+              style={{ 
+                flex: 1, 
+                height: 46,
+                padding: '0 20px', 
+                fontSize: '0.875rem', 
+                fontWeight: 600,
+                display: 'inline-flex', 
+                alignItems: 'center', 
+                justifyContent: 'center', 
+                gap: 8, 
+                borderRadius: 9999,
+                background: 'var(--teal, #0F766E)',
+                color: '#FFFFFF',
+                border: 'none',
+                cursor: 'pointer',
+                boxShadow: '0 2px 10px rgba(15, 118, 110, 0.25)',
+                transition: 'all 0.15s ease'
+              }}
             >
-              <IconCheck size={16} color="#10B981" /> Mark All Present
+              <IconUserCheck size={20} color="#FFFFFF" /> Mark All Present
             </button>
             <button
-              className="btn btn-secondary btn-sm"
               onClick={() => handleBulk('absent')}
-              style={{ flex: 1, padding: '8px 16px', fontSize: '0.8125rem', display: 'inline-flex', alignItems: 'center', justifyContent: 'center', gap: 6, borderRadius: 9999, color: '#EF4444' }}
+              style={{ 
+                flex: 1, 
+                height: 46,
+                padding: '0 20px', 
+                fontSize: '0.875rem', 
+                fontWeight: 600,
+                display: 'inline-flex', 
+                alignItems: 'center', 
+                justifyContent: 'center', 
+                gap: 8, 
+                borderRadius: 9999, 
+                background: 'var(--orange, #F97316)',
+                color: '#FFFFFF',
+                border: 'none',
+                cursor: 'pointer',
+                boxShadow: '0 2px 10px rgba(249, 115, 22, 0.25)',
+                transition: 'all 0.15s ease'
+              }}
             >
-              <IconX size={16} color="#EF4444" /> Mark All Absent
+              <IconUserX size={20} color="#FFFFFF" /> Mark All Absent
             </button>
             <button
-              className="btn btn-secondary btn-sm"
               onClick={() => handleBulk(null)}
-              style={{ padding: '8px 16px', fontSize: '0.8125rem', display: 'inline-flex', alignItems: 'center', justifyContent: 'center', gap: 4, borderRadius: 9999 }}
+              style={{ 
+                height: 46,
+                padding: '0 18px', 
+                fontSize: '0.875rem', 
+                fontWeight: 600,
+                display: 'inline-flex', 
+                alignItems: 'center', 
+                justifyContent: 'center', 
+                gap: 6, 
+                borderRadius: 9999,
+                background: '#F1F5F9',
+                color: '#64748B',
+                border: '1px solid var(--border-light, #E2E8F0)',
+                cursor: 'pointer',
+                transition: 'all 0.15s ease'
+              }}
               title="Reset All"
             >
-              <IconRotateClockwise size={16} /> Reset
+              <IconRotateClockwise size={18} /> Reset
             </button>
           </div>
         )}
