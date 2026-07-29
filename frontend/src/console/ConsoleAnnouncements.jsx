@@ -1,4 +1,5 @@
 import { useState, useEffect } from 'react';
+import { createPortal } from 'react-dom';
 import { usePermissions } from '../hooks/usePermissions';
 import {
   IconSpeakerphone,
@@ -266,14 +267,16 @@ export default function ConsoleAnnouncements() {
       </div>
 
       {/* ─── REDESIGNED NEW / EDIT ANNOUNCEMENT MODAL ───────────────────────── */}
-      {modalOpen && (
+      {modalOpen && createPortal(
         <div 
           className="modal-overlay" 
           style={{ 
-            position: 'fixed', inset: 0, 
+            position: 'fixed', 
+            top: 0, left: 0, right: 0, bottom: 0,
+            width: '100vw', height: '100vh',
             background: 'rgba(15, 23, 42, 0.70)', 
             backdropFilter: 'blur(8px)', 
-            zIndex: 99999, 
+            zIndex: 999999, 
             display: 'flex', 
             alignItems: 'center', 
             justifyContent: 'center', 
@@ -545,7 +548,8 @@ export default function ConsoleAnnouncements() {
               </div>
             </form>
           </div>
-        </div>
+        </div>,
+        document.body
       )}
     </div>
   );
