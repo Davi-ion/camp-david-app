@@ -1,4 +1,5 @@
 import { useState, useEffect } from 'react';
+import { Link } from 'react-router-dom';
 import { usePermissions } from '../hooks/usePermissions';
 const API = import.meta.env.VITE_API_URL || 'https://camp-david-app.onrender.com';
 
@@ -88,6 +89,9 @@ export default function ConsoleIncidents() {
           <h1 className="console-page-title">Incidents</h1>
           <p className="console-page-subtitle">All reported incidents across the camp ({total} total)</p>
         </div>
+        <Link to="/app/incidents" className="btn btn-primary" style={{ borderRadius: 9999, padding: '8px 20px', fontSize: '0.875rem', fontWeight: 600, display: 'inline-flex', alignItems: 'center', gap: 6, textDecoration: 'none' }}>
+          + Report Incident
+        </Link>
       </div>
 
       <div className="console-card">
