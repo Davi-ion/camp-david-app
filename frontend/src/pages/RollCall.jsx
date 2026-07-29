@@ -504,70 +504,61 @@ export default function RollCall() {
                       </div>
                     </div>
 
-                    {/* Quick Action Status Toggles */}
-                    <div className="status-buttons" style={{ display: 'flex', gap: 6, flexShrink: 0 }}>
+                    {/* Unboxed Tabler Icon Actions */}
+                    <div className="status-buttons" style={{ display: 'flex', gap: 8, flexShrink: 0, alignItems: 'center' }}>
                       <button
-                        className={`status-btn ${status === 'present' ? 'present' : ''}`}
                         onClick={() => handleMark(camper.id, 'present')}
                         title="Mark Present"
                         style={{
-                          width: 36,
-                          height: 36,
-                          borderRadius: 9999,
-                          border: '1px solid var(--border)',
-                          background: status === 'present' ? '#10B981' : '#F8FAFC',
-                          color: status === 'present' ? '#FFFFFF' : '#64748B',
+                          background: 'none',
+                          border: 'none',
+                          padding: 4,
                           cursor: 'pointer',
+                          color: status === 'present' ? '#10B981' : '#94A3B8',
                           display: 'inline-flex',
                           alignItems: 'center',
                           justifyContent: 'center',
-                          boxShadow: status === 'present' ? '0 2px 8px rgba(16, 185, 129, 0.3)' : 'none',
-                          transition: 'all 0.15s ease'
+                          transition: 'all 0.15s ease',
+                          transform: status === 'present' ? 'scale(1.15)' : 'scale(1)'
                         }}
                       >
-                        <IconCheck size={18} />
+                        <IconCheck size={22} stroke={status === 'present' ? 3 : 2} />
                       </button>
                       <button
-                        className={`status-btn ${status === 'absent' ? 'absent' : ''}`}
                         onClick={() => handleMark(camper.id, 'absent')}
                         title="Mark Absent"
                         style={{
-                          width: 36,
-                          height: 36,
-                          borderRadius: 9999,
-                          border: '1px solid var(--border)',
-                          background: status === 'absent' ? '#EF4444' : '#F8FAFC',
-                          color: status === 'absent' ? '#FFFFFF' : '#64748B',
+                          background: 'none',
+                          border: 'none',
+                          padding: 4,
                           cursor: 'pointer',
+                          color: status === 'absent' ? '#EF4444' : '#94A3B8',
                           display: 'inline-flex',
                           alignItems: 'center',
                           justifyContent: 'center',
-                          boxShadow: status === 'absent' ? '0 2px 8px rgba(239, 68, 68, 0.3)' : 'none',
-                          transition: 'all 0.15s ease'
+                          transition: 'all 0.15s ease',
+                          transform: status === 'absent' ? 'scale(1.15)' : 'scale(1)'
                         }}
                       >
-                        <IconX size={18} />
+                        <IconX size={22} stroke={status === 'absent' ? 3 : 2} />
                       </button>
                       <button
-                        className={`status-btn ${status === 'excused' ? 'excused' : ''}`}
                         onClick={() => handleMark(camper.id, 'excused')}
                         title="Mark Excused"
                         style={{
-                          width: 36,
-                          height: 36,
-                          borderRadius: 9999,
-                          border: '1px solid var(--border)',
-                          background: status === 'excused' ? '#F59E0B' : '#F8FAFC',
-                          color: status === 'excused' ? '#FFFFFF' : '#64748B',
+                          background: 'none',
+                          border: 'none',
+                          padding: 4,
                           cursor: 'pointer',
+                          color: status === 'excused' ? '#F59E0B' : '#94A3B8',
                           display: 'inline-flex',
                           alignItems: 'center',
                           justifyContent: 'center',
-                          boxShadow: status === 'excused' ? '0 2px 8px rgba(245, 158, 11, 0.3)' : 'none',
-                          transition: 'all 0.15s ease'
+                          transition: 'all 0.15s ease',
+                          transform: status === 'excused' ? 'scale(1.15)' : 'scale(1)'
                         }}
                       >
-                        <IconMinus size={18} />
+                        <IconMinus size={22} stroke={status === 'excused' ? 3 : 2} />
                       </button>
                     </div>
                   </div>
