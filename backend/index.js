@@ -3,8 +3,24 @@ import express from 'express';
 import cors from 'cors';
 import rateLimit from 'express-rate-limit';
 import { PrismaClient } from './generated/prisma/client.ts';
-const prisma = new PrismaClient();
 
+import authRoutes from './routes/auth.js';
+import usersRoutes from './routes/users.js';
+import rolesRoutes from './routes/roles.js';
+import auditRoutes from './routes/audit.js';
+import campersRoutes from './routes/campers.js';
+import platoonsRoutes from './routes/platoons.js';
+import incidentsRoutes from './routes/incidents.js';
+import announcementsRoutes from './routes/announcements.js';
+import settingsRoutes from './routes/settings.js';
+import reportsRoutes from './routes/reports.js';
+import drillsRoutes from './routes/drills.js';
+import notificationsRoutes from './routes/notifications.js';
+import bulkRoutes from './routes/bulk.js';
+import dormsRoutes from './routes/dorms.js';
+import attendanceRoutes from './routes/attendance.js';
+
+const prisma = new PrismaClient();
 const app = express();
 
 // ─── Middleware ───────────────────────────────────────────────────
@@ -36,6 +52,7 @@ app.use('/api/drills', drillsRoutes);
 app.use('/api/notifications', notificationsRoutes);
 app.use('/api/bulk', bulkRoutes);
 app.use('/api/dorms', dormsRoutes);
+app.use('/api/attendance', attendanceRoutes);
 
 // ─── Global Search ────────────────────────────────────────────────
 app.get('/api/search', async (req, res) => {
