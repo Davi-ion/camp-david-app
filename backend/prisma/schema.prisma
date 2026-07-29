@@ -124,8 +124,8 @@ model Camper {
   dietaryRestrictions String?
   church             String?
   qrCode             String?   @unique
-  counsellorId       String?
-  status             String    @default("active") // active | inactive | transferred
+  ageGroup           String?
+  pickupCenter       String?
   createdAt          DateTime  @default(now())
   updatedAt          DateTime  @updatedAt
 

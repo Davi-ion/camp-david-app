@@ -10,15 +10,16 @@ async function logAudit(data) {
 // ─── GET /api/campers ──────────────────────────────────────────────
 router.get('/', authenticate, requirePermission('view:campers'), async (req, res) => {
   try {
-    const { search, platoonId, status = 'active', page = 1, limit = 100 } = req.query;
+    const { search, platoonId, page = 1, limit = 100 } = req.query;
     const where = {};
-    if (status !== 'all') where.status = status;
     if (platoonId) where.platoonId = platoonId;
     if (search) {
       where.OR = [
         { name: { contains: search } },
         { registrationNumber: { contains: search } },
         { guardianName: { contains: search } },
+        { pickupCenter: { contains: search } },
+        { ageGroup: { contains: search } },
       ];
     }
     const [campers, total] = await Promise.all([
@@ -66,7 +67,7 @@ router.get('/:id', authenticate, requirePermission('view:campers'), async (req, 
 router.post('/', authenticate, requirePermission('edit:campers'), async (req, res) => {
   try {
     const { 
-      name, email, phone, gender, dateOfBirth, 
+      name, email, phone, gender, dateOfBirth, age, tshirtSize, ageGroup, pickupCenter,
       guardianName, guardianPhone, guardianEmail, guardianRelation,
       medicalNotes, allergies, medications, bloodGroup, dietaryRestrictions,
       church, address, emergencyContact, platoonId, counsellorId,
@@ -85,16 +86,27 @@ router.post('/', authenticate, requirePermission('edit:campers'), async (req, re
       data: {
         registrationNumber: `CD26${Math.floor(1000 + Math.random() * 9000)}`,
         name, gender, dateOfBirth,
-        guardianName, guardianPhone, guardianEmail, guardianRelation,
-        medicalNotes, allergies, medications, bloodGroup, dietaryRestrictions,
-        church, address,
+        age: age ? Number(age) : null,
+        tshirtSize: tshirtSize || null,
+        ageGroup: ageGroup || null,
+        pickupCenter: pickupCenter || null,
+        guardianName: guardianName || null,
+        guardianPhone: guardianPhone || null,
+        guardianEmail: guardianEmail || null,
+        guardianRelation: guardianRelation || null,
+        medicalNotes: medicalNotes || null,
+        allergies: allergies || null,
+        medications: medications || null,
+        bloodGroup: bloodGroup || null,
+        dietaryRestrictions: dietaryRestrictions || null,
+        church: church || null,
+        address: address || null,
         emergencyContact: emergencyContact ? JSON.stringify(emergencyContact) : null,
         platoonId: platoonId || null,
         counsellorId: counsellorId || null,
         dormId: dormId || null,
         bedNumber: bedNumber || null,
         dormNotes: dormNotes || null,
-        status: 'active'
       },
       include: {
         platoon: true,
@@ -164,21 +176,20 @@ router.put('/:id', authenticate, requirePermission('edit:campers'), async (req, 
   }
 });
 
-// ─── DELETE /api/campers/:id (soft-delete / deactivate) ───────────
+// ─── DELETE /api/campers/:id ───────────────────────────────────────
 router.delete('/:id', authenticate, requirePermission('edit:campers'), async (req, res) => {
   try {
-    const camper = await prisma.camper.update({
+    const camper = await prisma.camper.delete({
       where: { id: req.params.id },
-      data: { status: 'inactive' },
     });
     await logAudit({
       userId: req.user.id, userName: req.user.name,
-      action: 'DEACTIVATE_CAMPER', targetType: 'Camper',
+      action: 'DELETE_CAMPER', targetType: 'Camper',
       targetId: camper.id, targetName: camper.name, ipAddress: req.ip,
     });
-    res.json({ message: 'Camper deactivated' });
+    res.json({ message: 'Camper deleted' });
   } catch (err) {
-    res.status(500).json({ error: 'Failed to deactivate camper' });
+    res.status(500).json({ error: 'Failed to delete camper' });
   }
 });
 

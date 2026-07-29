@@ -173,21 +173,12 @@ func GetCampersHandler(c *gin.Context) {
 	query := db.Model(&models.Camper{}).Preload("Platoon").Preload("Dorm").Preload("Counsellor")
 
 	search := strings.TrimSpace(c.Query("search"))
-	status := strings.TrimSpace(c.Query("status"))
 	platoonID := strings.TrimSpace(c.Query("platoonId"))
 	dormID := strings.TrimSpace(c.Query("dormId"))
 
 	if search != "" {
 		s := "%" + strings.ToLower(search) + "%"
-		query = query.Where("LOWER(name) LIKE ? OR LOWER(registrationNumber) LIKE ?", s, s)
-	}
-
-	if status != "" && status != "all" {
-		if status == "active" {
-			query = query.Where("status = ? OR status IS NULL OR status = ''", status)
-		} else {
-			query = query.Where("status = ?", status)
-		}
+		query = query.Where("LOWER(name) LIKE ? OR LOWER(registrationNumber) LIKE ? OR LOWER(pickupCenter) LIKE ? OR LOWER(ageGroup) LIKE ?", s, s, s, s)
 	}
 
 	if platoonID != "" && platoonID != "all" {

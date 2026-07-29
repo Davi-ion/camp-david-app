@@ -6,9 +6,8 @@ import {
   IconDownload, 
   IconSearch, 
   IconPencil, 
-  IconUserOff, 
-  IconCheck, 
-  IconFilter 
+  IconTrash, 
+  IconCheck
 } from '@tabler/icons-react';
 
 const API = import.meta.env.VITE_API_URL || 'https://camp-david-app.onrender.com';
@@ -19,7 +18,6 @@ export default function ConsoleCampers() {
   const [total, setTotal] = useState(0);
   const [loading, setLoading] = useState(true);
   const [search, setSearch] = useState('');
-  const [status, setStatus] = useState('all');
   const [platoonFilter, setPlatoonFilter] = useState('');
   const [dormFilter, setDormFilter] = useState('');
   const [page, setPage] = useState(1);
@@ -34,9 +32,9 @@ export default function ConsoleCampers() {
   const [editingCamper, setEditingCamper] = useState(null);
   const [modalError, setModalError] = useState('');
   const [formData, setFormData] = useState({
-    name: '', dateOfBirth: '', gender: '', platoonId: '',
-    medicalNotes: '', allergies: '', guardianName: '', guardianPhone: '',
-    dormId: '', bedNumber: '', dormNotes: ''
+    name: '', age: '', gender: '', ageGroup: '', pickupCenter: '', tshirtSize: '',
+    platoonId: '', dormId: '', bedNumber: '', medicalNotes: '', allergies: '',
+    guardianName: '', guardianPhone: ''
   });
 
   const [dorms, setDorms] = useState([]);
@@ -46,7 +44,7 @@ export default function ConsoleCampers() {
     setLoading(true);
     try {
       const token = localStorage.getItem('camp_token');
-      const q = new URLSearchParams({ page, limit, status });
+      const q = new URLSearchParams({ page, limit });
       if (search) q.append('search', search);
       if (platoonFilter) q.append('platoonId', platoonFilter);
       if (dormFilter) q.append('dormId', dormFilter);
@@ -68,7 +66,7 @@ export default function ConsoleCampers() {
   useEffect(() => {
     fetchCampers();
     fetchDormsAndPlatoons();
-  }, [page, limit, status, platoonFilter, dormFilter]);
+  }, [page, limit, platoonFilter, dormFilter]);
 
   const fetchDormsAndPlatoons = async () => {
     try {
@@ -92,15 +90,18 @@ export default function ConsoleCampers() {
 
   const openModal = (camper = null) => {
     setEditingCamper(camper);
+    setModalError('');
     if (camper) {
       setFormData({
-        name: camper.name,
-        dateOfBirth: camper.dateOfBirth || '',
+        name: camper.name || '',
+        age: camper.age ?? '',
         gender: camper.gender || '',
+        ageGroup: camper.ageGroup || '',
+        pickupCenter: camper.pickupCenter || '',
+        tshirtSize: camper.tshirtSize || '',
         platoonId: camper.platoonId || '',
         dormId: camper.dormId || '',
         bedNumber: camper.bedNumber || '',
-        dormNotes: camper.dormNotes || '',
         medicalNotes: camper.medicalNotes || '',
         allergies: camper.allergies || '',
         guardianName: camper.guardianName || '',
@@ -108,9 +109,9 @@ export default function ConsoleCampers() {
       });
     } else {
       setFormData({
-        name: '', dateOfBirth: '', gender: '', platoonId: '',
-        dormId: '', bedNumber: '', dormNotes: '',
-        medicalNotes: '', allergies: '', guardianName: '', guardianPhone: ''
+        name: '', age: '', gender: '', ageGroup: '', pickupCenter: '', tshirtSize: '',
+        platoonId: '', dormId: '', bedNumber: '', medicalNotes: '', allergies: '',
+        guardianName: '', guardianPhone: ''
       });
     }
     setModalOpen(true);
@@ -123,14 +124,20 @@ export default function ConsoleCampers() {
       const token = localStorage.getItem('camp_token');
       const url = editingCamper ? `${API}/api/campers/${editingCamper.id}` : `${API}/api/campers`;
       const method = editingCamper ? 'PUT' : 'POST';
+      const payload = {
+        ...formData,
+        age: formData.age ? Number(formData.age) : null
+      };
+
       const res = await fetch(url, {
         method,
         headers: {
           'Content-Type': 'application/json',
           Authorization: `Bearer ${token}`
         },
-        body: JSON.stringify(formData)
+        body: JSON.stringify(payload)
       });
+
       if (res.ok) {
         setModalOpen(false);
         fetchCampers();
@@ -144,8 +151,8 @@ export default function ConsoleCampers() {
     }
   };
 
-  const deactivateCamper = async (id) => {
-    if (!confirm('Are you sure you want to deactivate this camper?')) return;
+  const deleteCamper = async (id) => {
+    if (!confirm('Are you sure you want to delete this camper record?')) return;
     try {
       const token = localStorage.getItem('camp_token');
       const res = await fetch(`${API}/api/campers/${id}`, {
@@ -215,22 +222,12 @@ export default function ConsoleCampers() {
           <form onSubmit={handleSearch} style={{ display: 'flex', gap: 10, flex: 1, alignItems: 'center', flexWrap: 'wrap', minWidth: 300 }}>
             <input 
               type="text" 
-              placeholder="Search by name, reg #, or guardian..." 
+              placeholder="Search by name, reg #, pick up, or age group..." 
               value={search}
               onChange={e => setSearch(e.target.value)}
               className="input-field" 
-              style={{ maxWidth: 260, padding: '8px 12px', fontSize: '0.875rem' }}
+              style={{ maxWidth: 280, padding: '8px 12px', fontSize: '0.875rem' }}
             />
-            <select 
-              value={status} 
-              onChange={e => { setStatus(e.target.value); setPage(1); }}
-              className="input-field" 
-              style={{ width: 130, padding: '8px 12px', fontSize: '0.875rem' }}
-            >
-              <option value="active">Active Only</option>
-              <option value="inactive">Inactive</option>
-              <option value="all">All Statuses</option>
-            </select>
 
             {/* Platoon Filter */}
             <select 
@@ -269,7 +266,6 @@ export default function ConsoleCampers() {
               <select className="input-field" style={{ padding: '6px 10px', fontSize: '0.75rem', height: 'auto' }} value={bulkAction} onChange={e => setBulkAction(e.target.value)}>
                 <option value="">Bulk Action...</option>
                 <option value="assign-platoon">Assign Platoon</option>
-                <option value="deactivate">Deactivate</option>
               </select>
               <button disabled={!bulkAction} className="btn btn-primary" style={{ padding: '6px 12px', fontSize: '0.75rem', display: 'inline-flex', alignItems: 'center', gap: 4 }}>
                 <IconCheck size={14} /> Apply
@@ -283,38 +279,54 @@ export default function ConsoleCampers() {
             <thead>
               <tr>
                 <th style={{ width: 40 }}><input type="checkbox" onChange={toggleAll} checked={campers.length > 0 && selectedIds.size === campers.length} /></th>
-                <th>Registration</th>
-                <th>Name</th>
+                <th>Reg #</th>
+                <th>Name & Age</th>
+                <th>Age Group</th>
+                <th>Pick Up Center</th>
                 <th>Platoon</th>
-                <th>Medical Alerts</th>
+                <th>Dorm</th>
+                <th>T-Shirt</th>
+                <th>Medical Notes</th>
                 <th>Guardian Info</th>
-                <th>Status</th>
                 <th style={{ textAlign: 'right' }}>Actions</th>
               </tr>
             </thead>
             <tbody>
               {loading ? (
-                <tr><td colSpan="8" style={{ textAlign: 'center', padding: '30px' }}>Loading...</td></tr>
+                <tr><td colSpan="11" style={{ textAlign: 'center', padding: '30px' }}>Loading...</td></tr>
               ) : campers.length === 0 ? (
-                <tr><td colSpan="8" style={{ textAlign: 'center', padding: '30px' }}>No campers found.</td></tr>
+                <tr><td colSpan="11" style={{ textAlign: 'center', padding: '30px' }}>No campers found.</td></tr>
               ) : campers.map(c => (
                 <tr key={c.id} style={{ background: selectedIds.has(c.id) ? 'var(--bg-light)' : 'transparent' }}>
                   <td><input type="checkbox" checked={selectedIds.has(c.id)} onChange={() => toggleSelection(c.id)} /></td>
-                  <td style={{ fontWeight: 500 }}>{c.registrationNumber}</td>
+                  <td style={{ fontWeight: 500 }}>{c.registrationNumber || '-'}</td>
                   <td>
                     <div style={{ fontWeight: 500, color: 'var(--text)' }}>{c.name}</div>
-                    {c.age && <div style={{ fontSize: '0.75rem', color: 'var(--text-muted)' }}>{c.age} years old</div>}
+                    <div style={{ fontSize: '0.75rem', color: 'var(--text-muted)' }}>
+                      {[c.gender, c.age ? `${c.age} yrs` : null].filter(Boolean).join(' • ')}
+                    </div>
                   </td>
+                  <td>{c.ageGroup || '-'}</td>
+                  <td>{c.pickupCenter || '-'}</td>
                   <td>
                     {c.platoon ? (
-                      <span className="badge" style={{ background: c.platoon.colorHex + '20', color: c.platoon.colorHex }}>
+                      <span className="badge" style={{ background: (c.platoon.colorHex || '#1B7865') + '20', color: c.platoon.colorHex || '#1B7865' }}>
                         {c.platoon.emoji} {c.platoon.name}
                       </span>
                     ) : <span className="badge">Unassigned</span>}
                   </td>
                   <td>
+                    {c.dorm ? (
+                      <div>
+                        <div style={{ fontSize: '0.8125rem', fontWeight: 500 }}>{c.dorm.name}</div>
+                        {c.bedNumber && <div style={{ fontSize: '0.75rem', color: 'var(--text-muted)' }}>Bed {c.bedNumber}</div>}
+                      </div>
+                    ) : '-'}
+                  </td>
+                  <td>{c.tshirtSize || '-'}</td>
+                  <td>
                     {c.medicalNotes ? (
-                      <span className="badge badge-orange">Has Medical Notes</span>
+                      <span className="badge badge-orange" title={c.medicalNotes}>Has Medical Notes</span>
                     ) : '-'}
                   </td>
                   <td>
@@ -324,11 +336,6 @@ export default function ConsoleCampers() {
                         <div style={{ fontSize: '0.75rem', color: 'var(--text-muted)' }}>{c.guardianPhone}</div>
                       </div>
                     ) : '-'}
-                  </td>
-                  <td>
-                    <span className={`badge ${c.status === 'active' ? 'badge-teal' : 'badge-red'}`}>
-                      {c.status.toUpperCase()}
-                    </span>
                   </td>
                   <td style={{ textAlign: 'right', whiteSpace: 'nowrap' }}>
                     <div style={{ display: 'inline-flex', gap: 8, justifyContent: 'flex-end', alignItems: 'center' }}>
@@ -340,16 +347,14 @@ export default function ConsoleCampers() {
                       >
                         <IconPencil size={18} />
                       </button>
-                      {c.status === 'active' && (
-                        <button 
-                          onClick={() => deactivateCamper(c.id)} 
-                          style={{ background: 'none', border: 'none', padding: 4, cursor: 'pointer', color: '#EF4444', display: 'inline-flex', alignItems: 'center', justifyContent: 'center', transition: 'color 0.15s ease' }}
-                          title="Deactivate Camper"
-                          aria-label="Deactivate Camper"
-                        >
-                          <IconUserOff size={18} />
-                        </button>
-                      )}
+                      <button 
+                        onClick={() => deleteCamper(c.id)} 
+                        style={{ background: 'none', border: 'none', padding: 4, cursor: 'pointer', color: '#EF4444', display: 'inline-flex', alignItems: 'center', justifyContent: 'center', transition: 'color 0.15s ease' }}
+                        title="Delete Camper"
+                        aria-label="Delete Camper"
+                      >
+                        <IconTrash size={18} />
+                      </button>
                     </div>
                   </td>
                 </tr>
@@ -373,7 +378,7 @@ export default function ConsoleCampers() {
 
       {modalOpen && (
         <div className="modal-overlay" style={{ position: 'fixed', inset: 0, background: 'rgba(0,0,0,0.5)', zIndex: 100, display: 'flex', alignItems: 'center', justifyContent: 'center' }}>
-          <div className="console-card" style={{ width: 500, maxWidth: '90%' }}>
+          <div className="console-card" style={{ width: 540, maxWidth: '90%', maxHeight: '90vh', overflowY: 'auto' }}>
             <div className="console-card-header">
               <span className="console-card-title">{editingCamper ? 'Edit Camper' : 'Add Camper'}</span>
               <button onClick={() => setModalOpen(false)} style={{ background: 'none', border: 'none', cursor: 'pointer' }}>✕</button>
@@ -385,10 +390,11 @@ export default function ConsoleCampers() {
                   <label className="input-label">Full Name *</label>
                   <input required className="input-field" value={formData.name} onChange={e => setFormData({ ...formData, name: e.target.value })} />
                 </div>
-                <div style={{ display: 'grid', gridTemplateColumns: '1fr 1fr', gap: 16 }}>
+
+                <div style={{ display: 'grid', gridTemplateColumns: '1fr 1fr 1fr', gap: 12 }}>
                   <div>
-                    <label className="input-label">Date of Birth</label>
-                    <input type="date" className="input-field" value={formData.dateOfBirth} onChange={e => setFormData({ ...formData, dateOfBirth: e.target.value })} />
+                    <label className="input-label">Age</label>
+                    <input type="number" className="input-field" value={formData.age} onChange={e => setFormData({ ...formData, age: e.target.value })} placeholder="e.g. 13" />
                   </div>
                   <div>
                     <label className="input-label">Gender</label>
@@ -398,9 +404,24 @@ export default function ConsoleCampers() {
                       <option value="Female">Female</option>
                     </select>
                   </div>
+                  <div>
+                    <label className="input-label">T-Shirt Size</label>
+                    <input className="input-field" value={formData.tshirtSize} onChange={e => setFormData({ ...formData, tshirtSize: e.target.value })} placeholder="XS, S, M, L, XL" />
+                  </div>
+                </div>
+
+                <div style={{ display: 'grid', gridTemplateColumns: '1fr 1fr', gap: 12 }}>
+                  <div>
+                    <label className="input-label">Age Group</label>
+                    <input className="input-field" value={formData.ageGroup} onChange={e => setFormData({ ...formData, ageGroup: e.target.value })} placeholder="e.g. Y, J, Teen" />
+                  </div>
+                  <div>
+                    <label className="input-label">Pick Up Center</label>
+                    <input className="input-field" value={formData.pickupCenter} onChange={e => setFormData({ ...formData, pickupCenter: e.target.value })} placeholder="e.g. Mainland, Island" />
+                  </div>
                 </div>
                 
-                <div style={{ display: 'grid', gridTemplateColumns: '1fr 1fr', gap: 16 }}>
+                <div style={{ display: 'grid', gridTemplateColumns: '1fr 1fr', gap: 12 }}>
                   <div>
                     <label className="input-label">Platoon</label>
                     <select className="input-field" value={formData.platoonId} onChange={e => setFormData({ ...formData, platoonId: e.target.value })}>
@@ -421,23 +442,17 @@ export default function ConsoleCampers() {
                   </div>
                 </div>
 
-                <div style={{ display: 'grid', gridTemplateColumns: '1fr 1fr', gap: 16 }}>
-                  <div>
-                    <label className="input-label">Bed Number</label>
-                    <input className="input-field" value={formData.bedNumber} onChange={e => setFormData({ ...formData, bedNumber: e.target.value })} placeholder="e.g. 12A" />
-                  </div>
-                  <div>
-                    <label className="input-label">Dorm Notes</label>
-                    <input className="input-field" value={formData.dormNotes} onChange={e => setFormData({ ...formData, dormNotes: e.target.value })} placeholder="Special accommodation requirements" />
-                  </div>
+                <div>
+                  <label className="input-label">Bed Number</label>
+                  <input className="input-field" value={formData.bedNumber} onChange={e => setFormData({ ...formData, bedNumber: e.target.value })} placeholder="e.g. 12A" />
                 </div>
 
-                <div style={{ borderTop: '1px solid var(--border)', paddingTop: 16 }}>
+                <div style={{ borderTop: '1px solid var(--border)', paddingTop: 12 }}>
                   <label className="input-label">Medical Notes</label>
                   <textarea className="input-field" rows="2" value={formData.medicalNotes} onChange={e => setFormData({ ...formData, medicalNotes: e.target.value })}></textarea>
                 </div>
                 
-                <div style={{ borderTop: '1px solid var(--border)', paddingTop: 16, display: 'grid', gridTemplateColumns: '1fr 1fr', gap: 16 }}>
+                <div style={{ borderTop: '1px solid var(--border)', paddingTop: 12, display: 'grid', gridTemplateColumns: '1fr 1fr', gap: 12 }}>
                   <div>
                     <label className="input-label">Guardian Name</label>
                     <input className="input-field" value={formData.guardianName} onChange={e => setFormData({ ...formData, guardianName: e.target.value })} />
@@ -448,7 +463,7 @@ export default function ConsoleCampers() {
                   </div>
                 </div>
 
-                <div style={{ display: 'flex', justifyContent: 'flex-end', gap: 10, marginTop: 16 }}>
+                <div style={{ display: 'flex', justifyContent: 'flex-end', gap: 10, marginTop: 12 }}>
                   <button type="button" onClick={() => setModalOpen(false)} className="btn btn-secondary">Cancel</button>
                   <button type="submit" className="btn btn-primary">{editingCamper ? 'Save Changes' : 'Add Camper'}</button>
                 </div>

@@ -25,6 +25,8 @@ type SeedCamperRecord struct {
 	TShirtSize         string `json:"tshirtSize"`
 	Dorm               string `json:"dorm"`
 	Age                *int   `json:"age"`
+	AgeGroup           string `json:"ageGroup"`
+	PickupCenter       string `json:"pickupCenter"`
 }
 
 func SeedCampersLogic() (int, int, int, error) {
@@ -131,6 +133,15 @@ func SeedCampersLogic() (int, int, int, error) {
 		}
 
 		regNo := r.RegistrationNumber
+		var ageGroupPtr *string
+		if r.AgeGroup != "" {
+			ageGroupPtr = strPtr(r.AgeGroup)
+		}
+		var pickupCenterPtr *string
+		if r.PickupCenter != "" {
+			pickupCenterPtr = strPtr(r.PickupCenter)
+		}
+
 		if existing, ok := existingMap[regNo]; ok {
 			existing.Name = r.Name
 			existing.Gender = strPtr(r.Gender)
@@ -138,7 +149,8 @@ func SeedCampersLogic() (int, int, int, error) {
 			existing.Age = r.Age
 			existing.PlatoonID = platoonID
 			existing.DormID = dormID
-			existing.Status = "active"
+			existing.AgeGroup = ageGroupPtr
+			existing.PickupCenter = pickupCenterPtr
 			db.Save(&existing)
 			campersUpserted++
 		} else {
@@ -151,8 +163,8 @@ func SeedCampersLogic() (int, int, int, error) {
 				Age:                r.Age,
 				PlatoonID:          platoonID,
 				DormID:             dormID,
-				QRCode:             strPtr(regNo),
-				Status:             "active",
+				AgeGroup:           ageGroupPtr,
+				PickupCenter:       pickupCenterPtr,
 			})
 		}
 	}
@@ -164,9 +176,6 @@ func SeedCampersLogic() (int, int, int, error) {
 			campersUpserted += len(toCreate)
 		}
 	}
-
-	// Ensure all campers in DB have an active status
-	db.Exec("UPDATE Camper SET status = 'active' WHERE status IS NULL OR status = '' OR status = 'NULL'")
 
 	return platoonsCreated, dormsCreated, campersUpserted, nil
 }

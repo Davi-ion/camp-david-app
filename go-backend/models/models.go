@@ -100,9 +100,8 @@ type Camper struct {
 	Notes               *string   `gorm:"column:notes;type:varchar(191)" json:"notes,omitempty"`
 	DietaryRestrictions *string   `gorm:"column:dietaryRestrictions;type:varchar(191)" json:"dietaryRestrictions,omitempty"`
 	Church              *string   `gorm:"column:church;type:varchar(191)" json:"church,omitempty"`
-	QRCode              *string   `gorm:"column:qrCode;type:varchar(191);unique" json:"qrCode,omitempty"`
-	CounsellorID        *string   `gorm:"column:counsellorId;type:varchar(191)" json:"counsellorId,omitempty"`
-	Status              string    `gorm:"column:status;type:varchar(191);default:'active'" json:"status"`
+	AgeGroup            *string   `gorm:"column:ageGroup;type:varchar(191)" json:"ageGroup,omitempty"`
+	PickupCenter        *string   `gorm:"column:pickupCenter;type:varchar(191)" json:"pickupCenter,omitempty"`
 	CreatedAt           time.Time `gorm:"column:createdAt;default:current_timestamp(3)" json:"createdAt"`
 	UpdatedAt           time.Time `gorm:"column:updatedAt" json:"updatedAt"`
 
