@@ -151,7 +151,7 @@ export default function Programme() {
   return (
     <div className="page">
       {/* Sticky Top Section */}
-      <div style={{ position: 'sticky', top: 0, zIndex: 100, background: 'var(--bg, #F8FAFC)' }}>
+      <div className="sticky-top-desktop">
         {/* Header Banner - Matching Roll Call Teal Gradient */}
         <div className="dash-header bg-rollcall" style={{ paddingBottom: 16 }}>
           <div className="container">

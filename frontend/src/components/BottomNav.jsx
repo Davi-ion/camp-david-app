@@ -73,19 +73,20 @@ export default function BottomNav() {
     <nav className="bottom-nav-floating">
       <div className="bottom-nav-track">
         {tabs.map((tab) => {
-          const isActive =
+          const isCurrentActive =
             tab.to === '/app'
-              ? location.pathname === '/app'
+              ? location.pathname === '/app' || location.pathname === '/app/'
               : location.pathname.startsWith(tab.to);
 
           return (
             <NavLink
               key={tab.to}
               to={tab.to}
-              className={`nav-item-bubbly ${isActive ? 'active' : ''}`}
+              end={tab.to === '/app'}
+              className={() => `nav-item-bubbly ${isCurrentActive ? 'active' : ''}`}
             >
               <span className="nav-icon-wrap">
-                {isActive ? tab.iconFilled : tab.iconOutline}
+                {isCurrentActive ? tab.iconFilled : tab.iconOutline}
                 {tab.badge > 0 && <span className="nav-badge-bubbly">{tab.badge}</span>}
               </span>
               <span className="nav-label-bubbly">{tab.label}</span>

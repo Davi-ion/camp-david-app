@@ -139,7 +139,7 @@ export default function Dashboard() {
   return (
     <div className="page">
       {/* Sticky Dashboard Header */}
-      <div style={{ position: 'sticky', top: 0, zIndex: 100, background: 'var(--bg, #F8FAFC)' }}>
+      <div className="sticky-top-desktop">
         <div className="dash-header">
           <div className="container">
             <div className="dash-header-top">

@@ -159,7 +159,7 @@ export default function Campers() {
   return (
     <div className="page">
       {/* Sticky Header */}
-      <div style={{ position: 'sticky', top: 0, zIndex: 100, background: 'var(--bg, #F8FAFC)' }}>
+      <div className="sticky-top-desktop">
         <div className="dash-header bg-campers" style={{ paddingBottom: 16 }}>
           <div className="container">
             <div className="dash-header-top">

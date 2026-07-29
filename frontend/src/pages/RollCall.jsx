@@ -302,7 +302,7 @@ export default function RollCall() {
   return (
     <div className="page">
       {/* Sticky Top Section */}
-      <div style={{ position: 'sticky', top: 0, zIndex: 100, background: 'var(--bg, #F8FAFC)' }}>
+      <div className="sticky-top-desktop">
         {/* Header */}
         <div className="dash-header bg-rollcall" style={{ paddingBottom: 16 }}>
           <div className="container">

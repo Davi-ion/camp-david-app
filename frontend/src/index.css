@@ -1121,6 +1121,20 @@ label {
   font-weight: 600;
 }
 
+/* ---------- Sticky Top Section (Desktop Only) ---------- */
+.sticky-top-desktop {
+  position: relative;
+  z-index: 100;
+  background: var(--bg, #F8FAFC);
+}
+
+@media (min-width: 768px) {
+  .sticky-top-desktop {
+    position: sticky;
+    top: 0;
+  }
+}
+
 /* ---------- Now Card (White Shades & Contrast) ---------- */
 .now-card {
   background: rgba(255, 255, 255, 0.14);
