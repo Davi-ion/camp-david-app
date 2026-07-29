@@ -39,7 +39,7 @@ export default function UserMenu({ lightMode = false }) {
   return (
     <div style={{ display: 'flex', alignItems: 'center', gap: 10 }}>
       {/* Profile Dropdown */}
-      <div className="profile-dropdown" ref={dropdownRef} style={{ position: 'relative' }}>
+      <div className="profile-dropdown" ref={dropdownRef} style={{ position: 'relative', zIndex: 99999 }}>
         <button
           onClick={() => setDropdownOpen(!dropdownOpen)}
           style={{
