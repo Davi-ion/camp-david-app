@@ -19,6 +19,8 @@ export default function Campers() {
 
   const [search, setSearch] = useState('');
   const [groupFilter, setGroupFilter] = useState('all');
+  const [platoonFilter, setPlatoonFilter] = useState('all');
+  const [dormFilter, setDormFilter] = useState('all');
   const [expandedId, setExpandedId] = useState(null);
   const [showImport, setShowImport] = useState(false);
   const [importResult, setImportResult] = useState(null);
@@ -26,30 +28,60 @@ export default function Campers() {
   const [pageSize, setPageSize] = useState(25);
   const fileRef = useRef();
 
-  // Reset page when search or group filter changes
+  // Reset page when search or filters change
   useEffect(() => {
     setPage(1);
-  }, [search, groupFilter]);
+  }, [search, groupFilter, platoonFilter, dormFilter]);
+
+  // List of unique platoons and dorms
+  const platoonOptions = useMemo(() => {
+    const map = new Map();
+    state.campers.forEach(c => {
+      if (c.platoon?.name) {
+        map.set(c.platoon.name, { id: c.platoon.id || c.platoon.name, name: c.platoon.name, emoji: c.platoon.emoji || '🏴' });
+      }
+    });
+    return Array.from(map.values());
+  }, [state.campers]);
+
+  const dormOptions = useMemo(() => {
+    const map = new Map();
+    state.campers.forEach(c => {
+      if (c.dorm?.name) {
+        map.set(c.dorm.name, { id: c.dorm.id || c.dorm.name, name: c.dorm.name, gender: c.dorm.gender });
+      }
+    });
+    return Array.from(map.values());
+  }, [state.campers]);
 
   // Filter campers
   const filteredCampers = useMemo(() => {
     let list = state.campers;
 
-    // Role filter
-    if (user?.role !== 'admin') {
-      list = list.filter((c) => c.group === user?.group);
-    } else if (groupFilter !== 'all') {
-      list = list.filter((c) => c.group === groupFilter);
+    // Role filter scope
+    if (user?.role !== 'admin' && user?.role !== 'Super Admin') {
+      const uPlatoon = user?.platoon?.name || user?.group;
+      if (uPlatoon) {
+        list = list.filter((c) => c.platoon?.name === uPlatoon || c.group === uPlatoon);
+      }
+    }
+
+    if (platoonFilter !== 'all') {
+      list = list.filter((c) => c.platoon?.name === platoonFilter || c.platoon?.id === platoonFilter || c.group === platoonFilter);
+    }
+
+    if (dormFilter !== 'all') {
+      list = list.filter((c) => c.dorm?.name === dormFilter || c.dorm?.id === dormFilter);
     }
 
     // Search
     if (search.trim()) {
       const q = search.toLowerCase();
-      list = list.filter((c) => c.name.toLowerCase().includes(q));
+      list = list.filter((c) => c.name.toLowerCase().includes(q) || (c.registrationNumber && c.registrationNumber.toLowerCase().includes(q)));
     }
 
     return list;
-  }, [state.campers, user, groupFilter, search]);
+  }, [state.campers, user, platoonFilter, dormFilter, search]);
 
   // Paginated campers slice
   const paginatedCampers = useMemo(() => {
@@ -175,16 +207,48 @@ export default function Campers() {
       </div>
 
       <div className="container" style={{ paddingTop: 20 }}>
-        {/* Search Bar */}
-        <div className="search-bar" style={{ background: '#fff', borderRadius: 12, border: '1px solid var(--border)', boxShadow: '0 2px 8px rgba(0,0,0,0.03)', padding: '4px 16px', display: 'flex', alignItems: 'center' }}>
-          <IconSearch size={20} color="var(--text-muted)" style={{ marginRight: 10 }} />
-          <input
-            type="text"
-            placeholder="Search campers by name..."
-            value={search}
-            onChange={(e) => setSearch(e.target.value)}
-            style={{ width: '100%', border: 'none', outline: 'none', padding: '12px 0', fontSize: '0.9375rem' }}
-          />
+        {/* Search & Filter Bar */}
+        <div style={{ display: 'flex', flexWrap: 'wrap', gap: 12, alignItems: 'center' }}>
+          <div className="search-bar" style={{ flex: 1, minWidth: 260, background: '#fff', borderRadius: 12, border: '1px solid var(--border)', boxShadow: '0 2px 8px rgba(0,0,0,0.03)', padding: '4px 16px', display: 'flex', alignItems: 'center' }}>
+            <IconSearch size={20} color="var(--text-muted)" style={{ marginRight: 10 }} />
+            <input
+              type="text"
+              placeholder="Search campers by name or reg #..."
+              value={search}
+              onChange={(e) => setSearch(e.target.value)}
+              style={{ width: '100%', border: 'none', outline: 'none', padding: '12px 0', fontSize: '0.9375rem' }}
+            />
+          </div>
+
+          {/* Platoon Filter */}
+          {platoonOptions.length > 0 && (
+            <select
+              value={platoonFilter}
+              onChange={(e) => setPlatoonFilter(e.target.value)}
+              className="input-field"
+              style={{ width: 150, height: 46, borderRadius: 12, fontSize: '0.875rem', background: '#fff' }}
+            >
+              <option value="all">All Platoons</option>
+              {platoonOptions.map(p => (
+                <option key={p.name} value={p.name}>{p.emoji} {p.name}</option>
+              ))}
+            </select>
+          )}
+
+          {/* Dorm Filter */}
+          {dormOptions.length > 0 && (
+            <select
+              value={dormFilter}
+              onChange={(e) => setDormFilter(e.target.value)}
+              className="input-field"
+              style={{ width: 140, height: 46, borderRadius: 12, fontSize: '0.875rem', background: '#fff' }}
+            >
+              <option value="all">All Dorms</option>
+              {dormOptions.map(d => (
+                <option key={d.name} value={d.name}>🏢 {d.name}</option>
+              ))}
+            </select>
+          )}
         </div>
 
         {/* Group Filter (Admin) */}

@@ -20,6 +20,8 @@ export default function ConsoleCampers() {
   const [loading, setLoading] = useState(true);
   const [search, setSearch] = useState('');
   const [status, setStatus] = useState('active');
+  const [platoonFilter, setPlatoonFilter] = useState('');
+  const [dormFilter, setDormFilter] = useState('');
   const [page, setPage] = useState(1);
   const [limit, setLimit] = useState(25);
 
@@ -46,6 +48,8 @@ export default function ConsoleCampers() {
       const token = localStorage.getItem('camp_token');
       const q = new URLSearchParams({ page, limit, status });
       if (search) q.append('search', search);
+      if (platoonFilter) q.append('platoonId', platoonFilter);
+      if (dormFilter) q.append('dormId', dormFilter);
       const res = await fetch(`${API}/api/campers?${q}`, {
         headers: { Authorization: `Bearer ${token}` }
       });
@@ -62,7 +66,7 @@ export default function ConsoleCampers() {
   useEffect(() => {
     fetchCampers();
     fetchDormsAndPlatoons();
-  }, [page, limit, status]);
+  }, [page, limit, status, platoonFilter, dormFilter]);
 
   const fetchDormsAndPlatoons = async () => {
     try {
@@ -206,25 +210,52 @@ export default function ConsoleCampers() {
 
       <div className="console-card">
         <div className="console-card-header" style={{ padding: '12px 20px', display: 'flex', flexWrap: 'wrap', gap: 12, justifyContent: 'space-between' }}>
-          <form onSubmit={handleSearch} style={{ display: 'flex', gap: 12, flex: 1, alignItems: 'center', minWidth: 300 }}>
+          <form onSubmit={handleSearch} style={{ display: 'flex', gap: 10, flex: 1, alignItems: 'center', flexWrap: 'wrap', minWidth: 300 }}>
             <input 
               type="text" 
               placeholder="Search by name, reg #, or guardian..." 
               value={search}
               onChange={e => setSearch(e.target.value)}
               className="input-field" 
-              style={{ maxWidth: 320, padding: '8px 12px', fontSize: '0.875rem' }}
+              style={{ maxWidth: 260, padding: '8px 12px', fontSize: '0.875rem' }}
             />
             <select 
               value={status} 
               onChange={e => { setStatus(e.target.value); setPage(1); }}
               className="input-field" 
-              style={{ width: 140, padding: '8px 12px', fontSize: '0.875rem' }}
+              style={{ width: 130, padding: '8px 12px', fontSize: '0.875rem' }}
             >
               <option value="active">Active Only</option>
               <option value="inactive">Inactive</option>
               <option value="all">All Statuses</option>
             </select>
+
+            {/* Platoon Filter */}
+            <select 
+              value={platoonFilter} 
+              onChange={e => { setPlatoonFilter(e.target.value); setPage(1); }}
+              className="input-field" 
+              style={{ width: 140, padding: '8px 12px', fontSize: '0.875rem' }}
+            >
+              <option value="">All Platoons</option>
+              {platoons.map(p => (
+                <option key={p.id} value={p.id}>{p.emoji} {p.name}</option>
+              ))}
+            </select>
+
+            {/* Dorm Filter */}
+            <select 
+              value={dormFilter} 
+              onChange={e => { setDormFilter(e.target.value); setPage(1); }}
+              className="input-field" 
+              style={{ width: 130, padding: '8px 12px', fontSize: '0.875rem' }}
+            >
+              <option value="">All Dorms</option>
+              {dorms.map(d => (
+                <option key={d.id} value={d.id}>🏢 {d.name}</option>
+              ))}
+            </select>
+
             <button type="submit" className="btn btn-secondary" style={{ padding: '8px 16px', fontSize: '0.875rem', display: 'inline-flex', alignItems: 'center', gap: 6 }}>
               <IconSearch size={16} /> Search
             </button>
