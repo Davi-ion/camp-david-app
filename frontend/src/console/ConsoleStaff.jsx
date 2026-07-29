@@ -278,13 +278,38 @@ export default function ConsoleStaff() {
                         {s.status.toUpperCase()}
                       </span>
                     </td>
-                    <td style={{ textAlign: 'right' }}>
-                      <button className="btn btn-text" style={{ fontSize: '0.8125rem', padding: '4px 8px', display: 'inline-flex', alignItems: 'center', gap: 4 }}>
-                        <IconEdit size={14} /> Edit
+                    <td style={{ textAlign: 'right', whiteSpace: 'nowrap' }}>
+                      <button
+                        title="Edit Volunteer"
+                        style={{
+                          background: 'none',
+                          border: 'none',
+                          padding: '4px',
+                          cursor: 'pointer',
+                          color: 'var(--text-secondary, #64748B)',
+                          display: 'inline-flex',
+                          alignItems: 'center',
+                          justifyContent: 'center',
+                        }}
+                      >
+                        <IconEdit size={16} />
                       </button>
                       {!isSystemAdmin && hasPermission('manage:users') && (
-                        <button className="btn btn-text" style={{ fontSize: '0.8125rem', padding: '4px 8px', color: 'var(--red)', display: 'inline-flex', alignItems: 'center', gap: 4 }}>
-                          <IconUserX size={14} /> Deactivate
+                        <button
+                          title="Deactivate Volunteer"
+                          style={{
+                            background: 'none',
+                            border: 'none',
+                            padding: '4px',
+                            cursor: 'pointer',
+                            color: 'var(--red, #EF4444)',
+                            display: 'inline-flex',
+                            alignItems: 'center',
+                            justifyContent: 'center',
+                            marginLeft: '4px',
+                          }}
+                        >
+                          <IconUserX size={16} />
                         </button>
                       )}
                     </td>
