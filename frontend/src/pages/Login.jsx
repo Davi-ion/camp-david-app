@@ -1,6 +1,7 @@
 import { useState, useEffect } from 'react';
 import { useNavigate, Link } from 'react-router-dom';
 import { useApp } from '../context/AppContext';
+import { IconEye, IconEyeOff } from '@tabler/icons-react';
 
 const API = import.meta.env.VITE_API_URL || 'https://camp-david-app.onrender.com';
 
@@ -254,7 +255,7 @@ export default function Login() {
                       onClick={() => setShowPassword(!showPassword)}
                       title={showPassword ? 'Hide Password' : 'Show Password'}
                     >
-                      {showPassword ? '👁️' : '👁️‍🗨️'}
+                      {showPassword ? <IconEyeOff size={18} /> : <IconEye size={18} />}
                     </button>
                   </div>
                 </div>
@@ -301,7 +302,7 @@ export default function Login() {
                       className="cinema-toggle-pw"
                       onClick={() => setShowPassword(!showPassword)}
                     >
-                      {showPassword ? '👁️' : '👁️‍🗨️'}
+                      {showPassword ? <IconEyeOff size={18} /> : <IconEye size={18} />}
                     </button>
                   </div>
                 </div>
