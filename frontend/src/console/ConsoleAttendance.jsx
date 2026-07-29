@@ -2,6 +2,7 @@ import { useState, useMemo, useEffect } from 'react';
 import { useApp } from '../context/AppContext';
 import { CAMP_DAYS, schedule } from '../data/schedule';
 import { sessions as sessionData } from '../data/sessions';
+import Pagination from '../components/Pagination';
 import { 
   IconSearch, 
   IconFilter, 
@@ -35,9 +36,16 @@ export default function ConsoleAttendance() {
   const [selectedSessionType, setSelectedSessionType] = useState('all');
   const [statusFilter, setStatusFilter] = useState('all'); // all | present | absent | excused | pending
   const [search, setSearch] = useState('');
+
+  const [currentPage, setCurrentPage] = useState(1);
+  const [pageSize, setPageSize] = useState(15);
   
   const [dorms, setDorms] = useState([]);
   const [platoons, setPlatoons] = useState([]);
+
+  useEffect(() => {
+    setCurrentPage(1);
+  }, [selectedDay, selectedPlatoon, selectedDorm, selectedGender, selectedSessionType, statusFilter, search]);
 
   useEffect(() => {
     fetchDormsAndPlatoons();
@@ -119,6 +127,12 @@ export default function ConsoleAttendance() {
       return st === statusFilter;
     });
   }, [campers, statusFilter, activeTargetSessionKey, selectedDay, state.attendance]);
+
+  // Paginated list for current page
+  const paginatedCampers = useMemo(() => {
+    const startIndex = (currentPage - 1) * pageSize;
+    return filteredCampers.slice(startIndex, startIndex + pageSize);
+  }, [filteredCampers, currentPage, pageSize]);
 
   const activeDayObj = CAMP_DAYS.find(d => d.key === selectedDay) || CAMP_DAYS[0];
   const activeSessionObj = daySessions.find(s => s.key === activeTargetSessionKey);
@@ -484,7 +498,7 @@ export default function ConsoleAttendance() {
               </tr>
             </thead>
             <tbody>
-              {filteredCampers.length === 0 ? (
+              {paginatedCampers.length === 0 ? (
                 <tr>
                   <td colSpan={3 + displaySessions.length} style={{ textAlign: 'center', padding: '48px 20px', color: 'var(--text-muted)' }}>
                     <IconUsers size={36} style={{ strokeWidth: 1.5, opacity: 0.5, marginBottom: 8 }} />
@@ -493,7 +507,7 @@ export default function ConsoleAttendance() {
                   </td>
                 </tr>
               ) : (
-                filteredCampers.map((c) => (
+                paginatedCampers.map((c) => (
                   <tr key={c.id}>
                     {/* Camper Sticky Column */}
                     <td style={{ position: 'sticky', left: 0, zIndex: 5, background: '#FFFFFF', borderRight: '1px solid var(--border-light)' }}>
@@ -606,6 +620,19 @@ export default function ConsoleAttendance() {
             </tbody>
           </table>
         </div>
+
+        {/* Pagination Controller */}
+        <Pagination
+          currentPage={currentPage}
+          totalItems={filteredCampers.length}
+          pageSize={pageSize}
+          onPageChange={(page) => setCurrentPage(page)}
+          onPageSizeChange={(size) => {
+            setPageSize(size);
+            setCurrentPage(1);
+          }}
+          pageSizeOptions={[10, 15, 25, 50, 100]}
+        />
       </div>
     </div>
   );
