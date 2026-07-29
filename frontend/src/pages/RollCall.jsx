@@ -22,7 +22,9 @@ import {
   IconRotateClockwise, 
   IconFilter, 
   IconBed,
-  IconAlertCircle
+  IconAlertCircle,
+  IconHistory,
+  IconPrinter
 } from '@tabler/icons-react';
 
 function getInitials(name) {
@@ -48,6 +50,11 @@ export default function RollCall() {
   const [departureGrouping, setDepartureGrouping] = useState('platoon');
   const [page, setPage] = useState(1);
   const [pageSize, setPageSize] = useState(10);
+
+  // History Modal State
+  const [historyModalOpen, setHistoryModalOpen] = useState(false);
+  const [historyDay, setHistoryDay] = useState(defaultDay);
+  const [historySession, setHistorySession] = useState(null);
 
   // Active day and sessions
   const campDay = CAMP_DAYS.find((d) => d.key === selectedDay) || CAMP_DAYS[0];
@@ -136,6 +143,16 @@ export default function RollCall() {
   const percentComplete = summary.total > 0 
     ? Math.round(((summary.present + summary.absent + summary.excused) / summary.total) * 100)
     : 0;
+
+  // History Modal Data & Calculations
+  const activeHistSession = historySession || (sessions[historyDay]?.[0]?.key || null);
+  const histSessionKey = activeHistSession ? `${historyDay}-${activeHistSession}` : null;
+  const histData = state.attendance[histSessionKey] || {};
+
+  const histCampers = state.campers || [];
+  const histPresent = histCampers.filter(c => histData[c.id] === 'present').length;
+  const histAbsent = histCampers.filter(c => histData[c.id] === 'absent').length;
+  const histExcused = histCampers.filter(c => histData[c.id] === 'excused').length;
 
   // Paginated slice
   const paginatedCampers = useMemo(() => {
@@ -242,8 +259,33 @@ export default function RollCall() {
             </div>
           </div>
 
-          <p className="dash-greeting">Daily Check-In & Roll Call</p>
-          <h1 className="dash-name">Attendance</h1>
+          <div style={{ display: 'flex', justifyContent: 'space-between', alignItems: 'flex-end', marginBottom: 12 }}>
+            <div>
+              <p className="dash-greeting" style={{ margin: 0 }}>Daily Check-In & Roll Call</p>
+              <h1 className="dash-name" style={{ margin: 0 }}>Attendance</h1>
+            </div>
+            <button 
+              onClick={() => setHistoryModalOpen(true)}
+              style={{
+                background: 'rgba(255, 255, 255, 0.25)',
+                color: '#FFFFFF',
+                border: '1px solid rgba(255, 255, 255, 0.4)',
+                borderRadius: 9999,
+                padding: '8px 16px',
+                fontSize: '0.8125rem',
+                fontWeight: 600,
+                cursor: 'pointer',
+                display: 'inline-flex',
+                alignItems: 'center',
+                gap: 6,
+                backdropFilter: 'blur(8px)',
+                boxShadow: '0 2px 10px rgba(0,0,0,0.1)',
+                transition: 'all 0.15s ease'
+              }}
+            >
+              <IconHistory size={16} /> Attendance History
+            </button>
+          </div>
 
           <div className="dash-day-strip" style={{ marginBottom: 16 }}>
             <span className="dash-day-badge">DAY {campDay.dayNum} OF 5</span>
@@ -638,6 +680,172 @@ export default function RollCall() {
           </div>
         )}
       </div>
+
+      {/* Attendance History Modal */}
+      {historyModalOpen && (
+        <div className="modal-overlay" style={{ position: 'fixed', inset: 0, background: 'rgba(15, 23, 42, 0.65)', backdropFilter: 'blur(4px)', zIndex: 999, display: 'flex', alignItems: 'center', justifyContent: 'center', padding: 16 }}>
+          <div style={{ background: '#FFFFFF', borderRadius: 20, width: 850, maxWidth: '100%', maxHeight: '90vh', display: 'flex', flexDirection: 'column', boxShadow: '0 20px 40px rgba(0,0,0,0.2)', overflow: 'hidden' }}>
+            
+            {/* Modal Header */}
+            <div style={{ padding: '20px 24px', background: 'var(--teal, #0F766E)', color: '#FFFFFF', display: 'flex', justifyContent: 'space-between', alignItems: 'center' }}>
+              <div>
+                <h2 style={{ fontSize: '1.25rem', fontWeight: 700, margin: 0, display: 'flex', alignItems: 'center', gap: 8 }}>
+                  <IconHistory size={22} /> Attendance History & Logs
+                </h2>
+                <p style={{ fontSize: '0.8125rem', opacity: 0.9, margin: '2px 0 0' }}>Browse and inspect attendance records across all 5 camp days.</p>
+              </div>
+              <button 
+                onClick={() => setHistoryModalOpen(false)}
+                style={{ background: 'rgba(255,255,255,0.2)', border: 'none', color: '#fff', borderRadius: 9999, width: 32, height: 32, display: 'inline-flex', alignItems: 'center', justifyContent: 'center', cursor: 'pointer', fontSize: '1rem' }}
+              >
+                ✕
+              </button>
+            </div>
+
+            {/* Day & Session Selection Bar */}
+            <div style={{ padding: '16px 24px', background: '#F8FAFC', borderBottom: '1px solid var(--border-light, #E2E8F0)' }}>
+              <div style={{ fontSize: '0.75rem', fontWeight: 700, color: '#64748B', textTransform: 'uppercase', letterSpacing: '0.05em', marginBottom: 8 }}>Select Camp Day</div>
+              <div style={{ display: 'flex', gap: 8, overflowX: 'auto', paddingBottom: 4 }}>
+                {CAMP_DAYS.map((d) => {
+                  const isActive = historyDay === d.key;
+                  return (
+                    <button
+                      key={d.key}
+                      onClick={() => {
+                        setHistoryDay(d.key);
+                        const firstSess = sessions[d.key]?.[0]?.key || null;
+                        setHistorySession(firstSess);
+                      }}
+                      style={{
+                        padding: '6px 14px',
+                        borderRadius: 9999,
+                        fontSize: '0.8125rem',
+                        fontWeight: 600,
+                        border: 'none',
+                        background: isActive ? 'var(--teal, #0F766E)' : '#FFFFFF',
+                        color: isActive ? '#FFFFFF' : '#475569',
+                        boxShadow: isActive ? '0 2px 6px rgba(15, 118, 110, 0.25)' : '0 1px 2px rgba(0,0,0,0.05)',
+                        cursor: 'pointer',
+                        whiteSpace: 'nowrap'
+                      }}
+                    >
+                      DAY {d.dayNum} · {d.label}
+                    </button>
+                  );
+                })}
+              </div>
+
+              {/* Sessions Pills */}
+              <div style={{ fontSize: '0.75rem', fontWeight: 700, color: '#64748B', textTransform: 'uppercase', letterSpacing: '0.05em', marginTop: 12, marginBottom: 8 }}>Select Session</div>
+              <div style={{ display: 'flex', gap: 8, overflowX: 'auto' }}>
+                {(sessions[historyDay] || []).map((s) => {
+                  const isActive = activeHistSession === s.key;
+                  return (
+                    <button
+                      key={s.key}
+                      onClick={() => setHistorySession(s.key)}
+                      style={{
+                        padding: '6px 14px',
+                        borderRadius: 9999,
+                        fontSize: '0.8125rem',
+                        fontWeight: 600,
+                        border: isActive ? '1.5px solid var(--teal, #0F766E)' : '1px solid #CBD5E1',
+                        background: isActive ? 'rgba(15, 118, 110, 0.1)' : '#FFFFFF',
+                        color: isActive ? 'var(--teal, #0F766E)' : '#64748B',
+                        cursor: 'pointer',
+                        whiteSpace: 'nowrap'
+                      }}
+                    >
+                      {s.label} ({s.time})
+                    </button>
+                  );
+                })}
+              </div>
+            </div>
+
+            {/* Modal Body & History Table */}
+            <div style={{ padding: '16px 24px', overflowY: 'auto', flex: 1 }}>
+              {/* Summary Metrics Cards */}
+              <div style={{ display: 'grid', gridTemplateColumns: 'repeat(4, 1fr)', gap: 12, marginBottom: 16 }}>
+                <div style={{ padding: '10px 14px', background: '#F8FAFC', borderRadius: 12, border: '1px solid #E2E8F0', textAlign: 'center' }}>
+                  <div style={{ fontSize: '0.6875rem', fontWeight: 700, color: '#64748B', textTransform: 'uppercase' }}>Total Campers</div>
+                  <div style={{ fontSize: '1.25rem', fontWeight: 800, color: '#0F172A', marginTop: 2 }}>{histCampers.length}</div>
+                </div>
+                <div style={{ padding: '10px 14px', background: '#F0FDF4', borderRadius: 12, border: '1px solid #86EFAC', textAlign: 'center' }}>
+                  <div style={{ fontSize: '0.6875rem', fontWeight: 700, color: '#166534', textTransform: 'uppercase' }}>Present</div>
+                  <div style={{ fontSize: '1.25rem', fontWeight: 800, color: '#22C55E', marginTop: 2 }}>{histPresent}</div>
+                </div>
+                <div style={{ padding: '10px 14px', background: '#FEF2F2', borderRadius: 12, border: '1px solid #FCA5A5', textAlign: 'center' }}>
+                  <div style={{ fontSize: '0.6875rem', fontWeight: 700, color: '#991B1B', textTransform: 'uppercase' }}>Absent</div>
+                  <div style={{ fontSize: '1.25rem', fontWeight: 800, color: '#EF4444', marginTop: 2 }}>{histAbsent}</div>
+                </div>
+                <div style={{ padding: '10px 14px', background: '#FEFCE8', borderRadius: 12, border: '1px solid #FDE047', textAlign: 'center' }}>
+                  <div style={{ fontSize: '0.6875rem', fontWeight: 700, color: '#854D0E', textTransform: 'uppercase' }}>Excused</div>
+                  <div style={{ fontSize: '1.25rem', fontWeight: 800, color: '#EAB308', marginTop: 2 }}>{histExcused}</div>
+                </div>
+              </div>
+
+              {/* Roster Table */}
+              <div style={{ border: '1px solid #E2E8F0', borderRadius: 12, overflow: 'hidden' }}>
+                <table style={{ width: '100%', borderCollapse: 'collapse', fontSize: '0.875rem' }}>
+                  <thead>
+                    <tr style={{ background: '#F1F5F9', borderBottom: '1px solid #E2E8F0', textTransform: 'uppercase', fontSize: '0.6875rem', color: '#64748B', fontWeight: 700, textAlign: 'left' }}>
+                      <th style={{ padding: '10px 14px' }}>Camper</th>
+                      <th style={{ padding: '10px 14px' }}>Reg No</th>
+                      <th style={{ padding: '10px 14px' }}>Platoon / Dorm</th>
+                      <th style={{ padding: '10px 14px', textAlign: 'center' }}>Status</th>
+                    </tr>
+                  </thead>
+                  <tbody>
+                    {histCampers.map((camper, idx) => {
+                      const st = histData[camper.id] || null;
+                      return (
+                        <tr key={camper.id} style={{ borderBottom: idx === histCampers.length - 1 ? 'none' : '1px solid #F1F5F9' }}>
+                          <td style={{ padding: '10px 14px', fontWeight: 600, color: '#0F172A' }}>{camper.name}</td>
+                          <td style={{ padding: '10px 14px', color: '#64748B', fontSize: '0.8125rem' }}>{camper.registrationNumber}</td>
+                          <td style={{ padding: '10px 14px', color: '#64748B', fontSize: '0.8125rem' }}>
+                            {camper.platoon?.name || '-'} {camper.dorm?.name ? `· ${camper.dorm.name}` : ''}
+                          </td>
+                          <td style={{ padding: '10px 14px', textAlign: 'center' }}>
+                            <span style={{
+                              padding: '4px 10px',
+                              borderRadius: 9999,
+                              fontSize: '0.75rem',
+                              fontWeight: 700,
+                              textTransform: 'uppercase',
+                              background: st === 'present' ? '#DCFCE7' : st === 'absent' ? '#FEE2E2' : st === 'excused' ? '#FEF9C3' : '#F1F5F9',
+                              color: st === 'present' ? '#15803D' : st === 'absent' ? '#B91C1C' : st === 'excused' ? '#A16207' : '#64748B'
+                            }}>
+                              {st || 'Pending'}
+                            </span>
+                          </td>
+                        </tr>
+                      );
+                    })}
+                  </tbody>
+                </table>
+              </div>
+            </div>
+
+            {/* Modal Footer */}
+            <div style={{ padding: '14px 24px', background: '#F8FAFC', borderTop: '1px solid #E2E8F0', display: 'flex', justifyContent: 'space-between', alignItems: 'center' }}>
+              <button 
+                onClick={() => window.print()}
+                style={{ background: '#FFFFFF', border: '1px solid #CBD5E1', padding: '8px 16px', borderRadius: 9999, fontSize: '0.8125rem', fontWeight: 600, cursor: 'pointer', display: 'inline-flex', alignItems: 'center', gap: 6 }}
+              >
+                <IconPrinter size={16} /> Print Attendance Log
+              </button>
+              <button 
+                onClick={() => setHistoryModalOpen(false)}
+                style={{ background: 'var(--teal, #0F766E)', color: '#FFFFFF', border: 'none', padding: '8px 20px', borderRadius: 9999, fontSize: '0.8125rem', fontWeight: 600, cursor: 'pointer' }}
+              >
+                Close
+              </button>
+            </div>
+
+          </div>
+        </div>
+      )}
     </div>
   );
 }
