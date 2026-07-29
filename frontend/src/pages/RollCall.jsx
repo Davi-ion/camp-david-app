@@ -9,6 +9,9 @@ import EmptyState from '../components/EmptyState';
 import Pagination from '../components/Pagination';
 import { 
   IconClipboardCheck, 
+  IconUserCheck, 
+  IconUserX,
+  IconUserMinus,
   IconCheck, 
   IconX, 
   IconMinus, 
@@ -19,7 +22,6 @@ import {
   IconRotateClockwise, 
   IconFilter, 
   IconBed,
-  IconUserCheck,
   IconAlertCircle
 } from '@tabler/icons-react';
 
@@ -504,7 +506,7 @@ export default function RollCall() {
                       </div>
                     </div>
 
-                    {/* Unboxed Tabler Icon Actions */}
+                    {/* Unboxed User Attendance Tabler Icon Actions */}
                     <div className="status-buttons" style={{ display: 'flex', gap: 8, flexShrink: 0, alignItems: 'center' }}>
                       <button
                         onClick={() => handleMark(camper.id, 'present')}
@@ -522,7 +524,7 @@ export default function RollCall() {
                           transform: status === 'present' ? 'scale(1.15)' : 'scale(1)'
                         }}
                       >
-                        <IconCheck size={22} stroke={status === 'present' ? 3 : 2} />
+                        <IconUserCheck size={22} stroke={status === 'present' ? 2.5 : 1.75} />
                       </button>
                       <button
                         onClick={() => handleMark(camper.id, 'absent')}
@@ -540,7 +542,7 @@ export default function RollCall() {
                           transform: status === 'absent' ? 'scale(1.15)' : 'scale(1)'
                         }}
                       >
-                        <IconX size={22} stroke={status === 'absent' ? 3 : 2} />
+                        <IconUserX size={22} stroke={status === 'absent' ? 2.5 : 1.75} />
                       </button>
                       <button
                         onClick={() => handleMark(camper.id, 'excused')}
@@ -558,7 +560,7 @@ export default function RollCall() {
                           transform: status === 'excused' ? 'scale(1.15)' : 'scale(1)'
                         }}
                       >
-                        <IconMinus size={22} stroke={status === 'excused' ? 3 : 2} />
+                        <IconUserMinus size={22} stroke={status === 'excused' ? 2.5 : 1.75} />
                       </button>
                     </div>
                   </div>
