@@ -76,28 +76,22 @@ This document outlines all URL routes, entity slugs, role permission keys, and A
 
 ## 🔐 5. System Roles & Permission Slugs
 
-### Role Slugs
-- `super_admin` (`Super Admin`)
-- `camp_director` (`Camp Director`)
-- `head_counsellor` (`Head Counsellor`)
-- `counsellor` (`Counsellor`)
-- `platoon_leader` (`Platoon Leader`)
-- `medical_staff` (`Medical Staff`)
+### Canonical Role Identifiers
+- `ADMIN` (`Super Admin`, `Operations Admin`, `Camp Director`)
+- `CAMP_COMMANDER` (`Camp Commander`)
+- `DORM_LEAD` (`Dorm Lead`, `Dorm Supervisor`)
+- `PLATOON_LEAD` (`Platoon Lead`, `Platoon Leader`)
+- `VOLUNTEER` (`Volunteer`, `Staff`)
 
-### Permission Slugs
-- `all` — Full system access override
-- `view:dashboard` — Access console dashboard
-- `view:campers`, `manage:campers` — View / edit camper records
-- `view:attendance`, `manage:attendance` — View / record attendance
-- `view:incidents`, `manage:incidents` — View / record incident reports
-- `view:reports`, `manage:reports` — Access camp reports and analytics
-- `view:staff`, `manage:staff` — Access and edit staff records
-- `view:schedule`, `manage:schedule` — Access and edit camp programme schedule
-- `view:audit` — View system audit log
-- `manage:announcements` — Post and broadcast announcements
-- `manage:settings` — Update platform settings
-- `manage:dorms` — Manage dormitory allocations
-- `manage:users` — Manage staff accounts and user credentials
+### Role-to-Slug Permission Matrix
+
+| Role | Allowed Staff Portal Slugs (`/app/*`) | Allowed Console Slugs (`/console/*`) |
+| :--- | :--- | :--- |
+| **Admin** | `/app`, `/app/profile`, `/app/rollcall`, `/app/programme`, `/app/incidents`, `/app/campers` | **All (15)**: `/console/dashboard`, `/console/activity`, `/console/campers`, `/console/platoons`, `/console/dorms`, `/console/attendance`, `/console/incidents`, `/console/programme`, `/console/drills`, `/console/announcements`, `/console/staff`, `/console/users`, `/console/reports`, `/console/audit`, `/console/settings` |
+| **Camp Commander** | `/app`, `/app/profile`, `/app/rollcall`, `/app/programme`, `/app/incidents`, `/app/campers` | **Specific (9)**: `/console/dashboard`, `/console/campers`, `/console/platoons`, `/console/dorms`, `/console/attendance`, `/console/incidents`, `/console/programme`, `/console/drills`, `/console/announcements` |
+| **Dorm Lead** | `/app`, `/app/profile`, `/app/rollcall`, `/app/programme`, `/app/incidents`, `/app/campers` | **None** (Access Denied) |
+| **Platoon Lead** | `/app`, `/app/profile`, `/app/programme`, `/app/incidents`, `/app/campers` | **None** (Access Denied) |
+| **Volunteer** | `/app`, `/app/profile`, `/app/programme`, `/app/incidents` | **None** (Access Denied) |
 
 ---
 

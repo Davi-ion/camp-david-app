@@ -18,7 +18,7 @@ import {
 
 export default function BottomNav() {
   const { state } = useApp();
-  const { hasPermission } = usePermissions();
+  const { canAccessAppScreen, canAccessConsole } = usePermissions();
   const location = useLocation();
 
   const openIncidents = state.incidents ? state.incidents.filter((i) => i.status !== 'resolved').length : 0;
@@ -29,21 +29,21 @@ export default function BottomNav() {
       label: 'Home',
       iconOutline: <IconHome size={22} />,
       iconFilled: <IconHomeFilled size={22} />,
-      show: true,
+      show: canAccessAppScreen('home'),
     },
     {
       to: '/app/rollcall',
       label: 'Roll Call',
       iconOutline: <IconClipboardCheck size={22} />,
       iconFilled: <IconClipboardCheckFilled size={22} />,
-      show: hasPermission('take:attendance'),
+      show: canAccessAppScreen('rollcall'),
     },
     {
       to: '/app/programme',
       label: 'Programme',
       iconOutline: <IconCalendarEvent size={22} />,
       iconFilled: <IconCalendarFilled size={22} />,
-      show: hasPermission('view:schedule'),
+      show: canAccessAppScreen('programme'),
     },
     {
       to: '/app/incidents',
@@ -51,21 +51,21 @@ export default function BottomNav() {
       iconOutline: <IconAlertTriangle size={22} />,
       iconFilled: <IconAlertTriangleFilled size={22} />,
       badge: openIncidents,
-      show: hasPermission('view:incidents'),
+      show: canAccessAppScreen('incidents'),
     },
     {
       to: '/app/campers',
       label: 'Campers',
       iconOutline: <IconUsers size={22} />,
       iconFilled: <IconUserFilled size={22} />,
-      show: hasPermission('view:campers'),
+      show: canAccessAppScreen('campers'),
     },
     {
       to: '/console/dashboard',
       label: 'Console',
       iconOutline: <IconLayoutDashboard size={22} />,
       iconFilled: <IconLayoutDashboardFilled size={22} />,
-      show: true,
+      show: canAccessConsole,
     },
   ].filter((t) => t.show);
 

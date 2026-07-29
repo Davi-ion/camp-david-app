@@ -1,5 +1,6 @@
 import { NavLink, useLocation, Link } from 'react-router-dom';
 import { useApp } from '../context/AppContext';
+import { usePermissions } from '../hooks/usePermissions';
 import {
   IconLayoutDashboard,
   IconActivity,
@@ -24,42 +25,43 @@ const NAV_SECTIONS = [
   {
     label: 'Overview',
     items: [
-      { to: '/console/dashboard', label: 'Dashboard',    icon: <IconLayoutDashboard size={18} /> },
-      { to: '/console/activity', label: 'Activity Feed', icon: <IconActivity size={18} /> },
+      { to: '/console/dashboard', label: 'Dashboard',    screenKey: 'dashboard', icon: <IconLayoutDashboard size={18} /> },
+      { to: '/console/activity',  label: 'Activity Feed', screenKey: 'activity',  icon: <IconActivity size={18} /> },
     ],
   },
   {
     label: 'Camp Operations',
     items: [
-      { to: '/console/campers',     label: 'Campers',     icon: <IconUsers size={18} />, badgeKey: 'totalCampers' },
-      { to: '/console/platoons',    label: 'Platoons',    icon: <IconFlag size={18} /> },
-      { to: '/console/dorms',       label: 'Dorms',       icon: <IconBuilding size={18} /> },
-      { to: '/console/attendance',  label: 'Attendance',  icon: <IconClipboardCheck size={18} /> },
-      { to: '/console/incidents',   label: 'Incidents',   icon: <IconAlertTriangle size={18} />, badgeKey: 'openIncidents' },
-      { to: '/console/programme',   label: 'Programme',   icon: <IconCalendarEvent size={18} /> },
-      { to: '/console/drills',      label: 'Camp Drills', icon: <IconTarget size={18} /> },
-      { to: '/console/announcements', label: 'Announcements', icon: <IconSpeakerphone size={18} /> },
+      { to: '/console/campers',       label: 'Campers',       screenKey: 'campers',       icon: <IconUsers size={18} />, badgeKey: 'totalCampers' },
+      { to: '/console/platoons',      label: 'Platoons',      screenKey: 'platoons',      icon: <IconFlag size={18} /> },
+      { to: '/console/dorms',         label: 'Dorms',         screenKey: 'dorms',         icon: <IconBuilding size={18} /> },
+      { to: '/console/attendance',    label: 'Attendance',    screenKey: 'attendance',    icon: <IconClipboardCheck size={18} /> },
+      { to: '/console/incidents',     label: 'Incidents',     screenKey: 'incidents',     icon: <IconAlertTriangle size={18} />, badgeKey: 'openIncidents' },
+      { to: '/console/programme',     label: 'Programme',     screenKey: 'programme',     icon: <IconCalendarEvent size={18} /> },
+      { to: '/console/drills',        label: 'Camp Drills',   screenKey: 'drills',        icon: <IconTarget size={18} /> },
+      { to: '/console/announcements', label: 'Announcements', screenKey: 'announcements', icon: <IconSpeakerphone size={18} /> },
     ],
   },
   {
     label: 'Administration',
     items: [
-      { to: '/console/staff',    label: 'Staff',              icon: <IconUser size={18} /> },
-      { to: '/console/users',    label: 'User Management',    icon: <IconUsersGroup size={18} /> },
-      { to: '/console/reports',  label: 'Reports',            icon: <IconChartBar size={18} /> },
-      { to: '/console/audit',    label: 'Audit Logs',         icon: <IconFileText size={18} /> },
+      { to: '/console/staff',    label: 'Staff',           screenKey: 'staff',   icon: <IconUser size={18} /> },
+      { to: '/console/users',    label: 'User Management', screenKey: 'users',   icon: <IconUsersGroup size={18} /> },
+      { to: '/console/reports',  label: 'Reports',         screenKey: 'reports', icon: <IconChartBar size={18} /> },
+      { to: '/console/audit',    label: 'Audit Logs',      screenKey: 'audit',   icon: <IconFileText size={18} /> },
     ],
   },
   {
     label: 'Settings',
     items: [
-      { to: '/console/settings', label: 'Settings', icon: <IconSettings size={18} /> },
+      { to: '/console/settings', label: 'Settings', screenKey: 'settings', icon: <IconSettings size={18} /> },
     ],
   },
 ];
 
 export default function ConsoleSidebar({ isOpen, onClose, isCollapsed, onToggleCollapse }) {
   const { state } = useApp();
+  const { canAccessConsoleScreen } = usePermissions();
   const location = useLocation();
 
   const openIncidents = state.incidents?.filter(i => i.status !== 'resolved').length || 0;
@@ -117,35 +119,40 @@ export default function ConsoleSidebar({ isOpen, onClose, isCollapsed, onToggleC
 
       {/* Navigation */}
       <nav className="console-nav">
-        {NAV_SECTIONS.map((section) => (
-          <div key={section.label} className="console-nav-section">
-            {!isCollapsed && <span className="console-nav-section-label">{section.label}</span>}
-            {section.items.map((item) => {
-              const badge  = item.badgeKey ? getBadge(item.badgeKey) : null;
-              const active = isActive(item);
+        {NAV_SECTIONS.map((section) => {
+          const visibleItems = section.items.filter(item => canAccessConsoleScreen(item.screenKey));
+          if (visibleItems.length === 0) return null;
 
-              return (
-                <NavLink
-                  key={item.to}
-                  to={item.to}
-                  onClick={onClose}
-                  className={`console-nav-item ${active ? 'active' : ''}`}
-                  title={isCollapsed ? item.label : undefined}
-                >
-                  <span className="console-nav-icon" style={{ display: 'inline-flex', alignItems: 'center', justifyContent: 'center' }}>
-                    {item.icon}
-                  </span>
-                  {!isCollapsed && <span className="console-nav-label">{item.label}</span>}
-                  {!isCollapsed && badge !== null && (
-                    <span className={`console-nav-badge ${item.badgeKey === 'openIncidents' ? 'badge-red' : ''}`}>
-                      {badge}
+          return (
+            <div key={section.label} className="console-nav-section">
+              {!isCollapsed && <span className="console-nav-section-label">{section.label}</span>}
+              {visibleItems.map((item) => {
+                const badge  = item.badgeKey ? getBadge(item.badgeKey) : null;
+                const active = isActive(item);
+
+                return (
+                  <NavLink
+                    key={item.to}
+                    to={item.to}
+                    onClick={onClose}
+                    className={`console-nav-item ${active ? 'active' : ''}`}
+                    title={isCollapsed ? item.label : undefined}
+                  >
+                    <span className="console-nav-icon" style={{ display: 'inline-flex', alignItems: 'center', justifyContent: 'center' }}>
+                      {item.icon}
                     </span>
-                  )}
-                </NavLink>
-              );
-            })}
-          </div>
-        ))}
+                    {!isCollapsed && <span className="console-nav-label">{item.label}</span>}
+                    {!isCollapsed && badge !== null && (
+                      <span className={`console-nav-badge ${item.badgeKey === 'openIncidents' ? 'badge-red' : ''}`}>
+                        {badge}
+                      </span>
+                    )}
+                  </NavLink>
+                );
+              })}
+            </div>
+          );
+        })}
       </nav>
 
       {/* Back to Staff Portal */}
