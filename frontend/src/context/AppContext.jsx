@@ -1,6 +1,8 @@
 import { createContext, useContext, useReducer, useEffect } from 'react';
 import { campers as seedCampers } from '../data/campers';
 
+const API = import.meta.env.VITE_API_URL || 'https://camp-david-app.onrender.com';
+
 const AppContext = createContext(null);
 
 function loadState() {
@@ -115,6 +117,30 @@ export function AppProvider({ children }) {
     const { notifications, ...rest } = state;
     localStorage.setItem('campDavid2026', JSON.stringify(rest));
   }, [state]);
+
+  // Sync live campers from backend API into AppContext state
+  useEffect(() => {
+    const fetchLiveCampers = async () => {
+      const token = localStorage.getItem('camp_token');
+      if (!token) return;
+      try {
+        const res = await fetch(`${API}/api/campers?limit=500&status=all`, {
+          headers: { Authorization: `Bearer ${token}` }
+        });
+        if (res.ok) {
+          const data = await res.json();
+          const list = Array.isArray(data) ? data : (data.campers || []);
+          if (list.length > 0) {
+            dispatch({ type: 'SET_CAMPERS', payload: list });
+          }
+        }
+      } catch (err) {
+        console.error('Failed to sync campers from API:', err);
+      }
+    };
+
+    fetchLiveCampers();
+  }, [state.currentUser]);
 
   return (
     <AppContext.Provider value={{ state, dispatch }}>

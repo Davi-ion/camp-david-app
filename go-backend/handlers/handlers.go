@@ -172,7 +172,7 @@ func GetCampersHandler(c *gin.Context) {
 
 	var count int64
 	db.Model(&models.Camper{}).Count(&count)
-	if count == 0 {
+	if count < 50 {
 		SeedCampersLogic()
 	}
 
@@ -207,16 +207,20 @@ func GetCampersHandler(c *gin.Context) {
 	limitStr := c.DefaultQuery("limit", "50")
 	page, _ := strconv.Atoi(pageStr)
 	limit, _ := strconv.Atoi(limitStr)
-	if page < 1 {
-		page = 1
-	}
-	if limit < 1 || limit > 500 {
-		limit = 50
-	}
-	offset := (page - 1) * limit
 
 	var campers []models.Camper
-	query.Order("name asc").Offset(offset).Limit(limit).Find(&campers)
+	if limitStr == "all" || limitStr == "-1" || limit >= 500 {
+		query.Order("name asc").Find(&campers)
+	} else {
+		if page < 1 {
+			page = 1
+		}
+		if limit < 1 {
+			limit = 50
+		}
+		offset := (page - 1) * limit
+		query.Order("name asc").Offset(offset).Limit(limit).Find(&campers)
+	}
 
 	c.JSON(http.StatusOK, gin.H{
 		"campers": campers,
