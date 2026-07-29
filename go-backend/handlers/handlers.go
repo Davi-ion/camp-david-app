@@ -189,7 +189,11 @@ func GetCampersHandler(c *gin.Context) {
 	}
 
 	if status != "" && status != "all" {
-		query = query.Where("status = ?", status)
+		if status == "active" {
+			query = query.Where("status = ? OR status IS NULL OR status = ''", status)
+		} else {
+			query = query.Where("status = ?", status)
+		}
 	}
 
 	if platoonID != "" && platoonID != "all" {

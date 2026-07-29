@@ -33,7 +33,7 @@ function getInitials(name) {
 
 export default function RollCall() {
   const { state, dispatch } = useApp();
-  const { isAdmin } = usePermissions();
+  const { isAdmin, isCommander } = usePermissions();
   const user = state.currentUser;
 
   // Default day to Wednesday or current matching day
@@ -77,19 +77,21 @@ export default function RollCall() {
 
   // Scoped camper list based on user role & assigned platoon/dorm
   const scopedCampers = useMemo(() => {
-    let list = state.campers;
-    if (!isAdmin) {
-      // Counselors/leads see campers matching their platoon or dorm
-      const userPlatoon = user?.platoon?.name || user?.group;
+    let list = state.campers || [];
+    if (!isAdmin && !isCommander) {
+      // Counselors/leads see campers matching their platoon or dorm if assigned
+      const userPlatoon = user?.platoon?.name || user?.group || user?.department;
       const userDorm = user?.dorm?.name;
-      list = list.filter((c) => {
-        const matchesPlatoon = userPlatoon && (c.platoon?.name === userPlatoon || c.group === userPlatoon);
-        const matchesDorm = userDorm && c.dorm?.name === userDorm;
-        return matchesPlatoon || matchesDorm;
-      });
+      if (userPlatoon || userDorm) {
+        list = list.filter((c) => {
+          const matchesPlatoon = userPlatoon && (c.platoon?.name === userPlatoon || c.group === userPlatoon || c.platoonId === userPlatoon);
+          const matchesDorm = userDorm && (c.dorm?.name === userDorm || c.dormId === userDorm);
+          return matchesPlatoon || matchesDorm;
+        });
+      }
     }
     return list;
-  }, [state.campers, user, isAdmin]);
+  }, [state.campers, user, isAdmin, isCommander]);
 
   // Filtered campers for search and filters
   const filteredCampers = useMemo(() => {

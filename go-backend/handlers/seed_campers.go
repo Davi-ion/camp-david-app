@@ -138,6 +138,7 @@ func SeedCampersLogic() (int, int, int, error) {
 			existing.Age = r.Age
 			existing.PlatoonID = platoonID
 			existing.DormID = dormID
+			existing.Status = "active"
 			db.Save(&existing)
 			campersUpserted++
 		} else {
@@ -163,6 +164,9 @@ func SeedCampersLogic() (int, int, int, error) {
 			campersUpserted += len(toCreate)
 		}
 	}
+
+	// Ensure all campers in DB have an active status
+	db.Exec("UPDATE Camper SET status = 'active' WHERE status IS NULL OR status = '' OR status = 'NULL'")
 
 	return platoonsCreated, dormsCreated, campersUpserted, nil
 }
