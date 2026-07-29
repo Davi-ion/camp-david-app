@@ -392,14 +392,14 @@ func GetUsersHandler(c *gin.Context) {
 	query.Count(&total)
 
 	pageStr := c.DefaultQuery("page", "1")
-	limitStr := c.DefaultQuery("limit", "50")
+	limitStr := c.DefaultQuery("limit", "10")
 	page, _ := strconv.Atoi(pageStr)
 	limit, _ := strconv.Atoi(limitStr)
 	if page < 1 {
 		page = 1
 	}
 	if limit < 1 || limit > 200 {
-		limit = 50
+		limit = 10
 	}
 	offset := (page - 1) * limit
 

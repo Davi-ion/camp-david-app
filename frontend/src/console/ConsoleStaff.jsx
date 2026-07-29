@@ -28,7 +28,7 @@ export default function ConsoleStaff() {
   const [search, setSearch] = useState('');
   const [status, setStatus] = useState('active');
   const [page, setPage] = useState(1);
-  const limit = 50;
+  const [limit, setLimit] = useState(10);
 
   // Bulk actions
   const [selectedIds, setSelectedIds] = useState(new Set());
@@ -58,7 +58,7 @@ export default function ConsoleStaff() {
 
   useEffect(() => {
     fetchStaff();
-  }, [page, status]);
+  }, [page, limit, status]);
 
   const handleSearch = (e) => {
     e.preventDefault();
@@ -321,11 +321,39 @@ export default function ConsoleStaff() {
         </div>
         
         {/* Pagination */}
-        <div style={{ padding: '12px 20px', borderTop: '1px solid var(--border)', display: 'flex', justifyContent: 'space-between', alignItems: 'center' }}>
-          <div style={{ fontSize: '0.8125rem', color: 'var(--text-muted)' }}>
-            Showing {staffList.length} of {total} volunteers
+        <div style={{ padding: '12px 20px', borderTop: '1px solid var(--border)', display: 'flex', justifyContent: 'space-between', alignItems: 'center', flexWrap: 'wrap', gap: 12 }}>
+          <div style={{ display: 'flex', alignItems: 'center', gap: 16, fontSize: '0.8125rem', color: 'var(--text-muted)' }}>
+            <span>Showing {staffList.length} of {total} volunteers</span>
+            <div style={{ display: 'flex', alignItems: 'center', gap: 6 }}>
+              <span>Per page:</span>
+              <select
+                value={limit}
+                onChange={(e) => {
+                  setLimit(Number(e.target.value));
+                  setPage(1);
+                }}
+                className="input-field"
+                style={{
+                  padding: '2px 8px',
+                  fontSize: '0.8125rem',
+                  borderRadius: 6,
+                  border: '1px solid var(--border-light, #CBD5E1)',
+                  background: 'var(--bg-card, #FFFFFF)',
+                  color: 'var(--text-main, #0F172A)',
+                  cursor: 'pointer'
+                }}
+              >
+                <option value={10}>10</option>
+                <option value={20}>20</option>
+                <option value={50}>50</option>
+                <option value={100}>100</option>
+              </select>
+            </div>
           </div>
-          <div style={{ display: 'flex', gap: 8 }}>
+          <div style={{ display: 'flex', gap: 8, alignItems: 'center' }}>
+            <span style={{ fontSize: '0.8125rem', color: 'var(--text-muted)', marginRight: 4 }}>
+              Page {page} of {Math.max(1, Math.ceil(total / limit))}
+            </span>
             <button
               disabled={page === 1}
               onClick={() => setPage(p => p - 1)}
@@ -335,7 +363,7 @@ export default function ConsoleStaff() {
               <IconChevronLeft size={16} /> Prev
             </button>
             <button
-              disabled={staffList.length < limit}
+              disabled={page >= Math.ceil(total / limit) || staffList.length < limit}
               onClick={() => setPage(p => p + 1)}
               className="btn btn-secondary"
               style={{ display: 'inline-flex', alignItems: 'center', gap: 4, padding: '4px 12px', fontSize: '0.8125rem', borderRadius: 9999 }}

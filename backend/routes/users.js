@@ -26,7 +26,7 @@ function safeUser(user) {
 // ─── GET /api/users ───────────────────────────────────────────────
 router.get('/', authenticate, requirePermission('manage:users'), async (req, res) => {
   try {
-    const { search, role, status, page = 1, limit = 50 } = req.query;
+    const { search, role, status, page = 1, limit = 10 } = req.query;
     const where = {};
 
     if (search) {
