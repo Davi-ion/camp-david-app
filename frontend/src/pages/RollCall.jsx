@@ -440,7 +440,7 @@ export default function RollCall() {
           </div>
         )}
 
-        {/* 5. Camper Roster List */}
+        {/* 5. Camper Roster List (Flat list without group headers) */}
         {filteredCampers.length === 0 ? (
           <EmptyState 
             icon={<IconClipboardCheck size={48} color="var(--teal)" />}
@@ -448,127 +448,111 @@ export default function RollCall() {
             description="Try clearing search queries or switching filters."
           />
         ) : (
-          <div style={{ marginTop: 18 }}>
-            {Object.entries(groupedCampers).map(([groupName, camperList]) => {
-              const firstCamper = camperList[0];
-              let emoji = '🛡️';
-              if (firstCamper) {
-                if (groupName.includes('Dorm')) emoji = '🏢';
-                else if (firstCamper.platoon?.emoji) emoji = firstCamper.platoon.emoji;
-              }
+          <div style={{ marginTop: 18, display: 'flex', flexDirection: 'column', gap: 8 }}>
+            {paginatedCampers.map((camper) => {
+              const status = sessionData[camper.id] || null;
               return (
-                <div key={groupName} style={{ marginBottom: 20 }}>
-                  <div className="group-header" style={{ fontSize: '0.9375rem', fontWeight: 700, letterSpacing: '0.02em', marginBottom: 10, color: 'var(--text)' }}>
-                    {emoji} {groupName} ({camperList.length})
+                <div 
+                  key={camper.id} 
+                  className="camper-row" 
+                  style={{ 
+                    background: '#fff', 
+                    borderRadius: 14, 
+                    padding: '12px 16px', 
+                    border: status === 'present' ? '1.5px solid #A7F3D0' :
+                            status === 'absent' ? '1.5px solid #FCA5A5' :
+                            status === 'excused' ? '1.5px solid #FDE68A' : '1px solid var(--border)', 
+                    boxShadow: '0 2px 6px rgba(0,0,0,0.03)',
+                    display: 'flex',
+                    alignItems: 'center',
+                    justifyContent: 'space-between',
+                    gap: 12
+                  }}
+                >
+                  <div style={{ display: 'flex', alignItems: 'center', gap: 12, flex: 1, minWidth: 0 }}>
+                    <div className="avatar avatar-sm" style={{
+                      background: status === 'present' ? '#10B981' :
+                                 status === 'absent' ? '#EF4444' :
+                                 status === 'excused' ? '#F59E0B' : '#64748B',
+                      color: '#fff',
+                      fontWeight: 700,
+                      flexShrink: 0
+                    }}>
+                      {getInitials(camper.name)}
+                    </div>
+                    <div className="camper-info" style={{ minWidth: 0 }}>
+                      <div className="camper-name" style={{ fontWeight: 600, color: 'var(--text)', whiteSpace: 'nowrap', overflow: 'hidden', textOverflow: 'ellipsis' }}>
+                        {camper.name}
+                        {camper.medicalNotes && <span className="medical-flag" title={`Medical: ${camper.medicalNotes}`} style={{ marginLeft: 6 }}>⚕️</span>}
+                      </div>
+                      <div style={{ fontSize: '0.75rem', color: 'var(--text-secondary)', display: 'flex', gap: 8, flexWrap: 'wrap' }}>
+                        <span>{camper.registrationNumber}</span>
+                        {camper.platoon?.name && <span>· {camper.platoon.emoji || '🏴'} {camper.platoon.name}</span>}
+                        {camper.dorm?.name && <span>· 🏢 {camper.dorm.name}</span>}
+                        {camper.bedNumber && <span>· Bed {camper.bedNumber}</span>}
+                      </div>
+                    </div>
                   </div>
-                  <div style={{ display: 'flex', flexDirection: 'column', gap: 8 }}>
-                    {camperList.map((camper) => {
-                      const status = sessionData[camper.id] || null;
-                      return (
-                        <div 
-                          key={camper.id} 
-                          className="camper-row" 
-                          style={{ 
-                            background: '#fff', 
-                            borderRadius: 14, 
-                            padding: '12px 16px', 
-                            border: status === 'present' ? '1.5px solid #A7F3D0' :
-                                    status === 'absent' ? '1.5px solid #FCA5A5' :
-                                    status === 'excused' ? '1.5px solid #FDE68A' : '1px solid var(--border)', 
-                            boxShadow: '0 2px 6px rgba(0,0,0,0.03)',
-                            display: 'flex',
-                            alignItems: 'center',
-                            justifyContent: 'space-between',
-                            gap: 12
-                          }}
-                        >
-                          <div style={{ display: 'flex', alignItems: 'center', gap: 12, flex: 1, minWidth: 0 }}>
-                            <div className="avatar avatar-sm" style={{
-                              background: status === 'present' ? '#10B981' :
-                                         status === 'absent' ? '#EF4444' :
-                                         status === 'excused' ? '#F59E0B' : '#64748B',
-                              color: '#fff',
-                              fontWeight: 700,
-                              flexShrink: 0
-                            }}>
-                              {getInitials(camper.name)}
-                            </div>
-                            <div className="camper-info" style={{ minWidth: 0 }}>
-                              <div className="camper-name" style={{ fontWeight: 600, color: 'var(--text)', whiteSpace: 'nowrap', overflow: 'hidden', textOverflow: 'ellipsis' }}>
-                                {camper.name}
-                                {camper.medicalNotes && <span className="medical-flag" title={`Medical: ${camper.medicalNotes}`} style={{ marginLeft: 6 }}>⚕️</span>}
-                              </div>
-                              <div style={{ fontSize: '0.75rem', color: 'var(--text-secondary)', display: 'flex', gap: 8, flexWrap: 'wrap' }}>
-                                <span>{camper.registrationNumber}</span>
-                                {camper.bedNumber && <span>· Bed {camper.bedNumber}</span>}
-                                {camper.platoon?.name && <span>· {camper.platoon.name}</span>}
-                              </div>
-                            </div>
-                          </div>
 
-                          {/* Quick Action Status Toggles */}
-                          <div className="status-buttons" style={{ display: 'flex', gap: 4, flexShrink: 0 }}>
-                            <button
-                              className={`status-btn ${status === 'present' ? 'present' : ''}`}
-                              onClick={() => handleMark(camper.id, 'present')}
-                              title="Mark Present"
-                              style={{
-                                width: 34,
-                                height: 34,
-                                borderRadius: 8,
-                                border: '1px solid var(--border)',
-                                background: status === 'present' ? '#10B981' : '#F8FAFC',
-                                color: status === 'present' ? '#FFFFFF' : '#64748B',
-                                cursor: 'pointer',
-                                display: 'inline-flex',
-                                alignItems: 'center',
-                                justifyContent: 'center'
-                              }}
-                            >
-                              <IconCheck size={18} />
-                            </button>
-                            <button
-                              className={`status-btn ${status === 'absent' ? 'absent' : ''}`}
-                              onClick={() => handleMark(camper.id, 'absent')}
-                              title="Mark Absent"
-                              style={{
-                                width: 34,
-                                height: 34,
-                                borderRadius: 8,
-                                border: '1px solid var(--border)',
-                                background: status === 'absent' ? '#EF4444' : '#F8FAFC',
-                                color: status === 'absent' ? '#FFFFFF' : '#64748B',
-                                cursor: 'pointer',
-                                display: 'inline-flex',
-                                alignItems: 'center',
-                                justifyContent: 'center'
-                              }}
-                            >
-                              <IconX size={18} />
-                            </button>
-                            <button
-                              className={`status-btn ${status === 'excused' ? 'excused' : ''}`}
-                              onClick={() => handleMark(camper.id, 'excused')}
-                              title="Mark Excused"
-                              style={{
-                                width: 34,
-                                height: 34,
-                                borderRadius: 8,
-                                border: '1px solid var(--border)',
-                                background: status === 'excused' ? '#F59E0B' : '#F8FAFC',
-                                color: status === 'excused' ? '#FFFFFF' : '#64748B',
-                                cursor: 'pointer',
-                                display: 'inline-flex',
-                                alignItems: 'center',
-                                justifyContent: 'center'
-                              }}
-                            >
-                              <IconMinus size={18} />
-                            </button>
-                          </div>
-                        </div>
-                      );
-                    })}
+                  {/* Quick Action Status Toggles */}
+                  <div className="status-buttons" style={{ display: 'flex', gap: 4, flexShrink: 0 }}>
+                    <button
+                      className={`status-btn ${status === 'present' ? 'present' : ''}`}
+                      onClick={() => handleMark(camper.id, 'present')}
+                      title="Mark Present"
+                      style={{
+                        width: 34,
+                        height: 34,
+                        borderRadius: 8,
+                        border: '1px solid var(--border)',
+                        background: status === 'present' ? '#10B981' : '#F8FAFC',
+                        color: status === 'present' ? '#FFFFFF' : '#64748B',
+                        cursor: 'pointer',
+                        display: 'inline-flex',
+                        alignItems: 'center',
+                        justifyContent: 'center'
+                      }}
+                    >
+                      <IconCheck size={18} />
+                    </button>
+                    <button
+                      className={`status-btn ${status === 'absent' ? 'absent' : ''}`}
+                      onClick={() => handleMark(camper.id, 'absent')}
+                      title="Mark Absent"
+                      style={{
+                        width: 34,
+                        height: 34,
+                        borderRadius: 8,
+                        border: '1px solid var(--border)',
+                        background: status === 'absent' ? '#EF4444' : '#F8FAFC',
+                        color: status === 'absent' ? '#FFFFFF' : '#64748B',
+                        cursor: 'pointer',
+                        display: 'inline-flex',
+                        alignItems: 'center',
+                        justifyContent: 'center'
+                      }}
+                    >
+                      <IconX size={18} />
+                    </button>
+                    <button
+                      className={`status-btn ${status === 'excused' ? 'excused' : ''}`}
+                      onClick={() => handleMark(camper.id, 'excused')}
+                      title="Mark Excused"
+                      style={{
+                        width: 34,
+                        height: 34,
+                        borderRadius: 8,
+                        border: '1px solid var(--border)',
+                        background: status === 'excused' ? '#F59E0B' : '#F8FAFC',
+                        color: status === 'excused' ? '#FFFFFF' : '#64748B',
+                        cursor: 'pointer',
+                        display: 'inline-flex',
+                        alignItems: 'center',
+                        justifyContent: 'center'
+                      }}
+                    >
+                      <IconMinus size={18} />
+                    </button>
                   </div>
                 </div>
               );
