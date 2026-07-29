@@ -302,19 +302,21 @@ export default function ConsoleCampers() {
                       <button 
                         onClick={() => openModal(c)} 
                         className="btn btn-secondary btn-sm" 
-                        style={{ fontSize: '0.8125rem', padding: '6px 10px', display: 'inline-flex', alignItems: 'center', gap: 4, borderRadius: 6 }}
+                        style={{ padding: '6px 8px', display: 'inline-flex', alignItems: 'center', justifyContent: 'center', borderRadius: 6 }}
                         title="Edit Camper"
+                        aria-label="Edit Camper"
                       >
-                        <IconPencil size={15} /> Edit
+                        <IconPencil size={16} />
                       </button>
                       {c.status === 'active' && (
                         <button 
                           onClick={() => deactivateCamper(c.id)} 
                           className="btn btn-secondary btn-sm" 
-                          style={{ fontSize: '0.8125rem', padding: '6px 10px', display: 'inline-flex', alignItems: 'center', gap: 4, color: 'var(--red)', borderColor: '#FCA5A5', background: '#FEF2F2', borderRadius: 6 }}
+                          style={{ padding: '6px 8px', display: 'inline-flex', alignItems: 'center', justifyContent: 'center', color: 'var(--red)', borderColor: '#FCA5A5', background: '#FEF2F2', borderRadius: 6 }}
                           title="Deactivate Camper"
+                          aria-label="Deactivate Camper"
                         >
-                          <IconUserOff size={15} /> Deactivate
+                          <IconUserOff size={16} />
                         </button>
                       )}
                     </div>
