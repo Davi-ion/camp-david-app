@@ -1,10 +1,11 @@
-import { useState, useMemo, useRef } from 'react';
+import { useState, useMemo, useRef, useEffect } from 'react';
 import { useApp } from '../context/AppContext';
 import { usePermissions } from '../hooks/usePermissions';
 import { GROUPS } from '../data/campers';
 import UserMenu from '../components/UserMenu';
 import NotificationCentre from '../components/NotificationCentre';
 import EmptyState from '../components/EmptyState';
+import Pagination from '../components/Pagination';
 import { IconSearch, IconChevronDown, IconUsers, IconFileImport, IconPhone } from '@tabler/icons-react';
 
 function getInitials(name) {
@@ -21,7 +22,14 @@ export default function Campers() {
   const [expandedId, setExpandedId] = useState(null);
   const [showImport, setShowImport] = useState(false);
   const [importResult, setImportResult] = useState(null);
+  const [page, setPage] = useState(1);
+  const [pageSize, setPageSize] = useState(25);
   const fileRef = useRef();
+
+  // Reset page when search or group filter changes
+  useEffect(() => {
+    setPage(1);
+  }, [search, groupFilter]);
 
   // Filter campers
   const filteredCampers = useMemo(() => {
@@ -43,15 +51,21 @@ export default function Campers() {
     return list;
   }, [state.campers, user, groupFilter, search]);
 
+  // Paginated campers slice
+  const paginatedCampers = useMemo(() => {
+    const start = (page - 1) * pageSize;
+    return filteredCampers.slice(start, start + pageSize);
+  }, [filteredCampers, page, pageSize]);
+
   // Group campers
   const groupedCampers = useMemo(() => {
     const groups = {};
-    filteredCampers.forEach((c) => {
+    paginatedCampers.forEach((c) => {
       if (!groups[c.group]) groups[c.group] = [];
       groups[c.group].push(c);
     });
     return groups;
-  }, [filteredCampers]);
+  }, [paginatedCampers]);
 
   const medicalCount = useMemo(() => {
     return filteredCampers.filter((c) => c.medicalNotes).length;
@@ -327,6 +341,22 @@ export default function Campers() {
               </div>
             );
           })
+        )}
+
+        {/* Pagination Controller */}
+        {filteredCampers.length > 0 && (
+          <div style={{ marginTop: 20, marginBottom: 30 }}>
+            <Pagination
+              currentPage={page}
+              totalItems={filteredCampers.length}
+              pageSize={pageSize}
+              onPageChange={setPage}
+              onPageSizeChange={(newSize) => {
+                setPageSize(newSize);
+                setPage(1);
+              }}
+            />
+          </div>
         )}
       </div>
     </div>

@@ -1,5 +1,15 @@
 import { useState, useEffect } from 'react';
 import { useApp } from '../context/AppContext';
+import Pagination from '../components/Pagination';
+import { 
+  IconUserPlus, 
+  IconDownload, 
+  IconSearch, 
+  IconPencil, 
+  IconUserOff, 
+  IconCheck, 
+  IconFilter 
+} from '@tabler/icons-react';
 
 const API = import.meta.env.VITE_API_URL || 'https://camp-david-app.onrender.com';
 
@@ -11,7 +21,7 @@ export default function ConsoleCampers() {
   const [search, setSearch] = useState('');
   const [status, setStatus] = useState('active');
   const [page, setPage] = useState(1);
-  const limit = 50;
+  const [limit, setLimit] = useState(25);
 
   // Bulk actions
   const [selectedIds, setSelectedIds] = useState(new Set());
@@ -52,7 +62,7 @@ export default function ConsoleCampers() {
   useEffect(() => {
     fetchCampers();
     fetchDormsAndPlatoons();
-  }, [page, status]);
+  }, [page, limit, status]);
 
   const fetchDormsAndPlatoons = async () => {
     try {
@@ -185,11 +195,11 @@ export default function ConsoleCampers() {
           <p className="console-page-subtitle">Manage all registered campers ({total} total)</p>
         </div>
         <div style={{ display: 'flex', gap: 10 }}>
-          <button onClick={handleExport} className="btn btn-secondary" style={{ padding: '8px 16px', borderRadius: 9999, fontSize: '0.875rem' }}>
-            Export
+          <button onClick={handleExport} className="btn btn-secondary" style={{ padding: '8px 16px', borderRadius: 9999, fontSize: '0.875rem', display: 'inline-flex', alignItems: 'center', gap: 6 }}>
+            <IconDownload size={18} /> Export
           </button>
-          <button onClick={() => openModal()} className="btn btn-primary" style={{ padding: '8px 16px', borderRadius: 9999, fontSize: '0.875rem' }}>
-            + Add Camper
+          <button onClick={() => openModal()} className="btn btn-primary" style={{ padding: '8px 16px', borderRadius: 9999, fontSize: '0.875rem', display: 'inline-flex', alignItems: 'center', gap: 6 }}>
+            <IconUserPlus size={18} /> Add Camper
           </button>
         </div>
       </div>
@@ -215,7 +225,9 @@ export default function ConsoleCampers() {
               <option value="inactive">Inactive</option>
               <option value="all">All Statuses</option>
             </select>
-            <button type="submit" className="btn btn-secondary" style={{ padding: '8px 16px', fontSize: '0.875rem' }}>Search</button>
+            <button type="submit" className="btn btn-secondary" style={{ padding: '8px 16px', fontSize: '0.875rem', display: 'inline-flex', alignItems: 'center', gap: 6 }}>
+              <IconSearch size={16} /> Search
+            </button>
           </form>
 
           {selectedIds.size > 0 && (
@@ -226,7 +238,9 @@ export default function ConsoleCampers() {
                 <option value="assign-platoon">Assign Platoon</option>
                 <option value="deactivate">Deactivate</option>
               </select>
-              <button disabled={!bulkAction} className="btn btn-primary" style={{ padding: '6px 12px', fontSize: '0.75rem' }}>Apply</button>
+              <button disabled={!bulkAction} className="btn btn-primary" style={{ padding: '6px 12px', fontSize: '0.75rem', display: 'inline-flex', alignItems: 'center', gap: 4 }}>
+                <IconCheck size={14} /> Apply
+              </button>
             </div>
           )}
         </div>
@@ -283,11 +297,27 @@ export default function ConsoleCampers() {
                       {c.status.toUpperCase()}
                     </span>
                   </td>
-                  <td style={{ textAlign: 'right' }}>
-                    <button onClick={() => openModal(c)} className="btn btn-text" style={{ fontSize: '0.8125rem', padding: '4px 8px' }}>Edit</button>
-                    {c.status === 'active' && (
-                      <button onClick={() => deactivateCamper(c.id)} className="btn btn-text" style={{ fontSize: '0.8125rem', padding: '4px 8px', color: 'var(--red)' }}>Deactivate</button>
-                    )}
+                  <td style={{ textAlign: 'right', whiteSpace: 'nowrap' }}>
+                    <div style={{ display: 'inline-flex', gap: 6, justifyContent: 'flex-end' }}>
+                      <button 
+                        onClick={() => openModal(c)} 
+                        className="btn btn-secondary btn-sm" 
+                        style={{ fontSize: '0.8125rem', padding: '6px 10px', display: 'inline-flex', alignItems: 'center', gap: 4, borderRadius: 6 }}
+                        title="Edit Camper"
+                      >
+                        <IconPencil size={15} /> Edit
+                      </button>
+                      {c.status === 'active' && (
+                        <button 
+                          onClick={() => deactivateCamper(c.id)} 
+                          className="btn btn-secondary btn-sm" 
+                          style={{ fontSize: '0.8125rem', padding: '6px 10px', display: 'inline-flex', alignItems: 'center', gap: 4, color: 'var(--red)', borderColor: '#FCA5A5', background: '#FEF2F2', borderRadius: 6 }}
+                          title="Deactivate Camper"
+                        >
+                          <IconUserOff size={15} /> Deactivate
+                        </button>
+                      )}
+                    </div>
                   </td>
                 </tr>
               ))}
@@ -295,30 +325,17 @@ export default function ConsoleCampers() {
           </table>
         </div>
         
-        {/* Pagination */}
-        <div style={{ padding: '12px 20px', borderTop: '1px solid var(--border)', display: 'flex', justifyContent: 'space-between', alignItems: 'center' }}>
-          <div style={{ fontSize: '0.8125rem', color: 'var(--text-muted)' }}>
-            Showing {campers.length} of {total} campers
-          </div>
-          <div style={{ display: 'flex', gap: 8 }}>
-            <button 
-              disabled={page === 1} 
-              onClick={() => setPage(p => p - 1)}
-              className="btn btn-secondary" 
-              style={{ padding: '4px 12px', fontSize: '0.8125rem' }}
-            >
-              Previous
-            </button>
-            <button 
-              disabled={campers.length < limit} 
-              onClick={() => setPage(p => p + 1)}
-              className="btn btn-secondary" 
-              style={{ padding: '4px 12px', fontSize: '0.8125rem' }}
-            >
-              Next
-            </button>
-          </div>
-        </div>
+        {/* Pagination Controller */}
+        <Pagination 
+          currentPage={page}
+          totalItems={total}
+          pageSize={limit}
+          onPageChange={setPage}
+          onPageSizeChange={(newLimit) => {
+            setLimit(newLimit);
+            setPage(1);
+          }}
+        />
       </div>
 
       {modalOpen && (
