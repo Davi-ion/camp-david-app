@@ -470,21 +470,24 @@ export default function RollCall() {
                     style={{ 
                       padding: '12px 16px', 
                       borderBottom: isLast ? 'none' : '1px solid #F1F5F9',
-                      background: status === 'present' ? 'rgba(240, 253, 244, 0.4)' :
-                                 status === 'absent' ? 'rgba(254, 242, 242, 0.4)' :
-                                 status === 'excused' ? 'rgba(254, 243, 199, 0.4)' : '#FFFFFF', 
+                      borderLeft: status === 'present' ? '4px solid #22C55E' :
+                                  status === 'absent' ? '4px solid #EF4444' :
+                                  status === 'excused' ? '4px solid #EAB308' : '4px solid transparent',
+                      background: status === 'present' ? 'rgba(240, 253, 244, 0.65)' :
+                                 status === 'absent' ? 'rgba(254, 242, 242, 0.65)' :
+                                 status === 'excused' ? 'rgba(254, 252, 232, 0.65)' : '#FFFFFF', 
                       display: 'flex',
                       alignItems: 'center',
                       justifyContent: 'space-between',
                       gap: 12,
-                      transition: 'background 0.15s ease'
+                      transition: 'all 0.15s ease'
                     }}
                   >
                     <div style={{ display: 'flex', alignItems: 'center', gap: 12, flex: 1, minWidth: 0 }}>
                       <div className="avatar avatar-sm" style={{
-                        background: status === 'present' ? '#10B981' :
+                        background: status === 'present' ? '#22C55E' :
                                    status === 'absent' ? '#EF4444' :
-                                   status === 'excused' ? '#F59E0B' : '#64748B',
+                                   status === 'excused' ? '#EAB308' : '#64748B',
                         color: '#fff',
                         fontWeight: 700,
                         flexShrink: 0,
@@ -506,61 +509,61 @@ export default function RollCall() {
                       </div>
                     </div>
 
-                    {/* Unboxed User Attendance Tabler Icon Actions */}
+                    {/* Unboxed User Attendance Tabler Icon Actions (Green, Red, Yellow) */}
                     <div className="status-buttons" style={{ display: 'flex', gap: 8, flexShrink: 0, alignItems: 'center' }}>
                       <button
                         onClick={() => handleMark(camper.id, 'present')}
-                        title="Mark Present"
+                        title="Mark Present (Green)"
                         style={{
                           background: 'none',
                           border: 'none',
                           padding: 4,
                           cursor: 'pointer',
-                          color: status === 'present' ? '#10B981' : '#94A3B8',
+                          color: status === 'present' ? '#22C55E' : '#CBD5E1',
                           display: 'inline-flex',
                           alignItems: 'center',
                           justifyContent: 'center',
                           transition: 'all 0.15s ease',
-                          transform: status === 'present' ? 'scale(1.15)' : 'scale(1)'
+                          transform: status === 'present' ? 'scale(1.2)' : 'scale(1)'
                         }}
                       >
-                        <IconUserCheck size={22} stroke={status === 'present' ? 2.5 : 1.75} />
+                        <IconUserCheck size={24} stroke={status === 'present' ? 2.5 : 1.75} />
                       </button>
                       <button
                         onClick={() => handleMark(camper.id, 'absent')}
-                        title="Mark Absent"
+                        title="Mark Absent (Red)"
                         style={{
                           background: 'none',
                           border: 'none',
                           padding: 4,
                           cursor: 'pointer',
-                          color: status === 'absent' ? '#EF4444' : '#94A3B8',
+                          color: status === 'absent' ? '#EF4444' : '#CBD5E1',
                           display: 'inline-flex',
                           alignItems: 'center',
                           justifyContent: 'center',
                           transition: 'all 0.15s ease',
-                          transform: status === 'absent' ? 'scale(1.15)' : 'scale(1)'
+                          transform: status === 'absent' ? 'scale(1.2)' : 'scale(1)'
                         }}
                       >
-                        <IconUserX size={22} stroke={status === 'absent' ? 2.5 : 1.75} />
+                        <IconUserX size={24} stroke={status === 'absent' ? 2.5 : 1.75} />
                       </button>
                       <button
                         onClick={() => handleMark(camper.id, 'excused')}
-                        title="Mark Excused"
+                        title="Mark Excused (Yellow)"
                         style={{
                           background: 'none',
                           border: 'none',
                           padding: 4,
                           cursor: 'pointer',
-                          color: status === 'excused' ? '#F59E0B' : '#94A3B8',
+                          color: status === 'excused' ? '#EAB308' : '#CBD5E1',
                           display: 'inline-flex',
                           alignItems: 'center',
                           justifyContent: 'center',
                           transition: 'all 0.15s ease',
-                          transform: status === 'excused' ? 'scale(1.15)' : 'scale(1)'
+                          transform: status === 'excused' ? 'scale(1.2)' : 'scale(1)'
                         }}
                       >
-                        <IconUserMinus size={22} stroke={status === 'excused' ? 2.5 : 1.75} />
+                        <IconUserMinus size={24} stroke={status === 'excused' ? 2.5 : 1.75} />
                       </button>
                     </div>
                   </div>
