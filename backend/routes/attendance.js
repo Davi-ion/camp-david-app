@@ -3,6 +3,117 @@ import { PrismaClient } from '../generated/prisma/client.ts';
 const prisma = new PrismaClient();
 const router = express.Router();
 
+// ─── Get All Attendance Records (Session Map) ────────────────────
+router.get('/all', async (req, res) => {
+  try {
+    const records = await prisma.attendanceRecord.findMany({
+      select: {
+        sessionId: true,
+        camperId: true,
+        status: true,
+      },
+    });
+
+    const attendanceMap = {};
+    for (const r of records) {
+      if (!r.sessionId || !r.camperId) continue;
+      if (!attendanceMap[r.sessionId]) {
+        attendanceMap[r.sessionId] = {};
+      }
+      attendanceMap[r.sessionId][r.camperId] = r.status;
+    }
+
+    res.json(attendanceMap);
+  } catch (err) {
+    console.error('Failed to fetch attendance map:', err);
+    res.status(500).json({ error: 'Failed to fetch attendance map' });
+  }
+});
+
+// ─── Mark Single Attendance Record ──────────────────────────────
+router.post('/mark', async (req, res) => {
+  try {
+    const { sessionKey, camperId, status, staffId } = req.body;
+    if (!sessionKey || !camperId) {
+      return res.status(400).json({ error: 'sessionKey and camperId are required.' });
+    }
+
+    if (!status) {
+      // Remove attendance record if status is null or empty
+      await prisma.attendanceRecord.deleteMany({
+        where: { sessionId: sessionKey, camperId },
+      });
+      return res.json({ message: 'Attendance record cleared' });
+    }
+
+    const record = await prisma.attendanceRecord.upsert({
+      where: {
+        sessionId_camperId: {
+          sessionId: sessionKey,
+          camperId: camperId,
+        },
+      },
+      update: {
+        status,
+        timestamp: new Date(),
+        recordedById: staffId || null,
+      },
+      create: {
+        sessionId: sessionKey,
+        camperId,
+        status,
+        timestamp: new Date(),
+        recordedById: staffId || null,
+      },
+    });
+
+    res.json(record);
+  } catch (err) {
+    console.error('Failed to mark attendance:', err);
+    res.status(500).json({ error: 'Failed to save attendance record' });
+  }
+});
+
+// ─── Mark Bulk Attendance Records ───────────────────────────────
+router.post('/bulk-mark', async (req, res) => {
+  try {
+    const { sessionKey, camperIds, status, staffId } = req.body;
+    if (!sessionKey || !Array.isArray(camperIds)) {
+      return res.status(400).json({ error: 'sessionKey and camperIds array are required.' });
+    }
+
+    await prisma.$transaction(
+      camperIds.map((camperId) =>
+        prisma.attendanceRecord.upsert({
+          where: {
+            sessionId_camperId: {
+              sessionId: sessionKey,
+              camperId,
+            },
+          },
+          update: {
+            status,
+            timestamp: new Date(),
+            recordedById: staffId || null,
+          },
+          create: {
+            sessionId: sessionKey,
+            camperId,
+            status,
+            timestamp: new Date(),
+            recordedById: staffId || null,
+          },
+        })
+      )
+    );
+
+    res.json({ message: 'Bulk attendance saved successfully', count: camperIds.length });
+  } catch (err) {
+    console.error('Failed to bulk mark attendance:', err);
+    res.status(500).json({ error: 'Failed to bulk mark attendance' });
+  }
+});
+
 // ─── Camper QR Lookup ─────────────────────────────────────────────
 router.get('/camper/:qr', async (req, res) => {
   try {

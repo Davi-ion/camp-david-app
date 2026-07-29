@@ -80,6 +80,12 @@ function reducer(state, action) {
       };
     }
 
+    case 'SET_ATTENDANCE_MAP':
+      return {
+        ...state,
+        attendance: action.payload || {},
+      };
+
     case 'ADD_INCIDENT':
       return { ...state, incidents: [action.payload, ...state.incidents] };
 
@@ -118,28 +124,41 @@ export function AppProvider({ children }) {
     localStorage.setItem('campDavid2026', JSON.stringify(rest));
   }, [state]);
 
-  // Sync live campers from backend API into AppContext state
+  // Sync live campers & attendance from backend API into AppContext state
   useEffect(() => {
-    const fetchLiveCampers = async () => {
+    const fetchData = async () => {
       const token = localStorage.getItem('camp_token');
       if (!token) return;
       try {
-        const res = await fetch(`${API}/api/campers?limit=500&status=all`, {
-          headers: { Authorization: `Bearer ${token}` }
-        });
-        if (res.ok) {
-          const data = await res.json();
+        const [campersRes, attRes] = await Promise.all([
+          fetch(`${API}/api/campers?limit=500&status=all`, {
+            headers: { Authorization: `Bearer ${token}` }
+          }),
+          fetch(`${API}/api/attendance/all`, {
+            headers: { Authorization: `Bearer ${token}` }
+          })
+        ]);
+
+        if (campersRes.ok) {
+          const data = await campersRes.json();
           const list = Array.isArray(data) ? data : (data.campers || []);
           if (list.length > 0) {
             dispatch({ type: 'SET_CAMPERS', payload: list });
           }
         }
+
+        if (attRes.ok) {
+          const attMap = await attRes.json();
+          if (attMap && typeof attMap === 'object') {
+            dispatch({ type: 'SET_ATTENDANCE_MAP', payload: attMap });
+          }
+        }
       } catch (err) {
-        console.error('Failed to sync campers from API:', err);
+        console.error('Failed to sync data from API:', err);
       }
     };
 
-    fetchLiveCampers();
+    fetchData();
   }, [state.currentUser]);
 
   return (

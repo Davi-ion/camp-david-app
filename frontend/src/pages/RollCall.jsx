@@ -27,6 +27,8 @@ import {
   IconPrinter
 } from '@tabler/icons-react';
 
+const API = import.meta.env.VITE_API_URL || 'https://camp-david-app.onrender.com';
+
 function getInitials(name) {
   return name.split(' ').map((w) => w[0]).join('').toUpperCase().slice(0, 2);
 }
@@ -201,29 +203,71 @@ export default function RollCall() {
   }, [paginatedCampers, sessionKey, departureGrouping]);
 
   // Handlers
-  const handleMark = (camperId, status) => {
+  const handleMark = async (camperId, status) => {
     if (!sessionKey) return;
     const current = sessionData[camperId];
+    const newStatus = current === status ? null : status;
+
     dispatch({
       type: 'SET_ATTENDANCE',
       payload: {
         sessionKey,
         camperId,
-        status: current === status ? null : status,
+        status: newStatus,
       },
     });
+
+    const token = localStorage.getItem('camp_token');
+    try {
+      await fetch(`${API}/api/attendance/mark`, {
+        method: 'POST',
+        headers: {
+          'Content-Type': 'application/json',
+          ...(token ? { Authorization: `Bearer ${token}` } : {}),
+        },
+        body: JSON.stringify({
+          sessionKey,
+          camperId,
+          status: newStatus,
+          staffId: user?.id,
+        }),
+      });
+    } catch (err) {
+      console.error('Failed to save attendance check to DB:', err);
+    }
   };
 
-  const handleBulk = (status) => {
+  const handleBulk = async (status) => {
     if (!sessionKey) return;
+    const camperIds = filteredCampers.map((c) => c.id);
+
     dispatch({
       type: 'BULK_ATTENDANCE',
       payload: {
         sessionKey,
-        camperIds: filteredCampers.map((c) => c.id),
+        camperIds,
         status,
       },
     });
+
+    const token = localStorage.getItem('camp_token');
+    try {
+      await fetch(`${API}/api/attendance/bulk-mark`, {
+        method: 'POST',
+        headers: {
+          'Content-Type': 'application/json',
+          ...(token ? { Authorization: `Bearer ${token}` } : {}),
+        },
+        body: JSON.stringify({
+          sessionKey,
+          camperIds,
+          status,
+          staffId: user?.id,
+        }),
+      });
+    } catch (err) {
+      console.error('Failed to save bulk attendance checks to DB:', err);
+    }
   };
 
   const getSessionIcon = (key) => {

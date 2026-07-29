@@ -59,6 +59,8 @@ model Staff {
   // Phase 10 Dorms
   supervisedDorms          Dorm[] @relation("DormSupervisor")
   assistantSupervisedDorms Dorm[] @relation("DormAssistantSupervisor")
+  staffAttendanceRecords     AttendanceRecord[] @relation("StaffAttendanceRecords")
+  recordedAttendanceRecords  AttendanceRecord[] @relation("RecordedAttendanceRecords")
 }
 
 // ─── Platoons ─────────────────────────────────────────────────────
@@ -126,13 +128,35 @@ model Camper {
   qrCode             String?   @unique
   ageGroup           String?
   pickupCenter       String?
+  counsellorId       String?
   createdAt          DateTime  @default(now())
   updatedAt          DateTime  @updatedAt
 
-  platoon    Platoon?   @relation(fields: [platoonId], references: [id])
-  dorm       Dorm?      @relation(fields: [dormId], references: [id])
-  counsellor Staff?     @relation("CounsellorCampers", fields: [counsellorId], references: [id])
-  incidents  Incident[] @relation("IncidentCamper")
+  platoon           Platoon?           @relation(fields: [platoonId], references: [id])
+  dorm              Dorm?              @relation(fields: [dormId], references: [id])
+  counsellor        Staff?             @relation("CounsellorCampers", fields: [counsellorId], references: [id])
+  incidents         Incident[]         @relation("IncidentCamper")
+  attendanceRecords AttendanceRecord[]
+}
+
+// ─── Attendance Records ─────────────────────────────────────────
+model AttendanceRecord {
+  id           String   @id @default(cuid())
+  sessionId    String
+  camperId     String?
+  staffId      String?
+  status       String   // present | absent | excused | late
+  timestamp    DateTime @default(now())
+  recordedById String?
+  notes        String?
+  createdAt    DateTime @default(now())
+  updatedAt    DateTime @updatedAt
+
+  camper     Camper? @relation(fields: [camperId], references: [id], onDelete: Cascade)
+  staff      Staff?  @relation("StaffAttendanceRecords", fields: [staffId], references: [id], onDelete: Cascade)
+  recordedBy Staff?  @relation("RecordedAttendanceRecords", fields: [recordedById], references: [id], onDelete: Cascade)
+
+  @@unique([sessionId, camperId])
 }
 
 // ─── Incidents ────────────────────────────────────────────────────
