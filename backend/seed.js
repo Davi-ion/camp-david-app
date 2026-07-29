@@ -1,6 +1,13 @@
 import 'dotenv/config';
+import fs from 'fs';
+import path from 'path';
+import { fileURLToPath } from 'url';
 import { prisma } from './utils/prisma.js';
 import bcrypt from 'bcryptjs';
+
+const __filename = fileURLToPath(import.meta.url);
+const __dirname = path.dirname(__filename);
+const usersSeedPath = path.join(__dirname, 'users_seed.json');
 
 async function hashPassword(plain) {
   return await bcrypt.hash(plain, 10);
@@ -67,6 +74,42 @@ async function seed() {
         ]),
         isSystem: true,
       },
+      {
+        name: 'Platoon Lead',
+        description: 'Lead assigned platoon, log attendance and incidents.',
+        permissions: JSON.stringify([
+          'view:dashboard', 'view:campers', 'view:attendance', 'manage:attendance',
+          'view:incidents', 'manage:incidents', 'view:schedule',
+        ]),
+        isSystem: true,
+      },
+      {
+        name: 'Dorm Lead',
+        description: 'Manage dorm assignment and camper welfare.',
+        permissions: JSON.stringify([
+          'view:dashboard', 'view:campers', 'manage:campers', 'view:attendance',
+          'manage:attendance', 'view:incidents', 'manage:incidents', 'manage:dorms',
+        ]),
+        isSystem: true,
+      },
+      {
+        name: 'Camp Commander',
+        description: 'Camp command, operational oversight.',
+        permissions: JSON.stringify([
+          'view:dashboard', 'view:campers', 'view:attendance', 'view:incidents',
+          'manage:incidents', 'view:reports', 'manage:reports', 'view:staff',
+          'manage:staff', 'view:schedule', 'manage:schedule',
+        ]),
+        isSystem: true,
+      },
+      {
+        name: 'Volunteer',
+        description: 'General volunteer staff member.',
+        permissions: JSON.stringify([
+          'view:dashboard', 'view:campers', 'view:schedule',
+        ]),
+        isSystem: true,
+      },
     ];
 
     const rolesByName = {};
@@ -80,6 +123,11 @@ async function seed() {
     }
 
     console.log('Seeding default staff...');
+    let seedUsersFile = [];
+    if (fs.existsSync(usersSeedPath)) {
+      seedUsersFile = JSON.parse(fs.readFileSync(usersSeedPath, 'utf8'));
+    }
+
     const seedStaff = [
       {
         name: 'Super Admin',
@@ -91,56 +139,17 @@ async function seed() {
         forcePasswordChange: false,
         status: 'active',
       },
-      {
-        name: 'Pastor John',
-        email: 'director@campdavid.org',
-        username: 'director',
+      ...seedUsersFile.map(u => ({
+        name: u.name,
+        email: u.email,
+        username: u.username,
+        gender: u.gender || null,
         passwordHash,
-        role: 'Camp Director',
-        department: 'Leadership',
+        role: u.role || 'Volunteer',
+        department: u.department || 'General Volunteer',
         forcePasswordChange: false,
         status: 'active',
-      },
-      {
-        name: 'Sarah Connor',
-        email: 'head.counsellor@campdavid.org',
-        username: 'sarah.c',
-        passwordHash,
-        role: 'Head Counsellor',
-        department: 'Welfare',
-        forcePasswordChange: true,
-        status: 'active',
-      },
-      {
-        name: 'Dr. House',
-        email: 'medic@campdavid.org',
-        username: 'dr.house',
-        passwordHash,
-        role: 'Medical Staff',
-        department: 'Medical',
-        forcePasswordChange: true,
-        status: 'active',
-      },
-      {
-        name: 'Captain Price',
-        email: 'platoon.lead@campdavid.org',
-        username: 'cpt.price',
-        passwordHash,
-        role: 'Platoon Leader',
-        department: 'Operations',
-        forcePasswordChange: true,
-        status: 'active',
-      },
-      {
-        name: 'Default Staff User',
-        email: 'staff@campdavid.org',
-        username: 'staff',
-        passwordHash,
-        role: 'Counsellor',
-        department: 'General',
-        forcePasswordChange: true,
-        status: 'active',
-      },
+      }))
     ];
 
     for (const sData of seedStaff) {
