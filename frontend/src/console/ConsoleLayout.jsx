@@ -8,7 +8,7 @@ import ConsoleTopNav from './ConsoleTopNav';
 import './console.css';
 
 // Roles/permissions that can access the management console
-const CONSOLE_PERMISSIONS = ['manage:users', 'manage:roles', 'view:audit', 'all'];
+const CONSOLE_PERMISSIONS = ['manage:users', 'view:audit', 'all'];
 
 function hasConsoleAccess(user, permissions = [], isAdmin = false) {
   if (!user) return false;

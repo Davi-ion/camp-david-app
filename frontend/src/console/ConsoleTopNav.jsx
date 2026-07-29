@@ -17,7 +17,6 @@ const API = import.meta.env.VITE_API_URL || 'http://localhost:3001';
 const BREADCRUMB_LABELS = {
   '/console':              'Dashboard',
   '/console/users':        'User Management',
-  '/console/roles':        'Roles & Permissions',
   '/console/audit':        'Audit Logs',
   '/console/incidents':    'Incidents',
   '/console/campers':      'Campers',

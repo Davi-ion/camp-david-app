@@ -131,7 +131,7 @@ export default function ConsoleAnnouncements() {
                 targetType: 'all', targetId: '', scheduledAt: '', expiryDate: '' 
               });
               setModalOpen(true);
-            }} className="btn btn-primary" style={{ padding: '8px 16px', borderRadius: 6, fontSize: '0.875rem' }}>
+            }} className="btn btn-primary" style={{ padding: '8px 16px', borderRadius: 9999, fontSize: '0.875rem' }}>
               + New Announcement
             </button>
           )}

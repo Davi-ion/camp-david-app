@@ -63,7 +63,7 @@ export default function ConsoleSettings() {
           <p className="console-page-subtitle">Manage camp configuration and preferences</p>
         </div>
         <div>
-          <button onClick={handleSave} disabled={saving} className="btn btn-primary" style={{ padding: '8px 24px', borderRadius: 6, fontSize: '0.875rem' }}>
+          <button onClick={handleSave} disabled={saving} className="btn btn-primary" style={{ padding: '8px 24px', borderRadius: 9999, fontSize: '0.875rem' }}>
             {saving ? 'Saving...' : 'Save Changes'}
           </button>
         </div>

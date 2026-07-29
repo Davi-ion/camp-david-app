@@ -185,10 +185,10 @@ export default function ConsoleCampers() {
           <p className="console-page-subtitle">Manage all registered campers ({total} total)</p>
         </div>
         <div style={{ display: 'flex', gap: 10 }}>
-          <button onClick={handleExport} className="btn btn-secondary" style={{ padding: '8px 16px', borderRadius: 6, fontSize: '0.875rem' }}>
-            ⬇️ Export
+          <button onClick={handleExport} className="btn btn-secondary" style={{ padding: '8px 16px', borderRadius: 9999, fontSize: '0.875rem' }}>
+            Export
           </button>
-          <button onClick={() => openModal()} className="btn btn-primary" style={{ padding: '8px 16px', borderRadius: 6, fontSize: '0.875rem' }}>
+          <button onClick={() => openModal()} className="btn btn-primary" style={{ padding: '8px 16px', borderRadius: 9999, fontSize: '0.875rem' }}>
             + Add Camper
           </button>
         </div>

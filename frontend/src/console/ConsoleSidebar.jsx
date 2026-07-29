@@ -13,8 +13,6 @@ import {
   IconSpeakerphone,
   IconUser,
   IconUsersGroup,
-  IconKey,
-  IconUpload,
   IconChartBar,
   IconFileText,
   IconSettings,
@@ -48,8 +46,6 @@ const NAV_SECTIONS = [
     items: [
       { to: '/console/staff',    label: 'Staff',              icon: <IconUser size={18} /> },
       { to: '/console/users',    label: 'User Management',    icon: <IconUsersGroup size={18} /> },
-      { to: '/console/roles',    label: 'Roles & Permissions', icon: <IconKey size={18} /> },
-      { to: '/console/import',   label: 'Bulk Import',        icon: <IconUpload size={18} /> },
       { to: '/console/reports',  label: 'Reports',            icon: <IconChartBar size={18} /> },
       { to: '/console/audit',    label: 'Audit Logs',         icon: <IconFileText size={18} /> },
     ],

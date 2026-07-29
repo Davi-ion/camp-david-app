@@ -71,11 +71,11 @@ export default function ConsoleReports() {
           <p className="console-page-subtitle">View and export camp data</p>
         </div>
         <div style={{ display: 'flex', gap: 10 }}>
-          <button onClick={() => window.print()} className="btn btn-secondary" style={{ padding: '8px 16px', borderRadius: 6, fontSize: '0.875rem' }}>
-            🖨️ Print PDF
+          <button onClick={() => window.print()} className="btn btn-secondary" style={{ padding: '8px 16px', borderRadius: 9999, fontSize: '0.875rem' }}>
+            Print PDF
           </button>
-          <button onClick={handleExportCSV} className="btn btn-primary" style={{ padding: '8px 16px', borderRadius: 6, fontSize: '0.875rem' }}>
-            ⬇️ Export CSV
+          <button onClick={handleExportCSV} className="btn btn-primary" style={{ padding: '8px 16px', borderRadius: 9999, fontSize: '0.875rem' }}>
+            Export CSV
           </button>
         </div>
       </div>
@@ -86,7 +86,7 @@ export default function ConsoleReports() {
             key={type}
             onClick={() => setReportType(type)}
             style={{
-              padding: '10px 20px', borderRadius: 8, fontSize: '0.875rem', fontWeight: 600,
+              padding: '10px 20px', borderRadius: 9999, fontSize: '0.875rem', fontWeight: 600,
               background: reportType === type ? 'var(--teal)' : '#fff',
               color: reportType === type ? '#fff' : 'var(--text)',
               border: reportType === type ? '1px solid var(--teal)' : '1px solid var(--border)',

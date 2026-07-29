@@ -42,7 +42,7 @@ export default function ConsolePlatoons() {
         </div>
         <div style={{ display: 'flex', gap: 10 }}>
           {hasPermission('manage:users') && (
-            <button className="btn btn-primary" style={{ padding: '8px 16px', borderRadius: 6, fontSize: '0.875rem' }}>
+            <button className="btn btn-primary" style={{ padding: '8px 16px', borderRadius: 9999, fontSize: '0.875rem' }}>
               + New Platoon
             </button>
           )}

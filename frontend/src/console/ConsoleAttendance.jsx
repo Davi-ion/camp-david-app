@@ -65,8 +65,8 @@ export default function ConsoleAttendance() {
           <p className="console-page-subtitle">Monitor roll call from operational perspectives</p>
         </div>
         <div>
-          <button onClick={() => window.print()} className="btn btn-secondary" style={{ padding: '8px 16px', borderRadius: 6, fontSize: '0.875rem' }}>
-            🖨️ Print Report
+          <button onClick={() => window.print()} className="btn btn-secondary" style={{ padding: '8px 16px', borderRadius: 9999, fontSize: '0.875rem' }}>
+            Print Report
           </button>
         </div>
       </div>

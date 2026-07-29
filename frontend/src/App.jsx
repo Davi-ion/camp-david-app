@@ -27,13 +27,12 @@ import ConsoleDrills from './console/ConsoleDrills';
 import ConsoleAttendance from './console/ConsoleAttendance';
 import ConsoleAnnouncements from './console/ConsoleAnnouncements';
 import ConsoleReports from './console/ConsoleReports';
-import ConsoleBulkImport from './console/ConsoleBulkImport';
 import ConsoleSettings from './console/ConsoleSettings';
 import ConsoleActivity from './console/ConsoleActivity';
-import { ConsoleUserManagement, ConsoleRoleManagement, ConsoleAuditLog } from './console/ConsoleAdminPages';
+import { ConsoleUserManagement, ConsoleAuditLog } from './console/ConsoleAdminPages';
 
 // Permissions that qualify a user for the Admin Console
-const CONSOLE_PERMISSIONS = ['manage:users', 'manage:roles', 'view:audit', 'all'];
+const CONSOLE_PERMISSIONS = ['manage:users', 'view:audit', 'all'];
 
 // ─── Smart Root Redirect ──────────────────────────────────────────────────────
 // Sends console-eligible users to /console, everyone else to /app
@@ -115,7 +114,6 @@ function App() {
           <Route index element={<ConsoleDashboard />} />
           <Route path="incidents" element={<ConsoleIncidents />} />
           <Route path="users" element={<ConsoleUserManagement />} />
-          <Route path="roles" element={<ConsoleRoleManagement />} />
           <Route path="audit" element={<ConsoleAuditLog />} />
 
           {/* Real modules replacing placeholders */}
@@ -130,7 +128,6 @@ function App() {
           <Route path="settings" element={<ConsoleSettings />} />
           <Route path="announcements" element={<ConsoleAnnouncements />} />
           <Route path="reports" element={<ConsoleReports />} />
-          <Route path="import" element={<ConsoleBulkImport />} />
         </Route>
 
         {/* Legacy /admin route — redirect console users to /console */}

@@ -16,7 +16,7 @@ export default function UserMenu({ lightMode = false }) {
   const dropdownRef = useRef(null);
 
   const isConsoleUser = (user?.permissions || []).some(p =>
-    ['manage:users', 'manage:roles', 'view:audit', 'all'].includes(p)
+    ['manage:users', 'view:audit', 'all'].includes(p)
   );
 
   useEffect(() => {

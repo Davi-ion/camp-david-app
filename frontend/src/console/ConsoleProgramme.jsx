@@ -20,7 +20,7 @@ export default function ConsoleProgramme() {
           <p className="console-page-subtitle">View and manage the camp schedule</p>
         </div>
         <div style={{ display: 'flex', gap: 10 }}>
-          <button className="btn btn-primary" style={{ padding: '8px 16px', borderRadius: 6, fontSize: '0.875rem' }}>
+          <button className="btn btn-primary" style={{ padding: '8px 16px', borderRadius: 9999, fontSize: '0.875rem' }}>
             + Add Session
           </button>
         </div>
