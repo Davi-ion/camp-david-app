@@ -12,8 +12,10 @@ import {
   IconPencil,
   IconTrash,
   IconX,
-  IconEye,
-  IconEyeOff,
+  IconSend,
+  IconCheck,
+  IconBellRinging,
+  IconFlame,
 } from '@tabler/icons-react';
 
 const API = import.meta.env.VITE_API_URL || 'https://camp-david-app.onrender.com';
@@ -28,7 +30,7 @@ export default function ConsoleAnnouncements() {
   const [announcements, setAnnouncements] = useState([]);
   const [loading, setLoading] = useState(true);
 
-  // Modal
+  // Modal State
   const [modalOpen, setModalOpen] = useState(false);
   const [formData, setFormData] = useState({ 
     title: '', body: '', category: 'General', priority: 'normal', 
@@ -155,7 +157,7 @@ export default function ConsoleAnnouncements() {
                 setModalOpen(true);
               }} 
               className="btn btn-primary" 
-              style={{ display: 'inline-flex', alignItems: 'center', gap: 6, padding: '8px 18px', borderRadius: 9999, fontSize: '0.875rem', fontWeight: 600 }}
+              style={{ display: 'inline-flex', alignItems: 'center', gap: 6, padding: '8px 20px', borderRadius: 9999, fontSize: '0.875rem', fontWeight: 600 }}
             >
               <IconPlus size={18} />
               <span>New Announcement</span>
@@ -169,8 +171,8 @@ export default function ConsoleAnnouncements() {
           <div style={{ padding: 60, textAlign: 'center', color: 'var(--text-muted)' }}>Loading announcements...</div>
         ) : announcements.length === 0 ? (
           <div style={{ padding: 60, textAlign: 'center', color: 'var(--text-muted)' }}>
-            <IconSpeakerphone size={36} style={{ opacity: 0.3, marginBottom: 12 }} />
-            <p style={{ margin: 0, fontWeight: 500 }}>No announcements found.</p>
+            <IconSpeakerphone size={40} style={{ opacity: 0.3, marginBottom: 12 }} />
+            <p style={{ margin: 0, fontWeight: 600 }}>No announcements found.</p>
           </div>
         ) : (
           <div style={{ display: 'flex', flexDirection: 'column' }}>
@@ -263,112 +265,285 @@ export default function ConsoleAnnouncements() {
         )}
       </div>
 
+      {/* ─── REDESIGNED NEW / EDIT ANNOUNCEMENT MODAL ───────────────────────── */}
       {modalOpen && (
-        <div className="modal-overlay" style={{ position: 'fixed', inset: 0, background: 'rgba(0,0,0,0.6)', backdropFilter: 'blur(4px)', zIndex: 99999, display: 'flex', alignItems: 'center', justifyContent: 'center', padding: 20 }}>
-          <div className="console-card" style={{ width: 620, maxWidth: '100%', maxHeight: '90vh', overflowY: 'auto', borderRadius: 20, boxShadow: '0 20px 50px rgba(0,0,0,0.3)' }}>
-            <div className="console-card-header" style={{ display: 'flex', justifyContent: 'space-between', alignItems: 'center', paddingBottom: 16, borderBottom: '1px solid var(--border-light)' }}>
-              <span className="console-card-title" style={{ fontSize: '1.125rem', fontWeight: 700 }}>
-                {formData.id ? 'Edit Announcement' : 'New Announcement'}
-              </span>
-              <button onClick={() => setModalOpen(false)} style={{ background: 'none', border: 'none', cursor: 'pointer', padding: 4, color: 'var(--text-muted)' }}>
-                <IconX size={20} />
+        <div 
+          className="modal-overlay" 
+          style={{ 
+            position: 'fixed', inset: 0, 
+            background: 'rgba(15, 23, 42, 0.70)', 
+            backdropFilter: 'blur(8px)', 
+            zIndex: 99999, 
+            display: 'flex', 
+            alignItems: 'center', 
+            justifyContent: 'center', 
+            padding: 16 
+          }}
+        >
+          <div 
+            style={{ 
+              width: 640, maxWidth: '100%', maxHeight: '92vh', overflowY: 'auto', 
+              borderRadius: 24, background: '#FFFFFF', 
+              border: '1px solid rgba(226, 232, 240, 0.8)',
+              boxShadow: '0 25px 60px -15px rgba(0, 0, 0, 0.35)',
+              display: 'flex', flexDirection: 'column'
+            }}
+          >
+            {/* Modal Header */}
+            <div style={{ padding: '24px 28px 18px', borderBottom: '1px solid #F1F5F9', display: 'flex', alignItems: 'flex-start', justifyContent: 'space-between' }}>
+              <div style={{ display: 'flex', alignItems: 'center', gap: 14 }}>
+                <div style={{ width: 46, height: 46, borderRadius: 14, background: '#F0FDF4', border: '1px solid #BBF7D0', display: 'flex', alignItems: 'center', justifyContent: 'center' }}>
+                  <IconSpeakerphone size={24} color="#0F766E" />
+                </div>
+                <div>
+                  <h2 style={{ margin: 0, fontSize: '1.25rem', fontWeight: 800, color: '#0F172A', letterSpacing: '-0.01em' }}>
+                    {formData.id ? 'Edit Announcement' : 'Create Announcement'}
+                  </h2>
+                  <p style={{ margin: '3px 0 0 0', fontSize: '0.8125rem', color: '#64748B' }}>
+                    Broadcast notifications, emergency alerts & scheduled posts.
+                  </p>
+                </div>
+              </div>
+              <button 
+                type="button"
+                onClick={() => setModalOpen(false)} 
+                style={{ 
+                  background: '#F8FAFC', border: '1px solid #E2E8F0', borderRadius: '50%', 
+                  width: 32, height: 32, display: 'flex', alignItems: 'center', justifyContent: 'center', 
+                  cursor: 'pointer', color: '#64748B', transition: 'all 0.15s ease' 
+                }}
+              >
+                <IconX size={18} />
               </button>
             </div>
-            <div className="console-card-body" style={{ paddingTop: 16 }}>
-              <form onSubmit={saveAnnouncement} style={{ display: 'flex', flexDirection: 'column', gap: 16 }}>
-                
-                <div style={{ background: '#FEF2F2', border: '1px solid #FCA5A5', borderRadius: 12, padding: 14 }}>
-                  <label className="input-label" style={{ display: 'flex', alignItems: 'center', gap: 10, cursor: 'pointer', margin: 0, color: '#991B1B', fontWeight: 600 }}>
-                    <input type="checkbox" checked={formData.isEmergency} onChange={e => setFormData({ ...formData, isEmergency: e.target.checked })} style={{ width: 18, height: 18 }} />
-                    <span style={{ display: 'inline-flex', alignItems: 'center', gap: 6 }}>
-                      <IconAlertTriangle size={18} color="#DC2626" />
-                      Emergency Broadcast Alert (Overrides Priority & Pins to Top)
+
+            {/* Modal Body / Form */}
+            <form onSubmit={saveAnnouncement} style={{ padding: '20px 28px 28px', display: 'flex', flexDirection: 'column', gap: 20 }}>
+              
+              {/* Emergency Switch Banner */}
+              <div 
+                style={{ 
+                  background: formData.isEmergency ? 'linear-gradient(135deg, #FEF2F2 0%, #FFF5F5 100%)' : '#F8FAFC', 
+                  border: formData.isEmergency ? '1.5px solid #FCA5A5' : '1px solid #E2E8F0', 
+                  borderRadius: 16, padding: '14px 18px', 
+                  display: 'flex', alignItems: 'center', justifyContent: 'space-between',
+                  transition: 'all 0.2s ease'
+                }}
+              >
+                <div style={{ display: 'flex', alignItems: 'center', gap: 12 }}>
+                  <div style={{ width: 36, height: 36, borderRadius: 10, background: formData.isEmergency ? '#EF4444' : '#E2E8F0', color: '#FFFFFF', display: 'flex', alignItems: 'center', justifyContent: 'center' }}>
+                    <IconAlertTriangle size={20} />
+                  </div>
+                  <div>
+                    <span style={{ fontSize: '0.875rem', fontWeight: 700, color: formData.isEmergency ? '#991B1B' : '#334155', display: 'block' }}>
+                      Emergency Broadcast Alert
                     </span>
+                    <span style={{ fontSize: '0.75rem', color: formData.isEmergency ? '#B91C1C' : '#64748B' }}>
+                      Overrides priority to Critical and pins notice to the top of all feeds.
+                    </span>
+                  </div>
+                </div>
+
+                <label style={{ position: 'relative', display: 'inline-block', width: 44, height: 24, cursor: 'pointer' }}>
+                  <input 
+                    type="checkbox" 
+                    checked={formData.isEmergency} 
+                    onChange={e => setFormData({ ...formData, isEmergency: e.target.checked })} 
+                    style={{ opacity: 0, width: 0, height: 0 }} 
+                  />
+                  <span 
+                    style={{ 
+                      position: 'absolute', inset: 0, 
+                      backgroundColor: formData.isEmergency ? '#EF4444' : '#CBD5E1', 
+                      borderRadius: 9999, transition: '0.2s' 
+                    }}
+                  />
+                  <span 
+                    style={{ 
+                      position: 'absolute', height: 18, width: 18, left: 3, bottom: 3, 
+                      backgroundColor: '#FFFFFF', borderRadius: '50%', 
+                      transition: '0.2s', 
+                      transform: formData.isEmergency ? 'translateX(20px)' : 'translateX(0)' 
+                    }} 
+                  />
+                </label>
+              </div>
+
+              {/* Title Input */}
+              <div>
+                <label style={{ display: 'block', fontWeight: 700, fontSize: '0.8125rem', color: '#334155', marginBottom: 6 }}>
+                  Title <span style={{ color: '#EF4444' }}>*</span>
+                </label>
+                <input 
+                  required 
+                  className="input-field" 
+                  placeholder="e.g., Morning Assembly Location Change" 
+                  value={formData.title} 
+                  onChange={e => setFormData({ ...formData, title: e.target.value })} 
+                  style={{ borderRadius: 12, padding: '10px 14px', fontSize: '0.875rem', border: '1px solid #CBD5E1', width: '100%' }} 
+                />
+              </div>
+
+              {/* Message Textarea */}
+              <div>
+                <label style={{ display: 'block', fontWeight: 700, fontSize: '0.8125rem', color: '#334155', marginBottom: 6 }}>
+                  Message Content <span style={{ color: '#EF4444' }}>*</span>
+                </label>
+                <textarea 
+                  required 
+                  rows="4" 
+                  className="input-field" 
+                  placeholder="Write full announcement details for campers and staff..." 
+                  value={formData.body} 
+                  onChange={e => setFormData({ ...formData, body: e.target.value })} 
+                  style={{ borderRadius: 12, padding: '12px 14px', fontSize: '0.875rem', border: '1px solid #CBD5E1', minHeight: 110, width: '100%', resize: 'vertical' }}
+                />
+              </div>
+
+              {/* Category & Priority Grid */}
+              <div style={{ display: 'grid', gridTemplateColumns: '1fr 1fr', gap: 16 }}>
+                <div>
+                  <label style={{ display: 'block', fontWeight: 700, fontSize: '0.8125rem', color: '#334155', marginBottom: 6 }}>
+                    Category
                   </label>
+                  <select 
+                    className="input-field" 
+                    value={formData.category} 
+                    onChange={e => setFormData({ ...formData, category: e.target.value })} 
+                    style={{ borderRadius: 12, padding: '10px 14px', fontSize: '0.875rem', border: '1px solid #CBD5E1', width: '100%', background: '#FFFFFF' }}
+                  >
+                    {CATEGORIES.map(c => <option key={c} value={c}>{c}</option>)}
+                  </select>
                 </div>
 
                 <div>
-                  <label className="input-label" style={{ fontWeight: 600, fontSize: '0.875rem' }}>Title *</label>
-                  <input required className="input-field" placeholder="Announcement title..." value={formData.title} onChange={e => setFormData({ ...formData, title: e.target.value })} style={{ borderRadius: 10 }} />
-                </div>
-                
-                <div>
-                  <label className="input-label" style={{ fontWeight: 600, fontSize: '0.875rem' }}>Message *</label>
-                  <textarea required rows="4" className="input-field" placeholder="Write full broadcast details..." value={formData.body} onChange={e => setFormData({ ...formData, body: e.target.value })} style={{ borderRadius: 10, minHeight: 100 }}></textarea>
-                </div>
-
-                <div style={{ display: 'grid', gridTemplateColumns: '1fr 1fr', gap: 16 }}>
-                  <div>
-                    <label className="input-label" style={{ fontWeight: 600, fontSize: '0.875rem' }}>Category</label>
-                    <select className="input-field" value={formData.category} onChange={e => setFormData({ ...formData, category: e.target.value })} style={{ borderRadius: 10 }}>
-                      {CATEGORIES.map(c => <option key={c} value={c}>{c}</option>)}
-                    </select>
-                  </div>
-                  <div>
-                    <label className="input-label" style={{ fontWeight: 600, fontSize: '0.875rem' }}>Priority</label>
-                    <select disabled={formData.isEmergency} className="input-field" value={formData.isEmergency ? 'critical' : formData.priority} onChange={e => setFormData({ ...formData, priority: e.target.value })} style={{ borderRadius: 10 }}>
-                      <option value="low">Low</option>
-                      <option value="normal">Normal</option>
-                      <option value="high">High</option>
-                      <option value="critical">Critical</option>
-                    </select>
-                  </div>
-                </div>
-
-                <div style={{ display: 'grid', gridTemplateColumns: '1fr 1fr', gap: 16 }}>
-                  <div>
-                    <label className="input-label" style={{ fontWeight: 600, fontSize: '0.875rem' }}>Status</label>
-                    <select className="input-field" value={formData.status} onChange={e => setFormData({ ...formData, status: e.target.value })} style={{ borderRadius: 10 }}>
-                      <option value="published">Publish Immediately</option>
-                      <option value="draft">Save as Draft</option>
-                      <option value="scheduled">Scheduled</option>
-                      <option value="archived">Archived</option>
-                    </select>
-                  </div>
-                  <div>
-                    <label className="input-label" style={{ fontWeight: 600, fontSize: '0.875rem' }}>Target Audience</label>
-                    <select className="input-field" value={formData.targetType} onChange={e => setFormData({ ...formData, targetType: e.target.value })} style={{ borderRadius: 10 }}>
-                      <option value="all">Entire Camp</option>
-                      <option value="staff">All Staff</option>
-                      <option value="platoon">Specific Platoon</option>
-                      <option value="department">Specific Department</option>
-                      <option value="role">Specific Role</option>
-                      <option value="individual">Specific Individual</option>
-                    </select>
-                  </div>
-                </div>
-
-                {['platoon', 'department', 'role', 'individual'].includes(formData.targetType) && (
-                  <div>
-                    <label className="input-label" style={{ fontWeight: 600, fontSize: '0.875rem' }}>Target ID (e.g. Platoon Name, Dept Name)</label>
-                    <input required className="input-field" value={formData.targetId || ''} onChange={e => setFormData({ ...formData, targetId: e.target.value })} style={{ borderRadius: 10 }} />
-                  </div>
-                )}
-
-                {formData.status === 'scheduled' && (
-                  <div style={{ display: 'grid', gridTemplateColumns: '1fr 1fr', gap: 16 }}>
-                    <div>
-                      <label className="input-label" style={{ fontWeight: 600, fontSize: '0.875rem' }}>Publish Date/Time</label>
-                      <input type="datetime-local" className="input-field" value={formData.scheduledAt ? formData.scheduledAt.substring(0, 16) : ''} onChange={e => setFormData({ ...formData, scheduledAt: new Date(e.target.value).toISOString() })} required style={{ borderRadius: 10 }} />
-                    </div>
-                  </div>
-                )}
-
-                <div>
-                  <label className="input-label" style={{ display: 'flex', alignItems: 'center', gap: 8, cursor: 'pointer' }}>
-                    <input disabled={formData.isEmergency} type="checkbox" checked={formData.isEmergency ? true : formData.pinned} onChange={e => setFormData({ ...formData, pinned: e.target.checked })} style={{ width: 16, height: 16 }} />
-                    <span style={{ fontSize: '0.875rem', fontWeight: 500 }}>Pin to Dashboard & Staff Portal</span>
+                  <label style={{ display: 'block', fontWeight: 700, fontSize: '0.8125rem', color: '#334155', marginBottom: 6 }}>
+                    Priority Level
                   </label>
+                  <select 
+                    disabled={formData.isEmergency} 
+                    className="input-field" 
+                    value={formData.isEmergency ? 'critical' : formData.priority} 
+                    onChange={e => setFormData({ ...formData, priority: e.target.value })} 
+                    style={{ borderRadius: 12, padding: '10px 14px', fontSize: '0.875rem', border: '1px solid #CBD5E1', width: '100%', background: formData.isEmergency ? '#F1F5F9' : '#FFFFFF' }}
+                  >
+                    <option value="low">Low</option>
+                    <option value="normal">Normal</option>
+                    <option value="high">High</option>
+                    <option value="critical">Critical</option>
+                  </select>
+                </div>
+              </div>
+
+              {/* Status & Target Audience Grid */}
+              <div style={{ display: 'grid', gridTemplateColumns: '1fr 1fr', gap: 16 }}>
+                <div>
+                  <label style={{ display: 'block', fontWeight: 700, fontSize: '0.8125rem', color: '#334155', marginBottom: 6 }}>
+                    Publish Status
+                  </label>
+                  <select 
+                    className="input-field" 
+                    value={formData.status} 
+                    onChange={e => setFormData({ ...formData, status: e.target.value })} 
+                    style={{ borderRadius: 12, padding: '10px 14px', fontSize: '0.875rem', border: '1px solid #CBD5E1', width: '100%', background: '#FFFFFF' }}
+                  >
+                    <option value="published">Publish Immediately</option>
+                    <option value="draft">Save as Draft</option>
+                    <option value="scheduled">Scheduled</option>
+                    <option value="archived">Archived</option>
+                  </select>
                 </div>
 
-                <div style={{ display: 'flex', justifyContent: 'flex-end', gap: 10, marginTop: 16, paddingTop: 16, borderTop: '1px solid var(--border-light)' }}>
-                  <button type="button" onClick={() => setModalOpen(false)} className="btn btn-secondary" style={{ padding: '9px 20px', borderRadius: 9999, fontWeight: 600 }}>Cancel</button>
-                  <button type="submit" className="btn btn-primary" style={{ padding: '9px 24px', borderRadius: 9999, fontWeight: 600 }}>
-                    {formData.status === 'published' ? 'Publish Now' : 'Save Announcement'}
-                  </button>
+                <div>
+                  <label style={{ display: 'block', fontWeight: 700, fontSize: '0.8125rem', color: '#334155', marginBottom: 6 }}>
+                    Target Audience
+                  </label>
+                  <select 
+                    className="input-field" 
+                    value={formData.targetType} 
+                    onChange={e => setFormData({ ...formData, targetType: e.target.value })} 
+                    style={{ borderRadius: 12, padding: '10px 14px', fontSize: '0.875rem', border: '1px solid #CBD5E1', width: '100%', background: '#FFFFFF' }}
+                  >
+                    <option value="all">Entire Camp (All Campers & Staff)</option>
+                    <option value="staff">All Staff Only</option>
+                    <option value="platoon">Specific Platoon</option>
+                    <option value="department">Specific Department</option>
+                    <option value="role">Specific Role</option>
+                    <option value="individual">Specific Person</option>
+                  </select>
                 </div>
-              </form>
-            </div>
+              </div>
+
+              {/* Conditional Target ID Field */}
+              {['platoon', 'department', 'role', 'individual'].includes(formData.targetType) && (
+                <div>
+                  <label style={{ display: 'block', fontWeight: 700, fontSize: '0.8125rem', color: '#334155', marginBottom: 6 }}>
+                    Target Identifier <span style={{ color: '#EF4444' }}>*</span>
+                  </label>
+                  <input 
+                    required 
+                    className="input-field" 
+                    placeholder="Enter Platoon Name, Department, or Person ID..." 
+                    value={formData.targetId || ''} 
+                    onChange={e => setFormData({ ...formData, targetId: e.target.value })} 
+                    style={{ borderRadius: 12, padding: '10px 14px', fontSize: '0.875rem', border: '1px solid #CBD5E1', width: '100%' }} 
+                  />
+                </div>
+              )}
+
+              {/* Conditional Scheduled Date/Time */}
+              {formData.status === 'scheduled' && (
+                <div>
+                  <label style={{ display: 'block', fontWeight: 700, fontSize: '0.8125rem', color: '#334155', marginBottom: 6 }}>
+                    Scheduled Release Time <span style={{ color: '#EF4444' }}>*</span>
+                  </label>
+                  <input 
+                    type="datetime-local" 
+                    className="input-field" 
+                    value={formData.scheduledAt ? formData.scheduledAt.substring(0, 16) : ''} 
+                    onChange={e => setFormData({ ...formData, scheduledAt: new Date(e.target.value).toISOString() })} 
+                    required 
+                    style={{ borderRadius: 12, padding: '10px 14px', fontSize: '0.875rem', border: '1px solid #CBD5E1', width: '100%' }} 
+                  />
+                </div>
+              )}
+
+              {/* Pin Checkbox Bar */}
+              <div style={{ background: '#F8FAFC', border: '1px solid #E2E8F0', borderRadius: 14, padding: '12px 16px', display: 'flex', alignItems: 'center', justifyContent: 'space-between' }}>
+                <label style={{ display: 'flex', alignItems: 'center', gap: 10, cursor: 'pointer', margin: 0 }}>
+                  <input 
+                    disabled={formData.isEmergency} 
+                    type="checkbox" 
+                    checked={formData.isEmergency ? true : formData.pinned} 
+                    onChange={e => setFormData({ ...formData, pinned: e.target.checked })} 
+                    style={{ width: 18, height: 18, accentColor: '#0F766E' }} 
+                  />
+                  <span style={{ fontSize: '0.875rem', fontWeight: 600, color: '#334155', display: 'inline-flex', alignItems: 'center', gap: 6 }}>
+                    <IconPin size={16} color="#0F766E" /> Pin Announcement to Top of Feed
+                  </span>
+                </label>
+              </div>
+
+              {/* Footer Buttons */}
+              <div style={{ display: 'flex', justifyContent: 'flex-end', gap: 12, marginTop: 8, paddingTop: 16, borderTop: '1px solid #F1F5F9' }}>
+                <button 
+                  type="button" 
+                  onClick={() => setModalOpen(false)} 
+                  className="btn btn-secondary" 
+                  style={{ padding: '10px 22px', borderRadius: 9999, fontWeight: 600, fontSize: '0.875rem' }}
+                >
+                  Cancel
+                </button>
+                <button 
+                  type="submit" 
+                  className="btn btn-primary" 
+                  style={{ display: 'inline-flex', alignItems: 'center', gap: 8, padding: '10px 26px', borderRadius: 9999, fontWeight: 700, fontSize: '0.875rem' }}
+                >
+                  <IconSend size={18} />
+                  <span>{formData.status === 'published' ? 'Publish Now' : 'Save Announcement'}</span>
+                </button>
+              </div>
+            </form>
           </div>
         </div>
       )}
