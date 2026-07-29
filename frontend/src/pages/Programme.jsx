@@ -346,7 +346,7 @@ export default function Programme() {
             </div>
             <div style={{ display: 'flex', flexDirection: 'column', gap: 10, marginBottom: 20 }}>
               {dayAnnouncements.map((ann) => {
-                const author = staff.find((s) => s.id === ann.author) || { name: ann.authorName || 'Camp Administration' };
+                const author = (state.users || []).find((s) => s.id === ann.author) || { name: ann.authorName || 'Camp Administration' };
                 const annTime = new Date(ann.createdAt || Date.now());
                 const annTimeStr = annTime.toLocaleTimeString('en-NG', { hour: 'numeric', minute: '2-digit', hour12: true }).toUpperCase();
                 const isUrgent = ann.urgent || ann.isEmergency || ann.priority === 'urgent';
@@ -399,7 +399,7 @@ export default function Programme() {
 
           <div style={{ display: 'flex', flexDirection: 'column', gap: 12, paddingBottom: 40 }}>
             {daySchedule.map((event, i) => {
-              const happening = isNow(event.time, event.end);
+              const happening = Boolean(currentEvent && currentEvent.time === event.time && currentEvent.title === event.title);
               return (
                 <div 
                   key={i} 
