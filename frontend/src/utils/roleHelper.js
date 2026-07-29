@@ -29,7 +29,7 @@ export function getCanonicalRole(user) {
   }
 
   // 2. Camp Commander
-  if (roleStr.includes('commander') || roleStr.includes('commandant') || roleStr.includes('camp_commander') || roleStr.includes('camp commander')) {
+  if (roleStr.includes('commander') || roleStr.includes('commandant')) {
     return ROLES.CAMP_COMMANDER;
   }
 

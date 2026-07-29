@@ -101,6 +101,9 @@ func SeedUsersLogic() ([]SeedUserRecord, error) {
 		}
 	}
 
+	// Clean up and normalize any legacy role variations in the database to standard "Camp Commander"
+	db.Exec("UPDATE staff SET role = 'Camp Commander' WHERE LOWER(role) LIKE '%commander%' OR LOWER(role) LIKE '%commandant%'")
+
 	return records, nil
 }
 

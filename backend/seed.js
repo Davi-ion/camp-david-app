@@ -170,6 +170,18 @@ async function seed() {
       }
     }
 
+    // Normalize legacy role variations in DB to "Camp Commander"
+    await prisma.staff.updateMany({
+      where: {
+        OR: [
+          { role: { contains: 'commander' } },
+          { role: { contains: 'commandant' } },
+          { role: { contains: 'Commander' } },
+        ],
+      },
+      data: { role: 'Camp Commander' },
+    });
+
     console.log('Seeding platoons...');
     const platoons = [
       { name: 'Alfa',    emoji: '🎖️', colorHex: '#10B981', description: 'Alfa Platoon - Courage & Vanguard' },
