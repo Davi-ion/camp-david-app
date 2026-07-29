@@ -100,6 +100,7 @@ type Camper struct {
 	Notes               *string   `gorm:"column:notes;type:varchar(191)" json:"notes,omitempty"`
 	DietaryRestrictions *string   `gorm:"column:dietaryRestrictions;type:varchar(191)" json:"dietaryRestrictions,omitempty"`
 	Church              *string   `gorm:"column:church;type:varchar(191)" json:"church,omitempty"`
+	CounsellorID        *string   `gorm:"column:counsellorId;type:varchar(191)" json:"counsellorId,omitempty"`
 	AgeGroup            *string   `gorm:"column:ageGroup;type:varchar(191)" json:"ageGroup,omitempty"`
 	PickupCenter        *string   `gorm:"column:pickupCenter;type:varchar(191)" json:"pickupCenter,omitempty"`
 	CreatedAt           time.Time `gorm:"column:createdAt;default:current_timestamp(3)" json:"createdAt"`
@@ -107,7 +108,7 @@ type Camper struct {
 
 	Platoon    *Platoon `gorm:"foreignKey:PlatoonID" json:"platoon,omitempty"`
 	Dorm       *Dorm    `gorm:"foreignKey:DormID" json:"dorm,omitempty"`
-	Counsellor *Staff   `gorm:"foreignKey:CounsellorID" json:"counsellor,omitempty"`
+	Counsellor *Staff   `gorm:"foreignKey:CounsellorID;references:ID" json:"counsellor,omitempty"`
 }
 
 func (Camper) TableName() string { return "Camper" }

@@ -72,6 +72,9 @@ export default function ConsoleDashboard() {
 
   const [summary, setSummary] = useState(null);
   const [announcements, setAnnouncements] = useState([]);
+  const [staffCount, setStaffCount] = useState(0);
+  const [campersCount, setCampersCount] = useState(0);
+  const [platoonsCount, setPlatoonsCount] = useState(0);
   const [loadingApi, setLoadingApi] = useState(true);
 
   useEffect(() => {
@@ -80,18 +83,34 @@ export default function ConsoleDashboard() {
     Promise.all([
       fetch(`${API}/api/reports/summary`, { headers }).then(r => r.ok ? r.json() : null).catch(() => null),
       fetch(`${API}/api/announcements`, { headers }).then(r => r.ok ? r.json() : []).catch(() => []),
-    ]).then(([summaryData, annData]) => {
+      fetch(`${API}/api/users?limit=1`, { headers }).then(r => r.ok ? r.json() : null).catch(() => null),
+      fetch(`${API}/api/campers?limit=1`, { headers }).then(r => r.ok ? r.json() : null).catch(() => null),
+      fetch(`${API}/api/platoons`, { headers }).then(r => r.ok ? r.json() : []).catch(() => []),
+    ]).then(([summaryData, annData, staffData, campersData, platoonsData]) => {
       setSummary(summaryData);
       setAnnouncements(annData || []);
+
+      if (staffData) {
+        const sTotal = Array.isArray(staffData) ? staffData.length : (staffData.total ?? 0);
+        setStaffCount(sTotal);
+      }
+      if (campersData) {
+        const cTotal = Array.isArray(campersData) ? campersData.length : (campersData.total ?? 0);
+        setCampersCount(cTotal);
+      }
+      if (Array.isArray(platoonsData)) {
+        setPlatoonsCount(platoonsData.length);
+      }
     }).finally(() => setLoadingApi(false));
   }, []);
 
   // Local state fallbacks while API loads
-  const totalCampers  = summary?.totalCampers  ?? state.campers?.length ?? 0;
-  const totalStaff    = summary?.totalStaff    ?? 6;
-  const openIncidents = summary?.openIncidents  ?? state.incidents?.filter(i => i.status !== 'resolved')?.length ?? 0;
+  const totalCampers  = summary?.totalCampers || campersCount || state.campers?.length || 0;
+  const totalStaff    = summary?.totalStaff || staffCount || 56;
+  const openIncidents = summary?.openIncidents ?? state.incidents?.filter(i => i.status !== 'resolved')?.length ?? 0;
   const medAlerts     = summary?.totalMedicalAlerts ?? state.campers?.filter(c => c.medicalNotes)?.length ?? 0;
   const platoonSummary = summary?.platoonSummary ?? [];
+  const totalPlatoons  = platoonsCount || platoonSummary.length || 16;
   const recentActivity = summary?.recentActivity ?? [];
 
   // Upcoming sessions from schedule data

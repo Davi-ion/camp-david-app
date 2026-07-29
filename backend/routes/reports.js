@@ -17,7 +17,7 @@ router.get('/summary', authenticate, requirePermission('view:reports'), async (r
       recentActivity,
     ] = await Promise.all([
       prisma.camper.count(),
-      prisma.camper.count({ where: { status: 'active' } }),
+      prisma.camper.count(),
       prisma.staff.count(),
       prisma.staff.count({ where: { status: 'active' } }),
       prisma.incident.count({ where: { status: { in: ['open', 'in_progress'] } } }),
@@ -31,7 +31,6 @@ router.get('/summary', authenticate, requirePermission('view:reports'), async (r
             select: { id: true },
           },
         },
-        where: { status: 'active' },
       }),
       prisma.incident.groupBy({ by: ['category'], _count: { id: true } }),
       prisma.auditLog.findMany({ orderBy: { createdAt: 'desc' }, take: 20 }),

@@ -12,6 +12,7 @@ import (
 	"camp-david-backend/models"
 
 	"github.com/gin-gonic/gin"
+	"gorm.io/gorm"
 )
 
 //go:embed campers_seed.json
@@ -121,60 +122,68 @@ func SeedCampersLogic() (int, int, int, error) {
 	var toCreate []models.Camper
 	campersUpserted := 0
 
-	for _, r := range records {
-		var platoonID *string
-		if pid, ok := platoonMap[strings.ToLower(r.Platoon)]; ok {
-			platoonID = &pid
+	err := db.Transaction(func(tx *gorm.DB) error {
+		for _, r := range records {
+			var platoonID *string
+			if pid, ok := platoonMap[strings.ToLower(r.Platoon)]; ok {
+				platoonID = &pid
+			}
+
+			var dormID *string
+			if did, ok := dormMap[strings.ToLower(r.Dorm)]; ok {
+				dormID = &did
+			}
+
+			regNo := r.RegistrationNumber
+			var ageGroupPtr *string
+			if r.AgeGroup != "" {
+				ageGroupPtr = strPtr(r.AgeGroup)
+			}
+			var pickupCenterPtr *string
+			if r.PickupCenter != "" {
+				pickupCenterPtr = strPtr(r.PickupCenter)
+			}
+
+			if existing, ok := existingMap[regNo]; ok {
+				tx.Model(&models.Camper{}).Where("id = ?", existing.ID).Updates(map[string]interface{}{
+					"name":         r.Name,
+					"gender":       strPtr(r.Gender),
+					"tshirtSize":   strPtr(r.TShirtSize),
+					"age":          r.Age,
+					"platoonId":    platoonID,
+					"dormId":       dormID,
+					"ageGroup":     ageGroupPtr,
+					"pickupCenter": pickupCenterPtr,
+				})
+				campersUpserted++
+			} else {
+				toCreate = append(toCreate, models.Camper{
+					ID:                 generateID(),
+					RegistrationNumber: &regNo,
+					Name:               r.Name,
+					Gender:             strPtr(r.Gender),
+					TShirtSize:         strPtr(r.TShirtSize),
+					Age:                r.Age,
+					PlatoonID:          platoonID,
+					DormID:             dormID,
+					AgeGroup:           ageGroupPtr,
+					PickupCenter:       pickupCenterPtr,
+				})
+			}
 		}
 
-		var dormID *string
-		if did, ok := dormMap[strings.ToLower(r.Dorm)]; ok {
-			dormID = &did
-		}
-
-		regNo := r.RegistrationNumber
-		var ageGroupPtr *string
-		if r.AgeGroup != "" {
-			ageGroupPtr = strPtr(r.AgeGroup)
-		}
-		var pickupCenterPtr *string
-		if r.PickupCenter != "" {
-			pickupCenterPtr = strPtr(r.PickupCenter)
-		}
-
-		if existing, ok := existingMap[regNo]; ok {
-			existing.Name = r.Name
-			existing.Gender = strPtr(r.Gender)
-			existing.TShirtSize = strPtr(r.TShirtSize)
-			existing.Age = r.Age
-			existing.PlatoonID = platoonID
-			existing.DormID = dormID
-			existing.AgeGroup = ageGroupPtr
-			existing.PickupCenter = pickupCenterPtr
-			db.Save(&existing)
-			campersUpserted++
-		} else {
-			toCreate = append(toCreate, models.Camper{
-				ID:                 generateID(),
-				RegistrationNumber: &regNo,
-				Name:               r.Name,
-				Gender:             strPtr(r.Gender),
-				TShirtSize:         strPtr(r.TShirtSize),
-				Age:                r.Age,
-				PlatoonID:          platoonID,
-				DormID:             dormID,
-				AgeGroup:           ageGroupPtr,
-				PickupCenter:       pickupCenterPtr,
-			})
-		}
-	}
-
-	if len(toCreate) > 0 {
-		if err := db.CreateInBatches(&toCreate, 100).Error; err != nil {
-			log.Printf("[SEED ERROR] CreateInBatches failed: %v", err)
-		} else {
+		if len(toCreate) > 0 {
+			if err := tx.CreateInBatches(&toCreate, 100).Error; err != nil {
+				log.Printf("[SEED ERROR] CreateInBatches failed: %v", err)
+				return err
+			}
 			campersUpserted += len(toCreate)
 		}
+		return nil
+	})
+
+	if err != nil {
+		return platoonsCreated, dormsCreated, campersUpserted, err
 	}
 
 	return platoonsCreated, dormsCreated, campersUpserted, nil
