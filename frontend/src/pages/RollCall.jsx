@@ -563,28 +563,6 @@ export default function RollCall() {
             >
               <IconUserX size={20} color="#FFFFFF" /> Mark All Absent
             </button>
-            <button
-              onClick={() => handleBulk(null)}
-              style={{ 
-                height: 46,
-                padding: '0 18px', 
-                fontSize: '0.875rem', 
-                fontWeight: 600,
-                display: 'inline-flex', 
-                alignItems: 'center', 
-                justifyContent: 'center', 
-                gap: 6, 
-                borderRadius: 9999,
-                background: '#F1F5F9',
-                color: '#64748B',
-                border: '1px solid var(--border-light, #E2E8F0)',
-                cursor: 'pointer',
-                transition: 'all 0.15s ease'
-              }}
-              title="Reset All"
-            >
-              <IconRotateClockwise size={18} /> Reset
-            </button>
           </div>
         )}
 
