@@ -483,6 +483,81 @@ func UpdateUserRoleHandler(c *gin.Context) {
 	c.JSON(http.StatusOK, gin.H{"message": "Role updated successfully", "user": staff})
 }
 
+func UpdateUserHandler(c *gin.Context) {
+	id := c.Param("id")
+	var req struct {
+		Name       *string `json:"name"`
+		Email      *string `json:"email"`
+		Username   *string `json:"username"`
+		Role       *string `json:"role"`
+		Department *string `json:"department"`
+		Phone      *string `json:"phone"`
+		Status     *string `json:"status"`
+		Gender     *string `json:"gender"`
+	}
+
+	if err := c.ShouldBindJSON(&req); err != nil {
+		c.JSON(http.StatusBadRequest, gin.H{"error": err.Error()})
+		return
+	}
+
+	var staff models.Staff
+	if err := database.DB.First(&staff, "id = ?", id).Error; err != nil {
+		c.JSON(http.StatusNotFound, gin.H{"error": "User not found"})
+		return
+	}
+
+	if req.Name != nil && *req.Name != "" {
+		staff.Name = *req.Name
+	}
+	if req.Email != nil {
+		staff.Email = req.Email
+	}
+	if req.Username != nil {
+		staff.Username = req.Username
+	}
+	if req.Role != nil && *req.Role != "" {
+		staff.Role = *req.Role
+	}
+	if req.Department != nil {
+		staff.Department = req.Department
+	}
+	if req.Phone != nil {
+		staff.Phone = req.Phone
+	}
+	if req.Status != nil {
+		staff.Status = *req.Status
+	}
+	if req.Gender != nil {
+		staff.Gender = req.Gender
+	}
+
+	if err := database.DB.Save(&staff).Error; err != nil {
+		c.JSON(http.StatusInternalServerError, gin.H{"error": "Failed to update user"})
+		return
+	}
+
+	LogAudit(c, "UPDATE_USER", "Staff", staff.ID, staff.Name, "Updated user profile details")
+	c.JSON(http.StatusOK, staff)
+}
+
+func DeleteUserHandler(c *gin.Context) {
+	id := c.Param("id")
+	var staff models.Staff
+	if err := database.DB.First(&staff, "id = ?", id).Error; err != nil {
+		c.JSON(http.StatusNotFound, gin.H{"error": "User not found"})
+		return
+	}
+
+	if err := database.DB.Delete(&staff).Error; err != nil {
+		c.JSON(http.StatusInternalServerError, gin.H{"error": "Failed to delete user"})
+		return
+	}
+
+	LogAudit(c, "DELETE_USER", "Staff", id, staff.Name, "Deleted user record")
+	c.JSON(http.StatusOK, gin.H{"message": "User deleted successfully"})
+}
+
 // ─── AUDIT & ACTIVITY LOGS ─────────────────────────────────────────
 
 func LogAudit(c *gin.Context, action string, targetType, targetID, targetName, detail string) {

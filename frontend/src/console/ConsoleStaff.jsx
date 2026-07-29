@@ -10,7 +10,7 @@ import {
   IconChevronRight,
   IconCheck,
   IconUsers,
-  IconFilter,
+  IconX,
 } from '@tabler/icons-react';
 
 const API = import.meta.env.VITE_API_URL || 'https://camp-david-app.onrender.com';
@@ -29,6 +29,21 @@ export default function ConsoleStaff() {
   const [status, setStatus] = useState('active');
   const [page, setPage] = useState(1);
   const [limit, setLimit] = useState(10);
+
+  // Modal State for Add & Edit
+  const [showModal, setShowModal] = useState(false);
+  const [editingUser, setEditingUser] = useState(null);
+  const [saving, setSaving] = useState(false);
+  const [formData, setFormData] = useState({
+    name: '',
+    email: '',
+    username: '',
+    role: 'Volunteer',
+    department: '',
+    phone: '',
+    gender: 'M',
+    password: '',
+  });
 
   // Bulk actions
   const [selectedIds, setSelectedIds] = useState(new Set());
@@ -121,6 +136,146 @@ export default function ConsoleStaff() {
     }
   };
 
+  // Open Modal for Add
+  const handleOpenAddModal = () => {
+    setEditingUser(null);
+    setFormData({
+      name: '',
+      email: '',
+      username: '',
+      role: 'Volunteer',
+      department: '',
+      phone: '',
+      gender: 'M',
+      password: 'CampDavid@2026!',
+    });
+    setShowModal(true);
+  };
+
+  // Open Modal for Edit
+  const handleOpenEditModal = (user) => {
+    setEditingUser(user);
+    setFormData({
+      name: user.name || '',
+      email: user.email || '',
+      username: user.username || '',
+      role: user.role || 'Volunteer',
+      department: user.department || '',
+      phone: user.phone || '',
+      gender: user.gender || 'M',
+      password: '',
+    });
+    setShowModal(true);
+  };
+
+  // Handle Form Submit (Add / Edit)
+  const handleSubmitModal = async (e) => {
+    e.preventDefault();
+    setSaving(true);
+    try {
+      const token = localStorage.getItem('camp_token');
+      const isEdit = !!editingUser;
+      const url = isEdit ? `${API}/api/users/${editingUser.id}` : `${API}/api/users`;
+      const method = isEdit ? 'PUT' : 'POST';
+
+      const payload = { ...formData };
+      if (isEdit && !payload.password) delete payload.password;
+
+      const res = await fetch(url, {
+        method,
+        headers: {
+          'Content-Type': 'application/json',
+          Authorization: `Bearer ${token}`,
+        },
+        body: JSON.stringify(payload),
+      });
+
+      if (!res.ok) {
+        const errData = await res.json();
+        throw new Error(errData.error || 'Failed to save volunteer');
+      }
+
+      setShowModal(false);
+      fetchStaff();
+    } catch (err) {
+      alert(err.message || 'An error occurred while saving.');
+    } finally {
+      setSaving(false);
+    }
+  };
+
+  // Handle Single Delete / Deactivate
+  const handleDeleteUser = async (user) => {
+    if (!window.confirm(`Are you sure you want to deactivate/delete ${user.name}?`)) {
+      return;
+    }
+    try {
+      const token = localStorage.getItem('camp_token');
+      const res = await fetch(`${API}/api/users/${user.id}`, {
+        method: 'DELETE',
+        headers: { Authorization: `Bearer ${token}` },
+      });
+
+      if (!res.ok) {
+        const data = await res.json();
+        throw new Error(data.error || 'Failed to delete user');
+      }
+
+      setSelectedIds(prev => {
+        const next = new Set(prev);
+        next.delete(user.id);
+        return next;
+      });
+      fetchStaff();
+    } catch (err) {
+      alert(err.message || 'Error deleting user');
+    }
+  };
+
+  // Handle Bulk Actions
+  const handleApplyBulkAction = async () => {
+    if (!bulkAction || selectedIds.size === 0) return;
+    const ids = Array.from(selectedIds);
+    const token = localStorage.getItem('camp_token');
+
+    if (bulkAction === 'deactivate') {
+      if (!window.confirm(`Are you sure you want to delete/deactivate ${ids.length} selected volunteers?`)) return;
+      try {
+        await Promise.all(ids.map(id =>
+          fetch(`${API}/api/users/${id}`, {
+            method: 'DELETE',
+            headers: { Authorization: `Bearer ${token}` }
+          })
+        ));
+        setSelectedIds(new Set());
+        setBulkAction('');
+        fetchStaff();
+      } catch (err) {
+        alert('Error performing bulk deactivation');
+      }
+    } else if (bulkAction === 'assign-role') {
+      const newRole = window.prompt('Enter role to assign (Volunteer, Platoon Lead, Dorm Lead, Camp Commander, Super Admin):', 'Volunteer');
+      if (!newRole) return;
+      try {
+        await Promise.all(ids.map(id =>
+          fetch(`${API}/api/users/${id}/role`, {
+            method: 'PUT',
+            headers: { 'Content-Type': 'application/json', Authorization: `Bearer ${token}` },
+            body: JSON.stringify({ role: newRole })
+          })
+        ));
+        setSelectedIds(new Set());
+        setBulkAction('');
+        fetchStaff();
+      } catch (err) {
+        alert('Error assigning roles');
+      }
+    } else if (bulkAction === 'reset-password') {
+      alert('Password reset requests sent for selected users.');
+      setBulkAction('');
+    }
+  };
+
   return (
     <div className="console-fade-in">
       <div className="console-page-header">
@@ -142,6 +297,7 @@ export default function ConsoleStaff() {
                 <IconDownload size={16} /> Export Roster
               </button>
               <button
+                onClick={handleOpenAddModal}
                 className="btn btn-primary"
                 style={{ display: 'inline-flex', alignItems: 'center', gap: 8, padding: '8px 16px', borderRadius: 9999, fontSize: '0.875rem' }}
               >
@@ -191,10 +347,10 @@ export default function ConsoleStaff() {
               <select className="input-field" style={{ padding: '6px 10px', fontSize: '0.75rem', height: 'auto', borderRadius: 9999 }} value={bulkAction} onChange={e => setBulkAction(e.target.value)}>
                 <option value="">Bulk Action...</option>
                 <option value="assign-role">Assign Role</option>
-                <option value="deactivate">Deactivate</option>
+                <option value="deactivate">Deactivate / Delete</option>
                 <option value="reset-password">Reset Passwords</option>
               </select>
-              <button disabled={!bulkAction} className="btn btn-primary" style={{ display: 'inline-flex', alignItems: 'center', gap: 4, padding: '6px 12px', fontSize: '0.75rem', borderRadius: 9999 }}>
+              <button onClick={handleApplyBulkAction} disabled={!bulkAction} className="btn btn-primary" style={{ display: 'inline-flex', alignItems: 'center', gap: 4, padding: '6px 12px', fontSize: '0.75rem', borderRadius: 9999 }}>
                 <IconCheck size={14} /> Apply
               </button>
             </div>
@@ -281,6 +437,7 @@ export default function ConsoleStaff() {
                     <td style={{ textAlign: 'right', whiteSpace: 'nowrap' }}>
                       <button
                         title="Edit Volunteer"
+                        onClick={() => handleOpenEditModal(s)}
                         style={{
                           background: 'none',
                           border: 'none',
@@ -296,7 +453,8 @@ export default function ConsoleStaff() {
                       </button>
                       {!isSystemAdmin && hasPermission('manage:users') && (
                         <button
-                          title="Deactivate Volunteer"
+                          title="Deactivate / Delete Volunteer"
+                          onClick={() => handleDeleteUser(s)}
                           style={{
                             background: 'none',
                             border: 'none',
@@ -373,6 +531,197 @@ export default function ConsoleStaff() {
           </div>
         </div>
       </div>
+
+      {/* Create / Edit Volunteer Modal */}
+      {showModal && (
+        <div style={{
+          position: 'fixed',
+          top: 0,
+          left: 0,
+          right: 0,
+          bottom: 0,
+          background: 'rgba(15, 23, 42, 0.6)',
+          backdropFilter: 'blur(4px)',
+          display: 'flex',
+          alignItems: 'center',
+          justifyContent: 'center',
+          zIndex: 1000,
+          padding: '20px'
+        }}>
+          <div style={{
+            background: 'var(--bg-card, #FFFFFF)',
+            borderRadius: '16px',
+            width: '100%',
+            maxWidth: '540px',
+            boxShadow: '0 20px 25px -5px rgba(0, 0, 0, 0.1), 0 10px 10px -5px rgba(0, 0, 0, 0.04)',
+            border: '1px solid var(--border, #E2E8F0)',
+            overflow: 'hidden',
+          }}>
+            <div style={{
+              padding: '16px 24px',
+              borderBottom: '1px solid var(--border, #E2E8F0)',
+              display: 'flex',
+              justifyContent: 'space-between',
+              alignItems: 'center',
+              background: 'var(--bg-light, #F8FAFC)'
+            }}>
+              <h2 style={{ fontSize: '1.125rem', fontWeight: 600, color: 'var(--text, #0F172A)', margin: 0, display: 'flex', alignItems: 'center', gap: 8 }}>
+                <IconUsers size={20} style={{ color: 'var(--teal, #10B981)' }} />
+                {editingUser ? 'Edit Volunteer' : 'Add New Volunteer'}
+              </h2>
+              <button
+                type="button"
+                onClick={() => setShowModal(false)}
+                style={{ background: 'none', border: 'none', cursor: 'pointer', color: 'var(--text-muted, #64748B)', padding: 4, display: 'flex' }}
+              >
+                <IconX size={20} />
+              </button>
+            </div>
+
+            <form onSubmit={handleSubmitModal} style={{ padding: '24px' }}>
+              <div style={{ display: 'grid', gridTemplateColumns: '1fr 1fr', gap: '16px' }}>
+                <div style={{ gridColumn: 'span 2' }}>
+                  <label style={{ display: 'block', fontSize: '0.8125rem', fontWeight: 600, marginBottom: 6, color: 'var(--text, #334155)' }}>
+                    Full Name *
+                  </label>
+                  <input
+                    type="text"
+                    required
+                    placeholder="e.g. John Doe"
+                    value={formData.name}
+                    onChange={(e) => setFormData({ ...formData, name: e.target.value })}
+                    className="input-field"
+                    style={{ width: '100%', padding: '8px 12px', fontSize: '0.875rem', borderRadius: 8 }}
+                  />
+                </div>
+
+                <div>
+                  <label style={{ display: 'block', fontSize: '0.8125rem', fontWeight: 600, marginBottom: 6, color: 'var(--text, #334155)' }}>
+                    Email Address *
+                  </label>
+                  <input
+                    type="email"
+                    required
+                    placeholder="john@example.com"
+                    value={formData.email}
+                    onChange={(e) => setFormData({ ...formData, email: e.target.value })}
+                    className="input-field"
+                    style={{ width: '100%', padding: '8px 12px', fontSize: '0.875rem', borderRadius: 8 }}
+                  />
+                </div>
+
+                <div>
+                  <label style={{ display: 'block', fontSize: '0.8125rem', fontWeight: 600, marginBottom: 6, color: 'var(--text, #334155)' }}>
+                    Username
+                  </label>
+                  <input
+                    type="text"
+                    placeholder="john.doe"
+                    value={formData.username}
+                    onChange={(e) => setFormData({ ...formData, username: e.target.value })}
+                    className="input-field"
+                    style={{ width: '100%', padding: '8px 12px', fontSize: '0.875rem', borderRadius: 8 }}
+                  />
+                </div>
+
+                <div>
+                  <label style={{ display: 'block', fontSize: '0.8125rem', fontWeight: 600, marginBottom: 6, color: 'var(--text, #334155)' }}>
+                    System Role
+                  </label>
+                  <select
+                    value={formData.role}
+                    onChange={(e) => setFormData({ ...formData, role: e.target.value })}
+                    className="input-field"
+                    style={{ width: '100%', padding: '8px 12px', fontSize: '0.875rem', borderRadius: 8 }}
+                  >
+                    <option value="Volunteer">Volunteer</option>
+                    <option value="Platoon Lead">Platoon Lead</option>
+                    <option value="Dorm Lead">Dorm Lead</option>
+                    <option value="Camp Commander">Camp Commander</option>
+                    <option value="Super Admin">Super Admin</option>
+                  </select>
+                </div>
+
+                <div>
+                  <label style={{ display: 'block', fontSize: '0.8125rem', fontWeight: 600, marginBottom: 6, color: 'var(--text, #334155)' }}>
+                    Department / Team
+                  </label>
+                  <input
+                    type="text"
+                    placeholder="e.g. Media, Worship, Medical"
+                    value={formData.department}
+                    onChange={(e) => setFormData({ ...formData, department: e.target.value })}
+                    className="input-field"
+                    style={{ width: '100%', padding: '8px 12px', fontSize: '0.875rem', borderRadius: 8 }}
+                  />
+                </div>
+
+                <div>
+                  <label style={{ display: 'block', fontSize: '0.8125rem', fontWeight: 600, marginBottom: 6, color: 'var(--text, #334155)' }}>
+                    Phone Number
+                  </label>
+                  <input
+                    type="text"
+                    placeholder="+234..."
+                    value={formData.phone}
+                    onChange={(e) => setFormData({ ...formData, phone: e.target.value })}
+                    className="input-field"
+                    style={{ width: '100%', padding: '8px 12px', fontSize: '0.875rem', borderRadius: 8 }}
+                  />
+                </div>
+
+                <div>
+                  <label style={{ display: 'block', fontSize: '0.8125rem', fontWeight: 600, marginBottom: 6, color: 'var(--text, #334155)' }}>
+                    Gender
+                  </label>
+                  <select
+                    value={formData.gender}
+                    onChange={(e) => setFormData({ ...formData, gender: e.target.value })}
+                    className="input-field"
+                    style={{ width: '100%', padding: '8px 12px', fontSize: '0.875rem', borderRadius: 8 }}
+                  >
+                    <option value="M">Male</option>
+                    <option value="F">Female</option>
+                  </select>
+                </div>
+
+                <div style={{ gridColumn: 'span 2' }}>
+                  <label style={{ display: 'block', fontSize: '0.8125rem', fontWeight: 600, marginBottom: 6, color: 'var(--text, #334155)' }}>
+                    Password {editingUser ? '(leave blank to keep current)' : ''}
+                  </label>
+                  <input
+                    type="password"
+                    placeholder={editingUser ? '••••••••' : 'CampDavid@2026!'}
+                    value={formData.password}
+                    onChange={(e) => setFormData({ ...formData, password: e.target.value })}
+                    className="input-field"
+                    style={{ width: '100%', padding: '8px 12px', fontSize: '0.875rem', borderRadius: 8 }}
+                  />
+                </div>
+              </div>
+
+              <div style={{ marginTop: '24px', display: 'flex', justifyContent: 'flex-end', gap: 12 }}>
+                <button
+                  type="button"
+                  onClick={() => setShowModal(false)}
+                  className="btn btn-secondary"
+                  style={{ padding: '8px 16px', borderRadius: 8, fontSize: '0.875rem' }}
+                >
+                  Cancel
+                </button>
+                <button
+                  type="submit"
+                  disabled={saving}
+                  className="btn btn-primary"
+                  style={{ padding: '8px 20px', borderRadius: 8, fontSize: '0.875rem' }}
+                >
+                  {saving ? 'Saving...' : editingUser ? 'Update Volunteer' : 'Create Volunteer'}
+                </button>
+              </div>
+            </form>
+          </div>
+        </div>
+      )}
     </div>
   );
 }

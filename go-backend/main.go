@@ -50,10 +50,13 @@ func main() {
 		authGroup.GET("/users", handlers.GetUsersHandler)
 		authGroup.POST("/users", handlers.CreateUserHandler)
 		authGroup.PUT("/users/:id/role", handlers.UpdateUserRoleHandler)
-		authGroup.PUT("/users/:id", handlers.UpdateUserRoleHandler)
+		authGroup.PUT("/users/:id", handlers.UpdateUserHandler)
+		authGroup.DELETE("/users/:id", handlers.DeleteUserHandler)
 		authGroup.GET("/staff", handlers.GetUsersHandler)
+		authGroup.POST("/staff", handlers.CreateUserHandler)
 		authGroup.PUT("/staff/:id/role", handlers.UpdateUserRoleHandler)
-		authGroup.PUT("/staff/:id", handlers.UpdateUserRoleHandler)
+		authGroup.PUT("/staff/:id", handlers.UpdateUserHandler)
+		authGroup.DELETE("/staff/:id", handlers.DeleteUserHandler)
 
 		// Campers
 		authGroup.GET("/campers", handlers.GetCampersHandler)
