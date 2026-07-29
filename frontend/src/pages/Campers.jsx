@@ -25,7 +25,7 @@ export default function Campers() {
   const [showImport, setShowImport] = useState(false);
   const [importResult, setImportResult] = useState(null);
   const [page, setPage] = useState(1);
-  const [pageSize, setPageSize] = useState(25);
+  const [pageSize, setPageSize] = useState(10);
   const fileRef = useRef();
 
   // Reset page when search or filters change

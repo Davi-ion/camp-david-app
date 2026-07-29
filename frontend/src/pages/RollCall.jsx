@@ -47,7 +47,7 @@ export default function RollCall() {
   const [dormFilter, setDormFilter] = useState('all');
   const [departureGrouping, setDepartureGrouping] = useState('platoon');
   const [page, setPage] = useState(1);
-  const [pageSize, setPageSize] = useState(25);
+  const [pageSize, setPageSize] = useState(10);
 
   // Active day and sessions
   const campDay = CAMP_DAYS.find((d) => d.key === selectedDay) || CAMP_DAYS[0];

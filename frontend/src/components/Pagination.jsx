@@ -9,7 +9,7 @@ import {
 export default function Pagination({ 
   currentPage = 1, 
   totalItems = 0, 
-  pageSize = 20, 
+  pageSize = 10, 
   onPageChange, 
   onPageSizeChange,
   pageSizeOptions = [10, 25, 50, 100],
