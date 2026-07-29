@@ -2,6 +2,15 @@ import { useState, useEffect, useCallback, useRef } from 'react';
 import { Link, useNavigate } from 'react-router-dom';
 import { useApp } from '../context/AppContext';
 import NotificationCentre from '../components/NotificationCentre';
+import {
+  IconSearch,
+  IconX,
+  IconMenu2,
+  IconChevronDown,
+  IconUser,
+  IconLayoutDashboard,
+  IconLogout,
+} from '@tabler/icons-react';
 
 const API = import.meta.env.VITE_API_URL || 'http://localhost:3001';
 
@@ -72,7 +81,9 @@ function GlobalSearch() {
 
   return (
     <div ref={ref} className="console-search" style={{ position: 'relative' }}>
-      <span className="console-search-icon">🔍</span>
+      <span className="console-search-icon" style={{ display: 'flex', alignItems: 'center' }}>
+        <IconSearch size={16} color="var(--text-muted)" />
+      </span>
       <input
         type="text"
         className="console-search-input"
@@ -80,16 +91,19 @@ function GlobalSearch() {
         value={query}
         onChange={handleChange}
         onFocus={() => setOpen(true)}
+        style={{ borderRadius: 9999, paddingLeft: 40 }}
       />
       {query && (
-        <button onClick={handleClear} style={{ position: 'absolute', right: 10, top: '50%', transform: 'translateY(-50%)', background: 'none', border: 'none', cursor: 'pointer', fontSize: '0.75rem', color: 'var(--text-muted)' }}>✕</button>
+        <button onClick={handleClear} style={{ position: 'absolute', right: 12, top: '50%', transform: 'translateY(-50%)', background: 'none', border: 'none', cursor: 'pointer', display: 'flex', alignItems: 'center', color: 'var(--text-muted)' }}>
+          <IconX size={14} />
+        </button>
       )}
 
       {open && query.length >= 2 && (
         <div style={{
           position: 'absolute', top: 'calc(100% + 6px)', left: 0, right: 0,
-          background: '#fff', border: '1px solid var(--border)', borderRadius: 10,
-          boxShadow: '0 8px 24px rgba(0,0,0,0.1)', zIndex: 200, overflow: 'hidden',
+          background: '#fff', border: '1px solid var(--border)', borderRadius: 14,
+          boxShadow: '0 12px 32px rgba(0,0,0,0.12)', zIndex: 200, overflow: 'hidden',
           minWidth: 340,
         }}>
           {loading && (
@@ -99,44 +113,37 @@ function GlobalSearch() {
             <div style={{ padding: '16px 20px', fontSize: '0.8125rem', color: 'var(--text-muted)' }}>No results for "{query}"</div>
           )}
           {!loading && hasResults && (
-            <>
+            <div style={{ maxHeight: 360, overflowY: 'auto' }}>
               {results.campers?.length > 0 && (
                 <div>
-                  <div style={{ padding: '8px 16px 4px', fontSize: '0.6875rem', fontWeight: 700, textTransform: 'uppercase', letterSpacing: '0.06em', color: 'var(--text-muted)', borderBottom: '1px solid var(--border-light)' }}>Campers</div>
-                  {results.campers.map(c => (
-                    <button key={c.id} onClick={() => { navigate('/console/campers'); handleClear(); }} style={{ display: 'flex', alignItems: 'center', gap: 12, width: '100%', padding: '10px 16px', background: 'none', border: 'none', cursor: 'pointer', textAlign: 'left' }}
-                      onMouseEnter={e => e.currentTarget.style.background = '#f9fafb'}
-                      onMouseLeave={e => e.currentTarget.style.background = 'none'}>
-                      <div style={{ width: 28, height: 28, borderRadius: '50%', background: 'var(--teal)', color: '#fff', display: 'flex', alignItems: 'center', justifyContent: 'center', fontSize: '0.625rem', fontWeight: 700, flexShrink: 0 }}>
-                        {getInitials(c.name)}
-                      </div>
+                  <div style={{ padding: '8px 16px 4px', fontSize: '0.6875rem', fontWeight: 700, color: 'var(--text-muted)', textTransform: 'uppercase', letterSpacing: '0.08em' }}>Campers</div>
+                  {results.campers.slice(0, 5).map((c) => (
+                    <button key={c.id} onClick={() => { navigate('/console/campers'); handleClear(); }} style={{ display: 'flex', alignItems: 'center', gap: 12, width: '100%', padding: '10px 16px', background: 'none', border: 'none', cursor: 'pointer', textAlign: 'left' }}>
+                      <div className="avatar avatar-sm" style={{ width: 28, height: 28, fontSize: '0.6875rem', background: '#14442C', color: '#fff' }}>{getInitials(c.name)}</div>
                       <div>
-                        <div style={{ fontSize: '0.875rem', fontWeight: 500, color: 'var(--text)' }}>{c.name}</div>
-                        <div style={{ fontSize: '0.75rem', color: 'var(--text-muted)' }}>{c.registrationNumber} · {c.platoon?.emoji} {c.platoon?.name}</div>
+                        <div style={{ fontSize: '0.875rem', fontWeight: 600, color: 'var(--text)' }}>{c.name}</div>
+                        <div style={{ fontSize: '0.75rem', color: 'var(--text-secondary)' }}>Age {c.age} · Platoon {c.platoonId || '—'}</div>
                       </div>
                     </button>
                   ))}
                 </div>
               )}
+
               {results.staff?.length > 0 && (
-                <div style={{ borderTop: results.campers?.length > 0 ? '1px solid var(--border-light)' : 'none' }}>
-                  <div style={{ padding: '8px 16px 4px', fontSize: '0.6875rem', fontWeight: 700, textTransform: 'uppercase', letterSpacing: '0.06em', color: 'var(--text-muted)', borderBottom: '1px solid var(--border-light)' }}>Staff</div>
-                  {results.staff.map(s => (
-                    <button key={s.id} onClick={() => { navigate('/console/staff'); handleClear(); }} style={{ display: 'flex', alignItems: 'center', gap: 12, width: '100%', padding: '10px 16px', background: 'none', border: 'none', cursor: 'pointer', textAlign: 'left' }}
-                      onMouseEnter={e => e.currentTarget.style.background = '#f9fafb'}
-                      onMouseLeave={e => e.currentTarget.style.background = 'none'}>
-                      <div style={{ width: 28, height: 28, borderRadius: '50%', background: '#6B7280', color: '#fff', display: 'flex', alignItems: 'center', justifyContent: 'center', fontSize: '0.625rem', fontWeight: 700, flexShrink: 0 }}>
-                        {getInitials(s.name)}
-                      </div>
+                <div>
+                  <div style={{ padding: '8px 16px 4px', fontSize: '0.6875rem', fontWeight: 700, color: 'var(--text-muted)', textTransform: 'uppercase', letterSpacing: '0.08em' }}>Staff</div>
+                  {results.staff.slice(0, 5).map((s) => (
+                    <button key={s.id} onClick={() => { navigate('/console/staff'); handleClear(); }} style={{ display: 'flex', alignItems: 'center', gap: 12, width: '100%', padding: '10px 16px', background: 'none', border: 'none', cursor: 'pointer', textAlign: 'left' }}>
+                      <div className="avatar avatar-sm" style={{ width: 28, height: 28, fontSize: '0.6875rem', background: '#F49E82', color: '#0C281B', fontWeight: 700 }}>{getInitials(s.name)}</div>
                       <div>
-                        <div style={{ fontSize: '0.875rem', fontWeight: 500, color: 'var(--text)' }}>{s.name}</div>
-                        <div style={{ fontSize: '0.75rem', color: 'var(--text-muted)' }}>{s.department} · {s.role}</div>
+                        <div style={{ fontSize: '0.875rem', fontWeight: 600, color: 'var(--text)' }}>{s.name}</div>
+                        <div style={{ fontSize: '0.75rem', color: 'var(--text-secondary)' }}>{s.department || s.role}</div>
                       </div>
                     </button>
                   ))}
                 </div>
               )}
-            </>
+            </div>
           )}
         </div>
       )}
@@ -153,9 +160,6 @@ export default function ConsoleTopNav({ onMenuClick }) {
 
   const [dropdownOpen, setDropdownOpen] = useState(false);
   const dropdownRef = useRef(null);
-
-  const unreadCount = state.notifications?.filter(n => !n.isRead).length || 0;
-  const currentLabel = BREADCRUMB_LABELS[location] || 'Console';
 
   // Update breadcrumb on navigation
   useEffect(() => {
@@ -182,18 +186,18 @@ export default function ConsoleTopNav({ onMenuClick }) {
   return (
     <header className="console-topnav">
       <div style={{ display: 'flex', alignItems: 'center' }}>
-        <button className="console-hamburger" onClick={onMenuClick} style={{ display: 'none' }}>
-          ☰
+        <button className="console-hamburger" onClick={onMenuClick} style={{ display: 'none', background: 'none', border: 'none', cursor: 'pointer', color: 'var(--text)', padding: 6 }}>
+          <IconMenu2 size={20} />
         </button>
         {/* Breadcrumb */}
         <nav className="console-breadcrumb">
           <Link to="/console" className="console-breadcrumb-item">Console</Link>
-        {window.location.pathname !== '/console' && (
-          <>
-            <span className="console-breadcrumb-sep">/</span>
-            <span className="console-breadcrumb-item current">{BREADCRUMB_LABELS[window.location.pathname] || 'Page'}</span>
-          </>
-        )}
+          {window.location.pathname !== '/console' && (
+            <>
+              <span className="console-breadcrumb-sep">/</span>
+              <span className="console-breadcrumb-item current">{BREADCRUMB_LABELS[window.location.pathname] || 'Page'}</span>
+            </>
+          )}
         </nav>
       </div>
 
@@ -205,30 +209,37 @@ export default function ConsoleTopNav({ onMenuClick }) {
         <NotificationCentre lightMode={true} />
 
         <div ref={dropdownRef} style={{ position: 'relative' }}>
-          <button className="console-user-chip" onClick={() => setDropdownOpen(!dropdownOpen)}>
-            <div className="avatar avatar-sm" style={{ background: 'var(--teal)', color: '#fff', width: 28, height: 28, fontSize: '0.6875rem' }}>
+          <button className="console-user-chip" onClick={() => setDropdownOpen(!dropdownOpen)} style={{ borderRadius: 9999, padding: '4px 12px 4px 6px' }}>
+            <div className="avatar avatar-sm" style={{ background: '#14442C', color: '#fff', width: 30, height: 30, fontSize: '0.75rem', fontWeight: 700 }}>
               {getInitials(user?.name)}
             </div>
             <div style={{ textAlign: 'left' }}>
               <div className="console-user-chip-name">{user?.name?.split(' ')[0] || 'Admin'}</div>
-              <div className="console-user-chip-role">{user?.roleName || user?.role}</div>
+              <div className="console-user-chip-role" style={{ color: '#F49E82', fontWeight: 600 }}>{user?.roleName || user?.role}</div>
             </div>
-            <span style={{ color: 'var(--text-muted)', fontSize: '0.625rem', marginLeft: 4 }}>▾</span>
+            <IconChevronDown size={14} color="var(--text-muted)" style={{ marginLeft: 4 }} />
           </button>
 
           {dropdownOpen && (
-            <div className="dropdown-menu" style={{ right: 0, top: 'calc(100% + 8px)', width: 220 }}>
-              <div className="dropdown-header">
-                <p style={{ fontWeight: 600, fontSize: '0.875rem' }}>{user?.name}</p>
-                <p style={{ fontSize: '0.75rem', color: 'var(--text-secondary)' }}>{user?.email}</p>
-                <span className="badge badge-teal" style={{ marginTop: 6 }}>{user?.roleName || user?.role}</span>
+            <div className="dropdown-menu" style={{ right: 0, top: 'calc(100% + 8px)', width: 230, borderRadius: 14, boxShadow: '0 12px 32px rgba(0,0,0,0.12)' }}>
+              <div className="dropdown-header" style={{ padding: '14px 18px' }}>
+                <p style={{ fontWeight: 700, fontSize: '0.9375rem', color: 'var(--text)' }}>{user?.name}</p>
+                <p style={{ fontSize: '0.75rem', color: 'var(--text-secondary)', marginTop: 2 }}>{user?.email}</p>
+                <span className="badge" style={{ marginTop: 8, background: '#FDF2EE', color: '#A34526', fontWeight: 700 }}>{user?.roleName || user?.role}</span>
               </div>
               <div className="dropdown-divider" />
-              <Link to="/app/profile" className="dropdown-item" onClick={() => setDropdownOpen(false)}>👤 My Profile</Link>
-              <Link to="/app" className="dropdown-item" onClick={() => setDropdownOpen(false)}>📱 Staff Portal</Link>
+              <Link to="/app/profile" className="dropdown-item" onClick={() => setDropdownOpen(false)} style={{ display: 'flex', alignItems: 'center', gap: 10 }}>
+                <IconUser size={16} color="var(--teal)" />
+                <span>My Profile</span>
+              </Link>
+              <Link to="/app" className="dropdown-item" onClick={() => setDropdownOpen(false)} style={{ display: 'flex', alignItems: 'center', gap: 10 }}>
+                <IconLayoutDashboard size={16} color="var(--orange)" />
+                <span>Staff Portal</span>
+              </Link>
               <div className="dropdown-divider" />
-              <button onClick={handleLogout} className="dropdown-item" style={{ width: '100%', textAlign: 'left', color: 'var(--red)' }}>
-                ↪ Log Out
+              <button onClick={handleLogout} className="dropdown-item" style={{ width: '100%', textAlign: 'left', color: 'var(--red)', display: 'flex', alignItems: 'center', gap: 10 }}>
+                <IconLogout size={16} color="var(--red)" />
+                <span>Log Out</span>
               </button>
             </div>
           )}
