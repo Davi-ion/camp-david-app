@@ -1174,25 +1174,50 @@ label {
 
 /* ---------- Section Headers ---------- */
 .section-header { display: flex; align-items: center; justify-content: space-between; margin: 32px 0 16px; }
-.section-title { font-size: 0.875rem; font-weight: 600; color: var(--text); }
-.section-link { font-size: 0.875rem; font-weight: 500; color: var(--teal); text-decoration: none; }
+.section-title { font-size: 0.875rem; font-weight: 700; color: var(--text); letter-spacing: 0.01em; }
+.section-link { font-size: 0.8125rem; font-weight: 600; color: var(--teal); text-decoration: none; padding: 5px 14px; border-radius: 9999px; background: rgba(15, 118, 110, 0.08); transition: all 0.2s ease; }
+.section-link:hover { background: rgba(15, 118, 110, 0.16); color: var(--teal); }
 
 /* ---------- Quick Actions ---------- */
 .quick-actions { display: grid; grid-template-columns: repeat(auto-fit, minmax(150px, 1fr)); gap: 16px; margin-top: 20px; }
 .quick-action-btn {
   display: flex;
   align-items: center;
-  gap: 12px;
+  gap: 14px;
   border-radius: 9999px;
   padding: 14px 22px;
   font-size: 0.9375rem;
-  font-weight: 500;
+  font-weight: 600;
   color: var(--text);
-  text-decoration: none;
-  box-shadow: var(--shadow-sm);
-  transition: all 0.2s ease;
+  background: var(--card, #ffffff);
+  border: 1.5px solid var(--border, #E2E8F0);
+  box-shadow: 0 4px 14px rgba(0, 0, 0, 0.04);
+  transition: all 0.2s cubic-bezier(0.4, 0, 0.2, 1);
+  cursor: pointer;
 }
-.quick-action-btn:hover { border-color: var(--teal); background: var(--teal-bg); box-shadow: var(--shadow-md); transform: translateY(-1px); }
+.quick-action-btn:hover {
+  border-color: var(--teal);
+  background: #F0FDF4;
+  box-shadow: 0 6px 20px rgba(15, 118, 110, 0.12);
+  transform: translateY(-2px);
+}
+.quick-action-icon {
+  width: 44px;
+  height: 44px;
+  border-radius: 9999px;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  flex-shrink: 0;
+}
+.quick-action-icon.teal {
+  background: rgba(15, 118, 110, 0.12);
+  color: var(--teal);
+}
+.quick-action-icon.orange {
+  background: rgba(249, 115, 22, 0.12);
+  color: #EA580C;
+}
 
 /* ---------- Camper Row ---------- */
 .camper-row { display: flex; align-items: center; gap: 16px; padding: 16px; border-bottom: 1px solid var(--border-light); transition: background 0.2s ease; background: var(--card); }
