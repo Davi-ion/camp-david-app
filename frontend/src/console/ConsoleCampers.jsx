@@ -19,7 +19,7 @@ export default function ConsoleCampers() {
   const [total, setTotal] = useState(0);
   const [loading, setLoading] = useState(true);
   const [search, setSearch] = useState('');
-  const [status, setStatus] = useState('active');
+  const [status, setStatus] = useState('all');
   const [platoonFilter, setPlatoonFilter] = useState('');
   const [dormFilter, setDormFilter] = useState('');
   const [page, setPage] = useState(1);

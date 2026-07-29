@@ -170,12 +170,6 @@ func GetMeHandler(c *gin.Context) {
 func GetCampersHandler(c *gin.Context) {
 	db := database.DB
 
-	var count int64
-	db.Model(&models.Camper{}).Count(&count)
-	if count < 50 {
-		SeedCampersLogic()
-	}
-
 	query := db.Model(&models.Camper{}).Preload("Platoon").Preload("Dorm").Preload("Counsellor")
 
 	search := strings.TrimSpace(c.Query("search"))
@@ -414,12 +408,6 @@ func CreateDrillHandler(c *gin.Context) {
 
 func GetUsersHandler(c *gin.Context) {
 	db := database.DB
-
-	var count int64
-	db.Model(&models.Staff{}).Count(&count)
-	if count <= 1 {
-		SeedUsersLogic()
-	}
 
 	query := db.Model(&models.Staff{}).Preload("RoleAssignment.Role").Preload("Platoon")
 
