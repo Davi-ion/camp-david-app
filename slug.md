@@ -40,26 +40,26 @@ This document outlines all URL routes, entity slugs, role permission keys, and A
 
 ---
 
-## 🛡️ 3. Platoon Slugs (16 Tribes)
+## 🛡️ 3. Platoon Slugs (16 Official Platoons)
 
 | Platoon Name | Slug / Identifier | Badge Emoji | Theme Color |
 | :--- | :--- | :-: | :--- |
-| **Judah** | `judah` | 🦁 | `#EAB308` |
-| **Ephraim** | `ephraim` | 🦅 | `#3B82F6` |
-| **Asher** | `asher` | ⚔️ | `#10B981` |
-| **Naphtali** | `naphtali` | 🔥 | `#EF4444` |
-| **Reuben** | `reuben` | 🛡️ | `#6366F1` |
-| **Simeon** | `simeon` | 🗡️ | `#8B5CF6` |
-| **Levi** | `levi` | ✝️ | `#EC4899` |
-| **Issachar** | `issachar` | 🏹 | `#F59E0B` |
-| **Zebulun** | `zebulun` | ⚓ | `#14B8A6` |
-| **Dan** | `dan` | ⚖️ | `#06B6D4` |
-| **Gad** | `gad` | 🛡️ | `#84CC16` |
-| **Benjamin** | `benjamin` | 🐺 | `#F97316` |
-| **Manasseh** | `manasseh` | 🌿 | `#22C55E` |
-| **Joseph** | `joseph` | 👑 | `#A855F7` |
-| **Caleb** | `caleb` | 🏔️ | `#64748B` |
-| **Joshua** | `joshua` | 🎺 | `#D97304` |
+| **Alfa** | `alfa` | 🎖️ | `#10B981` |
+| **Bravo** | `bravo` | 🛡️ | `#3B82F6` |
+| **Charlie** | `charlie` | ⚡ | `#EAB308` |
+| **Delta** | `delta` | 🔥 | `#EF4444` |
+| **Echo** | `echo` | 🔊 | `#8B5CF6` |
+| **Foxtrot** | `foxtrot` | 🦊 | `#F97316` |
+| **Golf** | `golf` | ⛳ | `#84CC16` |
+| **Kilo** | `kilo` | ⚖️ | `#06B6D4` |
+| **Lima** | `lima` | 🦁 | `#D97304` |
+| **Mike** | `mike` | 🦅 | `#6366F1` |
+| **Oscar** | `oscar` | 👑 | `#A855F7` |
+| **Quebec** | `quebec` | ⚓ | `#14B8A6` |
+| **Romeo** | `romeo` | ⚔️ | `#EC4899` |
+| **Sierra** | `sierra` | 🏔️ | `#64748B` |
+| **Tango** | `tango` | 🎺 | `#F59E0B` |
+| **Victor** | `victor` | 🏆 | `#22C55E` |
 
 ---
 

@@ -163,22 +163,22 @@ async function seed() {
 
     console.log('Seeding platoons...');
     const platoons = [
-      { name: 'Judah', emoji: '🦁', colorHex: '#EAB308', description: 'The Lion Tribe - Bold & Courageous' },
-      { name: 'Ephraim', emoji: '🦅', colorHex: '#3B82F6', description: 'The Eagle Tribe - Fruitful & Strong' },
-      { name: 'Asher', emoji: '⚔️', colorHex: '#10B981', description: 'The Shield Tribe - Blessed & Mighty' },
-      { name: 'Naphtali', emoji: '🔥', colorHex: '#EF4444', description: 'The Flame Tribe - Victory & Honor' },
-      { name: 'Reuben', emoji: '🛡️', colorHex: '#6366F1', description: 'The Vanguard Tribe - Firstborn Strength' },
-      { name: 'Simeon', emoji: '🗡️', colorHex: '#8B5CF6', description: 'The Sword Tribe - Steadfast & Resolute' },
-      { name: 'Levi', emoji: '✝️', colorHex: '#EC4899', description: 'The Sanctuary Tribe - Devoted & Faithful' },
-      { name: 'Issachar', emoji: '🏹', colorHex: '#F59E0B', description: 'The Archer Tribe - Wise & Discerning' },
-      { name: 'Zebulun', emoji: '⚓', colorHex: '#14B8A6', description: 'The Haven Tribe - Anchor of Hope' },
-      { name: 'Dan', emoji: '⚖️', colorHex: '#06B6D4', description: 'The Justice Tribe - Fair & Vigilant' },
-      { name: 'Gad', emoji: '🛡️', colorHex: '#84CC16', description: 'The Troop Tribe - Overcoming Victor' },
-      { name: 'Benjamin', emoji: '🐺', colorHex: '#F97316', description: 'The Wolf Tribe - Swift & Brave' },
-      { name: 'Manasseh', emoji: '🌿', colorHex: '#22C55E', description: 'The Branch Tribe - Growing & Prosperous' },
-      { name: 'Joseph', emoji: '👑', colorHex: '#A855F7', description: 'The Crown Tribe - Favored & Exalted' },
-      { name: 'Caleb', emoji: '🏔️', colorHex: '#64748B', description: 'The Mountain Tribe - Wholehearted Faith' },
-      { name: 'Joshua', emoji: '🎺', colorHex: '#D97304', description: 'The Conqueror Tribe - Champion Leader' },
+      { name: 'Alfa',    emoji: '🎖️', colorHex: '#10B981', description: 'Alfa Platoon - Courage & Vanguard' },
+      { name: 'Bravo',   emoji: '🛡️', colorHex: '#3B82F6', description: 'Bravo Platoon - Honor & Shield' },
+      { name: 'Charlie', emoji: '⚡', colorHex: '#EAB308', description: 'Charlie Platoon - Lightning & Might' },
+      { name: 'Delta',   emoji: '🔥', colorHex: '#EF4444', description: 'Delta Platoon - Flame & Valor' },
+      { name: 'Echo',    emoji: '🔊', colorHex: '#8B5CF6', description: 'Echo Platoon - Resonant Leadership' },
+      { name: 'Foxtrot', emoji: '🦊', colorHex: '#F97316', description: 'Foxtrot Platoon - Swift & Discerning' },
+      { name: 'Golf',    emoji: '⛳', colorHex: '#84CC16', description: 'Golf Platoon - Precision & Purpose' },
+      { name: 'Kilo',    emoji: '⚖️', colorHex: '#06B6D4', description: 'Kilo Platoon - Balance & Integrity' },
+      { name: 'Lima',    emoji: '🦁', colorHex: '#D97304', description: 'Lima Platoon - Bold Strength' },
+      { name: 'Mike',    emoji: '🦅', colorHex: '#6366F1', description: 'Mike Platoon - High Soaring Vision' },
+      { name: 'Oscar',   emoji: '👑', colorHex: '#A855F7', description: 'Oscar Platoon - Excellence & Favor' },
+      { name: 'Quebec',  emoji: '⚓', colorHex: '#14B8A6', description: 'Quebec Platoon - Anchor of Hope' },
+      { name: 'Romeo',   emoji: '⚔️', colorHex: '#EC4899', description: 'Romeo Platoon - Steadfast Warriors' },
+      { name: 'Sierra',  emoji: '🏔️', colorHex: '#64748B', description: 'Sierra Platoon - Unshakeable Faith' },
+      { name: 'Tango',   emoji: '🎺', colorHex: '#F59E0B', description: 'Tango Platoon - Champion March' },
+      { name: 'Victor',  emoji: '🏆', colorHex: '#22C55E', description: 'Victor Platoon - Overcoming Victory' },
     ];
 
     for (const p of platoons) {
