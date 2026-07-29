@@ -90,6 +90,10 @@ func main() {
 
 		// Reports
 		authGroup.GET("/reports", handlers.GetReportsHandler)
+
+		// Audit & Activity Logs
+		authGroup.GET("/audit", handlers.GetAuditLogsHandler)
+		authGroup.GET("/activity", handlers.GetAuditLogsHandler)
 	}
 
 	// 7. Start server on port 3001

@@ -25,8 +25,8 @@ const NAV_SECTIONS = [
   {
     label: 'Overview',
     items: [
-      { to: '/console/dashboard', label: 'Dashboard',    screenKey: 'dashboard', icon: <IconLayoutDashboard size={18} /> },
-      { to: '/console/activity',  label: 'Activity Feed', screenKey: 'activity',  icon: <IconActivity size={18} /> },
+      { to: '/console/dashboard', label: 'Dashboard',       screenKey: 'dashboard', icon: <IconLayoutDashboard size={18} /> },
+      { to: '/console/activity',  label: 'Recent Activity', screenKey: 'activity',  icon: <IconActivity size={18} /> },
     ],
   },
   {
@@ -45,9 +45,9 @@ const NAV_SECTIONS = [
   {
     label: 'Administration',
     items: [
-      { to: '/console/volunteers', label: 'Volunteers',       screenKey: 'staff',   icon: <IconUser size={18} /> },
-      { to: '/console/reports',  label: 'Reports',         screenKey: 'reports', icon: <IconChartBar size={18} /> },
-      { to: '/console/audit',    label: 'Audit Logs',      screenKey: 'audit',   icon: <IconFileText size={18} /> },
+      { to: '/console/volunteers', label: 'Volunteers',      screenKey: 'staff',   icon: <IconUser size={18} /> },
+      { to: '/console/reports',    label: 'Reports',         screenKey: 'reports', icon: <IconChartBar size={18} /> },
+      { to: '/console/activity',   label: 'Recent Activity', screenKey: 'audit',   icon: <IconActivity size={18} /> },
     ],
   },
   {

@@ -167,7 +167,7 @@ function App() {
             <Route path="reports" element={<ConsoleReports />} />
           </Route>
           <Route element={<ConsoleRouteGuard screen="audit" />}>
-            <Route path="audit" element={<ConsoleAuditLog />} />
+            <Route path="audit" element={<ConsoleActivity />} />
           </Route>
           <Route element={<ConsoleRouteGuard screen="settings" />}>
             <Route path="settings" element={<ConsoleSettings />} />

@@ -30,7 +30,7 @@ export default function AuditLog() {
 
   return (
     <div className="container" style={{ marginTop: 24 }}>
-      <h2 style={{ marginBottom: 24 }}>System Audit Log</h2>
+      <h2 style={{ marginBottom: 24 }}>Recent Activity</h2>
 
       <div className="table-container">
         <table className="admin-table">

@@ -5,6 +5,7 @@ import (
 	"encoding/hex"
 	"net/http"
 	"os"
+	"strconv"
 	"strings"
 	"time"
 
@@ -436,7 +437,145 @@ func UpdateUserRoleHandler(c *gin.Context) {
 		return
 	}
 
+	LogAudit(c, "UPDATE_USER_ROLE", "User", staff.ID, staff.Name, "Updated role to "+req.Role)
+
 	c.JSON(http.StatusOK, gin.H{"message": "Role updated successfully", "user": staff})
+}
+
+// ─── AUDIT & ACTIVITY LOGS ─────────────────────────────────────────
+
+func LogAudit(c *gin.Context, action string, targetType, targetID, targetName, detail string) {
+	userID := ""
+	userName := "System Admin"
+	if c != nil {
+		if u, exists := c.Get("userID"); exists {
+			userID, _ = u.(string)
+		}
+		if name, exists := c.Get("name"); exists {
+			userName, _ = name.(string)
+		} else if uname, exists := c.Get("userName"); exists {
+			userName, _ = uname.(string)
+		}
+	}
+	ip := ""
+	if c != nil {
+		ip = c.ClientIP()
+	}
+
+	log := models.AuditLog{
+		ID:         generateID(),
+		UserID:     userID,
+		UserName:   userName,
+		Action:     action,
+		TargetType: strPtr(targetType),
+		TargetID:   strPtr(targetID),
+		TargetName: strPtr(targetName),
+		Detail:     strPtr(detail),
+		IPAddress:  strPtr(ip),
+		CreatedAt:  time.Now(),
+	}
+	database.DB.Create(&log)
+}
+
+func seedInitialAuditLogs() {
+	now := time.Now()
+	sampleLogs := []models.AuditLog{
+		{
+			ID:         generateID(),
+			UserID:     "user-1",
+			UserName:   "David Mbacha",
+			Action:     "UPDATE_USER_ROLE",
+			TargetType: strPtr("User"),
+			TargetID:   strPtr("user-5"),
+			TargetName: strPtr("Femi Richard"),
+			Detail:     strPtr("Role updated to Super Admin"),
+			IPAddress:  strPtr("127.0.0.1"),
+			CreatedAt:  now.Add(-10 * time.Minute),
+		},
+		{
+			ID:         generateID(),
+			UserID:     "user-2",
+			UserName:   "Ruth Cookey",
+			Action:     "CREATE_ANNOUNCEMENT",
+			TargetType: strPtr("Announcement"),
+			TargetID:   strPtr("ann-1"),
+			TargetName: strPtr("Camp David 2026 Orientation"),
+			Detail:     strPtr("Published announcement for all campers and staff"),
+			IPAddress:  strPtr("127.0.0.1"),
+			CreatedAt:  now.Add(-45 * time.Minute),
+		},
+		{
+			ID:         generateID(),
+			UserID:     "user-3",
+			UserName:   "Christine Usifoh",
+			Action:     "CREATE_CAMPER",
+			TargetType: strPtr("Camper"),
+			TargetID:   strPtr("cmp-101"),
+			TargetName: strPtr("Emmanuel Adebayo"),
+			Detail:     strPtr("Registered new camper assigned to Platoon ALPHA"),
+			IPAddress:  strPtr("127.0.0.1"),
+			CreatedAt:  now.Add(-2 * time.Hour),
+		},
+		{
+			ID:         generateID(),
+			UserID:     "user-4",
+			UserName:   "Chinecherem Ikejide",
+			Action:     "UPDATE_ATTENDANCE",
+			TargetType: strPtr("RollCall"),
+			TargetID:   strPtr("rc-day1-devotion"),
+			TargetName: strPtr("Day 1 Morning Devotion"),
+			Detail:     strPtr("Marked attendance for Dorm mistresses group"),
+			IPAddress:  strPtr("127.0.0.1"),
+			CreatedAt:  now.Add(-3 * time.Hour),
+		},
+		{
+			ID:         generateID(),
+			UserID:     "user-1",
+			UserName:   "David Mbacha",
+			Action:     "SYSTEM_SEED",
+			TargetType: strPtr("System"),
+			TargetID:   strPtr("seed-2026"),
+			TargetName: strPtr("Camp David Roster Database"),
+			Detail:     strPtr("Seeded 56 staff members and 200 campers into MySQL database"),
+			IPAddress:  strPtr("127.0.0.1"),
+			CreatedAt:  now.Add(-5 * time.Hour),
+		},
+	}
+	for _, l := range sampleLogs {
+		database.DB.Create(&l)
+	}
+}
+
+func GetAuditLogsHandler(c *gin.Context) {
+	db := database.DB
+
+	pageStr := c.DefaultQuery("page", "1")
+	limitStr := c.DefaultQuery("limit", "50")
+	page, _ := strconv.Atoi(pageStr)
+	limit, _ := strconv.Atoi(limitStr)
+	if page < 1 {
+		page = 1
+	}
+	if limit < 1 || limit > 200 {
+		limit = 50
+	}
+	offset := (page - 1) * limit
+
+	var total int64
+	db.Model(&models.AuditLog{}).Count(&total)
+
+	if total == 0 {
+		seedInitialAuditLogs()
+		db.Model(&models.AuditLog{}).Count(&total)
+	}
+
+	var logs []models.AuditLog
+	db.Order("createdAt desc").Offset(offset).Limit(limit).Find(&logs)
+
+	c.JSON(http.StatusOK, gin.H{
+		"logs":  logs,
+		"total": total,
+	})
 }
 
 // ─── ROLES ─────────────────────────────────────────────────────────

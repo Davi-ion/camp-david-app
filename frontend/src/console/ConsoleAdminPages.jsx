@@ -177,69 +177,9 @@ export function ConsoleUserManagement() {
 
 
 
-// ─── Console Audit Log ────────────────────────────────────────────────────────
+import ConsoleActivity from './ConsoleActivity';
+
+// ─── Console Audit Log (Recent Activity) ──────────────────────────────────────
 export function ConsoleAuditLog() {
-  const [logs, setLogs] = useState([]);
-  const [loading, setLoading] = useState(true);
-
-  useEffect(() => {
-    const fetchLogs = async () => {
-      try {
-        const token = localStorage.getItem('camp_token');
-        const res = await fetch(`${API}/api/audit`, {
-          headers: { Authorization: `Bearer ${token}` },
-        });
-        const data = await res.json();
-        setLogs(data.logs || []);
-      } catch (e) { console.error(e); } finally { setLoading(false); }
-    };
-    fetchLogs();
-  }, []);
-
-  return (
-    <div>
-      <div className="console-page-header">
-        <div>
-          <h1 className="console-page-title">Audit Logs</h1>
-          <p className="console-page-subtitle">A complete, tamper-evident record of all system activity</p>
-        </div>
-      </div>
-
-      <div className="console-card">
-        <div className="console-table-container">
-          <table className="console-table">
-            <thead>
-              <tr>
-                <th>Timestamp</th>
-                <th>User</th>
-                <th>Action</th>
-                <th>Target</th>
-                <th>IP Address</th>
-              </tr>
-            </thead>
-            <tbody>
-              {logs.map(log => (
-                <tr key={log.id}>
-                  <td style={{ color: 'var(--text-secondary)', whiteSpace: 'nowrap', fontSize: '0.8125rem' }}>
-                    {new Date(log.createdAt).toLocaleString()}
-                  </td>
-                  <td style={{ fontWeight: 500 }}>{log.userName}</td>
-                  <td><span className="badge badge-teal">{log.action}</span></td>
-                  <td style={{ color: 'var(--text-secondary)', fontSize: '0.8125rem' }}>
-                    {log.targetType ? `${log.targetType}: ${log.targetName || log.targetId}` : '—'}
-                  </td>
-                  <td style={{ color: 'var(--text-muted)', fontFamily: 'monospace', fontSize: '0.8125rem' }}>
-                    {log.ipAddress || '—'}
-                  </td>
-                </tr>
-              ))}
-              {logs.length === 0 && !loading && (
-                <tr><td colSpan="5" style={{ textAlign: 'center', padding: 48, color: 'var(--text-secondary)' }}>No audit logs found.</td></tr>
-              )}
-            </tbody>
-          </table>
-        </div>
-      </div>
-    </div>
-  );
+  return <ConsoleActivity />;
 }
