@@ -226,6 +226,47 @@ async function seed() {
       });
     }
 
+    console.log('Seeding campers from campers_seed.json...');
+    const campersSeedPath = path.join(__dirname, 'campers_seed.json');
+    if (fs.existsSync(campersSeedPath)) {
+      const campersData = JSON.parse(fs.readFileSync(campersSeedPath, 'utf8'));
+      const dbPlatoons = await prisma.platoon.findMany();
+      const dbDorms = await prisma.dorm.findMany();
+      const platoonMap = new Map(dbPlatoons.map(p => [p.name.toLowerCase(), p.id]));
+      const dormMap = new Map(dbDorms.map(d => [d.name.toLowerCase(), d.id]));
+
+      for (const c of campersData) {
+        if (!c.registrationNumber && !c.name) continue;
+        const pId = c.platoon ? platoonMap.get(c.platoon.toLowerCase()) : null;
+        const dId = c.dorm ? dormMap.get(c.dorm.toLowerCase()) : null;
+
+        await prisma.camper.upsert({
+          where: { registrationNumber: c.registrationNumber },
+          update: {
+            name: c.name,
+            gender: c.gender || null,
+            tshirtSize: c.tshirtSize || null,
+            age: c.age ? Number(c.age) : null,
+            platoonId: pId || null,
+            dormId: dId || null,
+            ageGroup: c.ageGroup || null,
+            pickupCenter: c.pickupCenter || null,
+          },
+          create: {
+            registrationNumber: c.registrationNumber,
+            name: c.name,
+            gender: c.gender || null,
+            tshirtSize: c.tshirtSize || null,
+            age: c.age ? Number(c.age) : null,
+            platoonId: pId || null,
+            dormId: dId || null,
+            ageGroup: c.ageGroup || null,
+            pickupCenter: c.pickupCenter || null,
+          },
+        });
+      }
+    }
+
     console.log('Database seeded successfully into Remote MySQL!');
   } catch (e) {
     console.error('Error during seeding:', e);
