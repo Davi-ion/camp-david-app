@@ -36,6 +36,7 @@ func main() {
 	r.GET("/api/health", handlers.HealthHandler)
 	r.POST("/api/seed", handlers.SeedHandler)
 	r.POST("/api/seed/campers", handlers.SeedCampersEndpointHandler)
+	r.POST("/api/seed/users", handlers.SeedUsersEndpointHandler)
 	r.POST("/api/auth/login", handlers.LoginHandler)
 
 	// 6. Authenticated Routes Group
