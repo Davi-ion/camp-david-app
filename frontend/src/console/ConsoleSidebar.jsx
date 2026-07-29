@@ -164,7 +164,7 @@ export default function ConsoleSidebar({ isOpen, onClose, isCollapsed, onToggleC
             justifyContent: isCollapsed ? 'center' : 'flex-start',
             gap: 8,
             padding: '10px 14px',
-            borderRadius: 10,
+            borderRadius: 9999,
             background: 'rgba(244, 158, 130, 0.12)',
             border: '1px solid rgba(244, 158, 130, 0.3)',
             color: 'var(--orange, #F49E82)',
