@@ -298,25 +298,23 @@ export default function ConsoleCampers() {
                     </span>
                   </td>
                   <td style={{ textAlign: 'right', whiteSpace: 'nowrap' }}>
-                    <div style={{ display: 'inline-flex', gap: 6, justifyContent: 'flex-end' }}>
+                    <div style={{ display: 'inline-flex', gap: 8, justifyContent: 'flex-end', alignItems: 'center' }}>
                       <button 
                         onClick={() => openModal(c)} 
-                        className="btn btn-secondary btn-sm" 
-                        style={{ padding: '6px 8px', display: 'inline-flex', alignItems: 'center', justifyContent: 'center', borderRadius: 6 }}
+                        style={{ background: 'none', border: 'none', padding: 4, cursor: 'pointer', color: 'var(--text-muted, #64748B)', display: 'inline-flex', alignItems: 'center', justifyContent: 'center', transition: 'color 0.15s ease' }}
                         title="Edit Camper"
                         aria-label="Edit Camper"
                       >
-                        <IconPencil size={16} />
+                        <IconPencil size={18} />
                       </button>
                       {c.status === 'active' && (
                         <button 
                           onClick={() => deactivateCamper(c.id)} 
-                          className="btn btn-secondary btn-sm" 
-                          style={{ padding: '6px 8px', display: 'inline-flex', alignItems: 'center', justifyContent: 'center', color: 'var(--red)', borderColor: '#FCA5A5', background: '#FEF2F2', borderRadius: 6 }}
+                          style={{ background: 'none', border: 'none', padding: 4, cursor: 'pointer', color: '#EF4444', display: 'inline-flex', alignItems: 'center', justifyContent: 'center', transition: 'color 0.15s ease' }}
                           title="Deactivate Camper"
                           aria-label="Deactivate Camper"
                         >
-                          <IconUserOff size={16} />
+                          <IconUserOff size={18} />
                         </button>
                       )}
                     </div>
