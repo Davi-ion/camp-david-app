@@ -216,9 +216,13 @@ export default function Programme() {
               <div className="now-card-header" style={{ marginTop: 6, display: 'flex', justifyContent: 'space-between', alignItems: 'center' }}>
                 <div className="now-card-title" style={{ fontSize: '1.25rem', fontWeight: 700 }}>{currentEvent.title}</div>
               </div>
-              <div className="now-card-meta" style={{ marginTop: 6, display: 'flex', gap: 12, opacity: 0.95 }}>
-                <span>📍 {currentEvent.location}</span>
-                <span>👥 {currentEvent.groups === 'all' ? 'All Campers' : 'By Group'}</span>
+              <div className="now-card-meta" style={{ marginTop: 6, display: 'flex', gap: 16, opacity: 0.95, fontSize: '0.8125rem', alignItems: 'center' }}>
+                <span style={{ display: 'inline-flex', alignItems: 'center', gap: 4 }}>
+                  <IconMapPin size={15} /> {currentEvent.location}
+                </span>
+                <span style={{ display: 'inline-flex', alignItems: 'center', gap: 4 }}>
+                  <IconUsers size={15} /> {currentEvent.groups === 'all' ? 'All Campers' : 'By Group'}
+                </span>
               </div>
             </div>
           ) : (
