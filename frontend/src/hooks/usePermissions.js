@@ -39,7 +39,14 @@ export function usePermissions() {
    * Check access to Console (/console/*) screens
    */
   const canAccessConsoleScreen = (screenKey) => {
-    if (isAdmin || isCommander) return true;
+    if (isAdmin) return true;
+    if (isCommander) {
+      // Hide/restrict Administration (staff, reports, activity, audit) and Settings
+      if (['staff', 'reports', 'activity', 'audit', 'settings'].includes(screenKey)) {
+        return false;
+      }
+      return true;
+    }
     return false;
   };
 
