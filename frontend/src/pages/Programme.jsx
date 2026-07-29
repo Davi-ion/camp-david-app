@@ -150,128 +150,136 @@ export default function Programme() {
 
   return (
     <div className="page">
-      {/* Header Banner - Matching Roll Call Teal Gradient */}
-      <div className="dash-header bg-rollcall">
-        <div className="container">
-          <div className="dash-header-top">
-            <div className="dash-brand">
-              <div className="dash-logo" style={{ background: 'transparent' }}>
-                <img src="/logo-white.png" alt="Camp David Logo" style={{ width: '100%', height: '100%', objectFit: 'contain' }} />
+      {/* Sticky Top Section */}
+      <div style={{ position: 'sticky', top: 0, zIndex: 100, background: 'var(--bg, #F8FAFC)' }}>
+        {/* Header Banner - Matching Roll Call Teal Gradient */}
+        <div className="dash-header bg-rollcall" style={{ paddingBottom: 16 }}>
+          <div className="container">
+            <div className="dash-header-top">
+              <div className="dash-brand">
+                <div className="dash-logo" style={{ background: 'transparent' }}>
+                  <img src="/logo-white.png" alt="Camp David Logo" style={{ width: '100%', height: '100%', objectFit: 'contain' }} />
+                </div>
+                Camp David 2026
               </div>
-              Camp David 2026
+              <div style={{ display: 'flex', alignItems: 'center', gap: 16 }}>
+                <NotificationCentre lightMode={false} />
+                <UserMenu lightMode={true} />
+              </div>
             </div>
-            <div style={{ display: 'flex', alignItems: 'center', gap: 16 }}>
-              <NotificationCentre lightMode={false} />
-              <UserMenu lightMode={true} />
-            </div>
-          </div>
 
-          <div style={{ display: 'flex', justifyContent: 'space-between', alignItems: 'flex-end', marginBottom: 12 }}>
-            <div>
-              <p className="dash-greeting" style={{ margin: 0 }}>Official Schedule & Events</p>
-              <h1 className="dash-name" style={{ margin: 0 }}>Camp Programme</h1>
+            <div style={{ display: 'flex', justifyContent: 'space-between', alignItems: 'flex-end', marginBottom: 12 }}>
+              <div>
+                <p className="dash-greeting" style={{ margin: 0 }}>Official Schedule & Events</p>
+                <h1 className="dash-name" style={{ margin: 0 }}>Camp Programme</h1>
+              </div>
+              {canPost && (
+                <button 
+                  onClick={() => setShowAnnounceForm(!showAnnounceForm)}
+                  style={{
+                    background: 'rgba(255, 255, 255, 0.25)',
+                    color: '#FFFFFF',
+                    border: '1px solid rgba(255, 255, 255, 0.4)',
+                    borderRadius: 9999,
+                    padding: '8px 16px',
+                    fontSize: '0.8125rem',
+                    fontWeight: 600,
+                    cursor: 'pointer',
+                    display: 'inline-flex',
+                    alignItems: 'center',
+                    gap: 6,
+                    backdropFilter: 'blur(8px)',
+                    boxShadow: '0 2px 10px rgba(0,0,0,0.1)',
+                    transition: 'all 0.15s ease'
+                  }}
+                >
+                  <IconPlus size={16} /> Post Announcement
+                </button>
+              )}
             </div>
-            {canPost && (
-              <button 
-                onClick={() => setShowAnnounceForm(!showAnnounceForm)}
-                style={{
-                  background: 'rgba(255, 255, 255, 0.25)',
-                  color: '#FFFFFF',
-                  border: '1px solid rgba(255, 255, 255, 0.4)',
-                  borderRadius: 9999,
-                  padding: '8px 16px',
-                  fontSize: '0.8125rem',
-                  fontWeight: 600,
-                  cursor: 'pointer',
-                  display: 'inline-flex',
-                  alignItems: 'center',
-                  gap: 6,
-                  backdropFilter: 'blur(8px)',
-                  boxShadow: '0 2px 10px rgba(0,0,0,0.1)',
-                  transition: 'all 0.15s ease'
-                }}
-              >
-                <IconPlus size={16} /> Post Announcement
-              </button>
+
+            <div className="dash-day-strip" style={{ marginBottom: 12 }}>
+              <span className="dash-day-badge">DAY {campDay.dayNum} OF 5</span>
+              <span>{campDay.full} · {daySchedule.length} Events Scheduled</span>
+            </div>
+
+            {/* Current Event Hero Banner */}
+            {currentEvent ? (
+              <div className="now-card" style={{ marginBottom: 0 }}>
+                <div className="now-card-label" style={{ display: 'flex', justifyContent: 'space-between', alignItems: 'center' }}>
+                  <span>
+                    <span className="now-dot" />
+                    HAPPENING NOW
+                  </span>
+                  <span style={{ fontSize: '0.8125rem', fontWeight: 600, color: 'rgba(255,255,255,0.9)' }}>
+                    {currentEvent.time} – {currentEvent.end}
+                  </span>
+                </div>
+                <div className="now-card-header" style={{ marginTop: 6, display: 'flex', justifyContent: 'space-between', alignItems: 'center' }}>
+                  <div className="now-card-title" style={{ fontSize: '1.25rem', fontWeight: 700 }}>{currentEvent.title}</div>
+                </div>
+                <div className="now-card-meta" style={{ marginTop: 6, display: 'flex', gap: 16, opacity: 0.95, fontSize: '0.8125rem', alignItems: 'center' }}>
+                  <span style={{ display: 'inline-flex', alignItems: 'center', gap: 4 }}>
+                    <IconMapPin size={15} /> {currentEvent.location}
+                  </span>
+                  <span style={{ display: 'inline-flex', alignItems: 'center', gap: 4 }}>
+                    <IconUsers size={15} /> {currentEvent.groups === 'all' ? 'All Campers' : 'By Group'}
+                  </span>
+                </div>
+              </div>
+            ) : (
+              <div className="now-card" style={{ background: 'rgba(255, 255, 255, 0.12)', border: '1px solid rgba(255, 255, 255, 0.2)', marginBottom: 0 }}>
+                <div style={{ fontSize: '0.875rem', fontWeight: 600, color: 'rgba(255, 255, 255, 0.95)', display: 'flex', alignItems: 'center', gap: 8 }}>
+                  <IconCalendarEvent size={18} color="#A7F3D0" />
+                  <span>Next Event Scheduled: {daySchedule[0]?.time || 'TBA'} — {daySchedule[0]?.title || 'See timeline below'}</span>
+                </div>
+              </div>
             )}
           </div>
+        </div>
 
-          <div className="dash-day-strip" style={{ marginBottom: 16 }}>
-            <span className="dash-day-badge">DAY {campDay.dayNum} OF 5</span>
-            <span>{campDay.full} · {daySchedule.length} Events Scheduled</span>
+        {/* Day Selector Strip */}
+        <div style={{ background: 'var(--bg, #F8FAFC)', padding: '10px 0', borderBottom: '1px solid var(--border, #E2E8F0)', boxShadow: '0 4px 12px rgba(0,0,0,0.04)' }}>
+          <div className="container">
+            <div style={{ display: 'flex', gap: 8, overflowX: 'auto', paddingBottom: 2 }}>
+              {CAMP_DAYS.map((d) => {
+                const isActive = selectedDay === d.key;
+                return (
+                  <button
+                    key={d.key}
+                    onClick={() => setSelectedDay(d.key)}
+                    style={{
+                      flex: 1,
+                      minWidth: 85,
+                      padding: '8px 12px',
+                      borderRadius: 9999,
+                      border: isActive ? '2px solid var(--teal, #0F766E)' : '1px solid var(--border, #E2E8F0)',
+                      background: isActive ? 'var(--teal, #0F766E)' : '#FFFFFF',
+                      color: isActive ? '#FFFFFF' : 'var(--text, #0F172A)',
+                      cursor: 'pointer',
+                      fontWeight: 600,
+                      fontSize: '0.8125rem',
+                      display: 'flex',
+                      flexDirection: 'column',
+                      alignItems: 'center',
+                      gap: 2,
+                      boxShadow: isActive ? '0 4px 12px rgba(15, 118, 110, 0.25)' : 'none',
+                      transition: 'all 0.2s ease'
+                    }}
+                  >
+                    <span>{d.label}</span>
+                    <span style={{ fontSize: '0.6875rem', opacity: isActive ? 0.9 : 0.6 }}>
+                      {d.date.slice(8)}/{d.date.slice(5, 7)}
+                    </span>
+                  </button>
+                );
+              })}
+            </div>
           </div>
-
-          {/* Current Event Hero Banner */}
-          {currentEvent ? (
-            <div className="now-card">
-              <div className="now-card-label" style={{ display: 'flex', justifyContent: 'space-between', alignItems: 'center' }}>
-                <span>
-                  <span className="now-dot" />
-                  HAPPENING NOW
-                </span>
-                <span style={{ fontSize: '0.8125rem', fontWeight: 600, color: 'rgba(255,255,255,0.9)' }}>
-                  {currentEvent.time} – {currentEvent.end}
-                </span>
-              </div>
-              <div className="now-card-header" style={{ marginTop: 6, display: 'flex', justifyContent: 'space-between', alignItems: 'center' }}>
-                <div className="now-card-title" style={{ fontSize: '1.25rem', fontWeight: 700 }}>{currentEvent.title}</div>
-              </div>
-              <div className="now-card-meta" style={{ marginTop: 6, display: 'flex', gap: 16, opacity: 0.95, fontSize: '0.8125rem', alignItems: 'center' }}>
-                <span style={{ display: 'inline-flex', alignItems: 'center', gap: 4 }}>
-                  <IconMapPin size={15} /> {currentEvent.location}
-                </span>
-                <span style={{ display: 'inline-flex', alignItems: 'center', gap: 4 }}>
-                  <IconUsers size={15} /> {currentEvent.groups === 'all' ? 'All Campers' : 'By Group'}
-                </span>
-              </div>
-            </div>
-          ) : (
-            <div className="now-card" style={{ background: 'rgba(255, 255, 255, 0.12)', border: '1px solid rgba(255, 255, 255, 0.2)' }}>
-              <div style={{ fontSize: '0.875rem', fontWeight: 600, color: 'rgba(255, 255, 255, 0.95)', display: 'flex', alignItems: 'center', gap: 8 }}>
-                <IconCalendarEvent size={18} color="#A7F3D0" />
-                <span>Next Event Scheduled: {daySchedule[0]?.time || 'TBA'} — {daySchedule[0]?.title || 'See timeline below'}</span>
-              </div>
-            </div>
-          )}
         </div>
       </div>
 
-      <div className="container" style={{ paddingTop: 20 }}>
-        {/* 1. Day Selector Pills (Matching Roll Call UI) */}
-        <div style={{ display: 'flex', gap: 8, overflowX: 'auto', paddingBottom: 4 }}>
-          {CAMP_DAYS.map((d) => {
-            const isActive = selectedDay === d.key;
-            return (
-              <button
-                key={d.key}
-                onClick={() => setSelectedDay(d.key)}
-                style={{
-                  flex: 1,
-                  minWidth: 85,
-                  padding: '10px 14px',
-                  borderRadius: 9999,
-                  border: isActive ? '2px solid var(--teal, #0F766E)' : '1px solid var(--border, #E2E8F0)',
-                  background: isActive ? 'var(--teal, #0F766E)' : '#FFFFFF',
-                  color: isActive ? '#FFFFFF' : 'var(--text, #0F172A)',
-                  cursor: 'pointer',
-                  fontWeight: 600,
-                  fontSize: '0.8125rem',
-                  display: 'flex',
-                  flexDirection: 'column',
-                  alignItems: 'center',
-                  gap: 2,
-                  boxShadow: isActive ? '0 4px 12px rgba(15, 118, 110, 0.25)' : 'none',
-                  transition: 'all 0.2s ease'
-                }}
-              >
-                <span>{d.label}</span>
-                <span style={{ fontSize: '0.6875rem', opacity: isActive ? 0.9 : 0.6 }}>
-                  {d.date.slice(8)}/{d.date.slice(5, 7)}
-                </span>
-              </button>
-            );
-          })}
-        </div>
+      <div className="container" style={{ paddingTop: 16 }}>
 
         {/* 2. Announce Form Modal Card */}
         {showAnnounceForm && (
