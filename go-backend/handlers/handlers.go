@@ -170,7 +170,7 @@ func GetMeHandler(c *gin.Context) {
 func GetCampersHandler(c *gin.Context) {
 	db := database.DB
 
-	query := db.Model(&models.Camper{}).Preload("Platoon").Preload("Dorm").Preload("Counsellor")
+	tx := db.Model(&models.Camper{})
 
 	search := strings.TrimSpace(c.Query("search"))
 	platoonID := strings.TrimSpace(c.Query("platoonId"))
@@ -178,28 +178,30 @@ func GetCampersHandler(c *gin.Context) {
 
 	if search != "" {
 		s := "%" + strings.ToLower(search) + "%"
-		query = query.Where("LOWER(name) LIKE ? OR LOWER(registrationNumber) LIKE ? OR LOWER(pickupCenter) LIKE ? OR LOWER(ageGroup) LIKE ?", s, s, s, s)
+		tx = tx.Where("LOWER(name) LIKE ? OR LOWER(registrationNumber) LIKE ? OR LOWER(pickupCenter) LIKE ? OR LOWER(ageGroup) LIKE ?", s, s, s, s)
 	}
 
 	if platoonID != "" && platoonID != "all" {
-		query = query.Where("platoonId = ?", platoonID)
+		tx = tx.Where("platoonId = ?", platoonID)
 	}
 
 	if dormID != "" && dormID != "all" {
-		query = query.Where("dormId = ?", dormID)
+		tx = tx.Where("dormId = ?", dormID)
 	}
 
 	var total int64
-	query.Count(&total)
+	tx.Count(&total)
 
 	pageStr := c.DefaultQuery("page", "1")
 	limitStr := c.DefaultQuery("limit", "50")
 	page, _ := strconv.Atoi(pageStr)
 	limit, _ := strconv.Atoi(limitStr)
 
+	dataQuery := tx.Preload("Platoon").Preload("Dorm").Preload("Counsellor")
+
 	var campers []models.Camper
 	if limitStr == "all" || limitStr == "-1" || limit >= 500 {
-		query.Order("name asc").Find(&campers)
+		dataQuery.Order("name asc").Find(&campers)
 	} else {
 		if page < 1 {
 			page = 1
@@ -208,7 +210,7 @@ func GetCampersHandler(c *gin.Context) {
 			limit = 50
 		}
 		offset := (page - 1) * limit
-		query.Order("name asc").Offset(offset).Limit(limit).Find(&campers)
+		dataQuery.Order("name asc").Offset(offset).Limit(limit).Find(&campers)
 	}
 
 	c.JSON(http.StatusOK, gin.H{

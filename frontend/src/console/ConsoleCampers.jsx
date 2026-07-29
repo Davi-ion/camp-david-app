@@ -54,8 +54,13 @@ export default function ConsoleCampers() {
       const data = await res.json();
       const list = Array.isArray(data) ? data : (data.campers || []);
       const totalCount = Array.isArray(data) ? data.length : (data.total ?? list.length);
-      setCampers(list);
-      setTotal(totalCount);
+      if (list.length === 0 && state.campers && state.campers.length > 0 && !search && !platoonFilter && !dormFilter) {
+        setCampers(state.campers);
+        setTotal(state.campers.length);
+      } else {
+        setCampers(list);
+        setTotal(totalCount);
+      }
     } catch (err) {
       console.error(err);
     } finally {
