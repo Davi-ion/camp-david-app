@@ -75,7 +75,7 @@ export default function UserMenu({ lightMode = false }) {
             </Link>
 
             {isConsoleUser && (
-              <Link to="/console" className="dropdown-item" onClick={() => setDropdownOpen(false)} style={{ display: 'flex', alignItems: 'center', gap: 8 }}>
+              <Link to="/console/dashboard" className="dropdown-item" onClick={() => setDropdownOpen(false)} style={{ display: 'flex', alignItems: 'center', gap: 8 }}>
                 <IconLayoutDashboard size={16} /> Management Console
               </Link>
             )}

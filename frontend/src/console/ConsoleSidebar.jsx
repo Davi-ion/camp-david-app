@@ -24,7 +24,7 @@ const NAV_SECTIONS = [
   {
     label: 'Overview',
     items: [
-      { to: '/console',          label: 'Dashboard',    icon: <IconLayoutDashboard size={18} />, exact: true },
+      { to: '/console/dashboard', label: 'Dashboard',    icon: <IconLayoutDashboard size={18} /> },
       { to: '/console/activity', label: 'Activity Feed', icon: <IconActivity size={18} /> },
     ],
   },

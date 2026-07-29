@@ -61,7 +61,7 @@ export default function BottomNav() {
       show: hasPermission('view:campers'),
     },
     {
-      to: '/console',
+      to: '/console/dashboard',
       label: 'Console',
       iconOutline: <IconLayoutDashboard size={22} />,
       iconFilled: <IconLayoutDashboardFilled size={22} />,

@@ -111,7 +111,8 @@ function App() {
 
         {/* ── Admin Console (/console/*) ───────────────────────────── */}
         <Route path="/console" element={<ConsoleLayout />}>
-          <Route index element={<ConsoleDashboard />} />
+          <Route index element={<Navigate to="/console/dashboard" replace />} />
+          <Route path="dashboard" element={<ConsoleDashboard />} />
           <Route path="incidents" element={<ConsoleIncidents />} />
           <Route path="users" element={<ConsoleUserManagement />} />
           <Route path="audit" element={<ConsoleAuditLog />} />

@@ -16,6 +16,7 @@ const API = import.meta.env.VITE_API_URL || 'http://localhost:3001';
 
 const BREADCRUMB_LABELS = {
   '/console':              'Dashboard',
+  '/console/dashboard':    'Dashboard',
   '/console/users':        'User Management',
   '/console/audit':        'Audit Logs',
   '/console/incidents':    'Incidents',
@@ -190,8 +191,8 @@ export default function ConsoleTopNav({ onMenuClick }) {
         </button>
         {/* Breadcrumb */}
         <nav className="console-breadcrumb">
-          <Link to="/console" className="console-breadcrumb-item">Console</Link>
-          {window.location.pathname !== '/console' && (
+          <Link to="/console/dashboard" className="console-breadcrumb-item">Console</Link>
+          {window.location.pathname !== '/console' && window.location.pathname !== '/console/dashboard' && (
             <>
               <span className="console-breadcrumb-sep">/</span>
               <span className="console-breadcrumb-item current">{BREADCRUMB_LABELS[window.location.pathname] || 'Page'}</span>
