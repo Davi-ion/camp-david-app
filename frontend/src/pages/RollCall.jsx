@@ -271,30 +271,30 @@ export default function RollCall() {
             <div style={{ display: 'grid', gridTemplateColumns: 'repeat(4, 1fr)', gap: 8, marginTop: 12 }}>
               <div 
                 onClick={() => setStatusFilter(statusFilter === 'present' ? 'all' : 'present')}
-                style={{ textAlign: 'center', padding: '8px 4px', background: statusFilter === 'present' ? 'rgba(74,222,128,0.25)' : 'rgba(255,255,255,0.12)', borderRadius: 10, cursor: 'pointer', border: statusFilter === 'present' ? '1px solid #4ADE80' : 'none' }}
+                style={{ textAlign: 'center', padding: '8px 4px', background: statusFilter === 'present' ? 'rgba(255,255,255,0.25)' : 'rgba(255,255,255,0.12)', borderRadius: 10, cursor: 'pointer', border: statusFilter === 'present' ? '1px solid #ffffff' : 'none' }}
               >
-                <div style={{ fontSize: '1.25rem', fontWeight: 700, color: '#4ADE80' }}>{summary.present}</div>
+                <div style={{ fontSize: '1.25rem', fontWeight: 700, color: '#ffffff' }}>{summary.present}</div>
                 <div style={{ fontSize: '0.75rem', color: 'rgba(255,255,255,0.95)', marginTop: 2 }}>Present</div>
               </div>
               <div 
                 onClick={() => setStatusFilter(statusFilter === 'absent' ? 'all' : 'absent')}
-                style={{ textAlign: 'center', padding: '8px 4px', background: statusFilter === 'absent' ? 'rgba(248,113,113,0.25)' : 'rgba(255,255,255,0.12)', borderRadius: 10, cursor: 'pointer', border: statusFilter === 'absent' ? '1px solid #F87171' : 'none' }}
+                style={{ textAlign: 'center', padding: '8px 4px', background: statusFilter === 'absent' ? 'rgba(255,255,255,0.25)' : 'rgba(255,255,255,0.12)', borderRadius: 10, cursor: 'pointer', border: statusFilter === 'absent' ? '1px solid #ffffff' : 'none' }}
               >
-                <div style={{ fontSize: '1.25rem', fontWeight: 700, color: '#F87171' }}>{summary.absent}</div>
+                <div style={{ fontSize: '1.25rem', fontWeight: 700, color: '#ffffff' }}>{summary.absent}</div>
                 <div style={{ fontSize: '0.75rem', color: 'rgba(255,255,255,0.95)', marginTop: 2 }}>Absent</div>
               </div>
               <div 
                 onClick={() => setStatusFilter(statusFilter === 'excused' ? 'all' : 'excused')}
-                style={{ textAlign: 'center', padding: '8px 4px', background: statusFilter === 'excused' ? 'rgba(251,191,36,0.25)' : 'rgba(255,255,255,0.12)', borderRadius: 10, cursor: 'pointer', border: statusFilter === 'excused' ? '1px solid #FBBF24' : 'none' }}
+                style={{ textAlign: 'center', padding: '8px 4px', background: statusFilter === 'excused' ? 'rgba(255,255,255,0.25)' : 'rgba(255,255,255,0.12)', borderRadius: 10, cursor: 'pointer', border: statusFilter === 'excused' ? '1px solid #ffffff' : 'none' }}
               >
-                <div style={{ fontSize: '1.25rem', fontWeight: 700, color: '#FBBF24' }}>{summary.excused}</div>
+                <div style={{ fontSize: '1.25rem', fontWeight: 700, color: '#ffffff' }}>{summary.excused}</div>
                 <div style={{ fontSize: '0.75rem', color: 'rgba(255,255,255,0.95)', marginTop: 2 }}>Excused</div>
               </div>
               <div 
                 onClick={() => setStatusFilter(statusFilter === 'pending' ? 'all' : 'pending')}
-                style={{ textAlign: 'center', padding: '8px 4px', background: statusFilter === 'pending' ? 'rgba(229,231,235,0.25)' : 'rgba(255,255,255,0.12)', borderRadius: 10, cursor: 'pointer', border: statusFilter === 'pending' ? '1px solid #E5E7EB' : 'none' }}
+                style={{ textAlign: 'center', padding: '8px 4px', background: statusFilter === 'pending' ? 'rgba(255,255,255,0.25)' : 'rgba(255,255,255,0.12)', borderRadius: 10, cursor: 'pointer', border: statusFilter === 'pending' ? '1px solid #ffffff' : 'none' }}
               >
-                <div style={{ fontSize: '1.25rem', fontWeight: 700, color: '#E5E7EB' }}>{summary.pending}</div>
+                <div style={{ fontSize: '1.25rem', fontWeight: 700, color: '#ffffff' }}>{summary.pending}</div>
                 <div style={{ fontSize: '0.75rem', color: 'rgba(255,255,255,0.95)', marginTop: 2 }}>Pending</div>
               </div>
             </div>
