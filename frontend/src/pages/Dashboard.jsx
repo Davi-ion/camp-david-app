@@ -6,7 +6,7 @@ import { sessions } from '../data/sessions';
 import UserMenu from '../components/UserMenu';
 import NotificationCentre from '../components/NotificationCentre';
 import { IconClipboardCheck, IconAlertCircle, IconAlertTriangle } from '@tabler/icons-react';
-const API = import.meta.env.VITE_API_URL || 'http://localhost:3001';
+const API = import.meta.env.VITE_API_URL || 'https://camp-david-app.onrender.com';
 
 function formatTime12(timeStr) {
   const [h, m] = timeStr.split(':').map(Number);

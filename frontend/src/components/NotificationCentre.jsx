@@ -2,7 +2,7 @@ import { useState, useEffect, useRef } from 'react';
 import { useApp } from '../context/AppContext';
 import { IconBell } from '@tabler/icons-react';
 
-const API = import.meta.env.VITE_API_URL || 'http://localhost:3001';
+const API = import.meta.env.VITE_API_URL || 'https://camp-david-app.onrender.com';
 
 export default function NotificationCentre({ lightMode }) {
   const { state } = useApp();

@@ -3,7 +3,7 @@ import { useApp } from '../context/AppContext';
 import { CAMP_DAYS, schedule } from '../data/schedule';
 import { sessions as sessionData } from '../data/sessions';
 
-const API = import.meta.env.VITE_API_URL || 'http://localhost:3001';
+const API = import.meta.env.VITE_API_URL || 'https://camp-david-app.onrender.com';
 
 export default function ConsoleAttendance() {
   const { state } = useApp();
