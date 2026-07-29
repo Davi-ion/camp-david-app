@@ -2,7 +2,7 @@ import 'dotenv/config';
 import express from 'express';
 import cors from 'cors';
 import rateLimit from 'express-rate-limit';
-import { PrismaClient } from './generated/prisma/client.ts';
+import { prisma } from './utils/prisma.js';
 
 import authRoutes from './routes/auth.js';
 import usersRoutes from './routes/users.js';
@@ -20,7 +20,6 @@ import bulkRoutes from './routes/bulk.js';
 import dormsRoutes from './routes/dorms.js';
 import attendanceRoutes from './routes/attendance.js';
 
-const prisma = new PrismaClient();
 const app = express();
 
 // ─── Middleware ───────────────────────────────────────────────────

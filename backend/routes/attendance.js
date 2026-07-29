@@ -1,6 +1,5 @@
 import express from 'express';
-import { PrismaClient } from '../generated/prisma/client.ts';
-const prisma = new PrismaClient();
+import { prisma } from '../utils/prisma.js';
 const router = express.Router();
 
 // ─── Get All Attendance Records (Session Map) ────────────────────
