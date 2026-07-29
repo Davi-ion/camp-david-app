@@ -37,35 +37,17 @@ export function usePermissions() {
 
   /**
    * Check access to Console (/console/*) screens
-   * Path identifiers: 'dashboard', 'activity', 'campers', 'platoons', 'dorms',
-   * 'attendance', 'incidents', 'programme', 'drills', 'announcements',
-   * 'staff', 'users', 'reports', 'audit', 'settings'
    */
   const canAccessConsoleScreen = (screenKey) => {
-    if (isAdmin) return true;
-    if (isCommander) {
-      const allowedCommanderScreens = [
-        'dashboard',
-        'campers',
-        'platoons',
-        'dorms',
-        'attendance',
-        'incidents',
-        'programme',
-        'drills',
-        'announcements',
-      ];
-      return allowedCommanderScreens.includes(screenKey);
-    }
+    if (isAdmin || isCommander) return true;
     return false;
   };
 
   // Legacy permission checks compatibility
   const hasPermission = (permission) => {
-    if (isAdmin || permissions.includes('all')) return true;
+    if (isAdmin || isCommander || permissions.includes('all')) return true;
     if (permission === 'take:attendance') return canAccessAppScreen('rollcall');
     if (permission === 'view:campers') return canAccessAppScreen('campers');
-    if (permission === 'manage:users') return isAdmin;
     return permissions.includes(permission);
   };
 

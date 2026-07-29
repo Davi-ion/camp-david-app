@@ -1,6 +1,7 @@
 import { useState, useRef, useEffect } from 'react';
 import { Link, useNavigate } from 'react-router-dom';
 import { useApp } from '../context/AppContext';
+import { usePermissions } from '../hooks/usePermissions';
 import { IconUser, IconLayoutDashboard, IconLogout } from '@tabler/icons-react';
 
 function getInitials(name) {
@@ -9,15 +10,14 @@ function getInitials(name) {
 
 export default function UserMenu({ lightMode = false }) {
   const { state, dispatch } = useApp();
+  const { canAccessConsole } = usePermissions();
   const navigate = useNavigate();
   const user = state.currentUser;
   
   const [dropdownOpen, setDropdownOpen] = useState(false);
   const dropdownRef = useRef(null);
 
-  const isConsoleUser = (user?.permissions || []).some(p =>
-    ['manage:users', 'view:audit', 'all'].includes(p)
-  );
+  const isConsoleUser = canAccessConsole;
 
   useEffect(() => {
     function handleClickOutside(event) {
