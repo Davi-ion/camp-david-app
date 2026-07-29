@@ -26,7 +26,6 @@ const NAV_SECTIONS = [
     label: 'Overview',
     items: [
       { to: '/console/dashboard', label: 'Dashboard',       screenKey: 'dashboard', icon: <IconLayoutDashboard size={18} /> },
-      { to: '/console/activity',  label: 'Recent Activity', screenKey: 'activity',  icon: <IconActivity size={18} /> },
     ],
   },
   {
@@ -38,7 +37,6 @@ const NAV_SECTIONS = [
       { to: '/console/attendance',    label: 'Attendance',    screenKey: 'attendance',    icon: <IconClipboardCheck size={18} /> },
       { to: '/console/incidents',     label: 'Incidents',     screenKey: 'incidents',     icon: <IconAlertTriangle size={18} />, badgeKey: 'openIncidents' },
       { to: '/console/programme',     label: 'Programme',     screenKey: 'programme',     icon: <IconCalendarEvent size={18} /> },
-      { to: '/console/drills',        label: 'Camp Drills',   screenKey: 'drills',        icon: <IconTarget size={18} /> },
       { to: '/console/announcements', label: 'Announcements', screenKey: 'announcements', icon: <IconSpeakerphone size={18} /> },
     ],
   },
@@ -47,7 +45,7 @@ const NAV_SECTIONS = [
     items: [
       { to: '/console/volunteers', label: 'Volunteers',      screenKey: 'staff',   icon: <IconUser size={18} /> },
       { to: '/console/reports',    label: 'Reports',         screenKey: 'reports', icon: <IconChartBar size={18} /> },
-      { to: '/console/activity',   label: 'Recent Activity', screenKey: 'audit',   icon: <IconActivity size={18} /> },
+      { to: '/console/activity',   label: 'Recent Activity', screenKey: 'activity',  icon: <IconActivity size={18} /> },
     ],
   },
   {

@@ -868,10 +868,11 @@ label {
   backdrop-filter: blur(4px);
   z-index: 200;
   display: flex;
-  align-items: center; /* Center horizontally/vertically for enterprise feel */
+  align-items: flex-start; /* Align modal to top of screen */
   justify-content: center;
   animation: fadeIn 0.2s ease;
-  padding: 20px;
+  padding: 40px 20px 20px;
+  overflow-y: auto;
 }
 
 .modal-content {

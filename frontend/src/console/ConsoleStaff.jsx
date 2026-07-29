@@ -543,10 +543,11 @@ export default function ConsoleStaff() {
           background: 'rgba(15, 23, 42, 0.6)',
           backdropFilter: 'blur(4px)',
           display: 'flex',
-          alignItems: 'center',
+          alignItems: 'flex-start',
           justifyContent: 'center',
           zIndex: 1000,
-          padding: '20px'
+          padding: '40px 20px 20px',
+          overflowY: 'auto'
         }}>
           <div style={{
             background: 'var(--bg-card, #FFFFFF)',

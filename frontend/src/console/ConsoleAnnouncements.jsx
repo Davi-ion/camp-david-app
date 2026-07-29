@@ -205,7 +205,7 @@ export default function ConsoleAnnouncements() {
       </div>
 
       {modalOpen && (
-        <div className="modal-overlay" style={{ position: 'fixed', inset: 0, background: 'rgba(0,0,0,0.5)', zIndex: 100, display: 'flex', alignItems: 'center', justifyContent: 'center' }}>
+        <div className="modal-overlay" style={{ position: 'fixed', inset: 0, background: 'rgba(0,0,0,0.5)', zIndex: 100, display: 'flex', alignItems: 'flex-start', justifyContent: 'center', paddingTop: 40, overflowY: 'auto' }}>
           <div className="console-card" style={{ width: 600, maxWidth: '90%', maxHeight: '90vh', overflowY: 'auto' }}>
             <div className="console-card-header">
               <span className="console-card-title">{formData.id ? 'Edit Announcement' : 'New Announcement'}</span>

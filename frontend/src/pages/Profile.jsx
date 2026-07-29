@@ -91,9 +91,11 @@ export default function Profile() {
     <div className="container" style={{ paddingTop: 20 }}>
       {/* Profile Header */}
       <div className="card" style={{ display: 'flex', alignItems: 'center', gap: 16, marginBottom: 24, padding: 20 }}>
-        <div className="avatar avatar-lg" style={{ background: 'var(--teal)', color: '#fff', fontSize: '1.5rem' }}>
-          {user?.name?.split(' ').map(w => w[0]).join('').toUpperCase().slice(0, 2)}
-        </div>
+        <img 
+          src={user?.avatar && (user.avatar.startsWith('/') || user.avatar.startsWith('http')) ? user.avatar : '/avatars/character1.jpg'} 
+          alt={user?.name || 'Profile Avatar'} 
+          style={{ width: 64, height: 64, borderRadius: 9999, objectFit: 'cover', border: '3px solid var(--teal)', boxShadow: '0 4px 12px rgba(0,0,0,0.1)' }}
+        />
         <div>
           <h2 style={{ margin: 0 }}>{user?.name}</h2>
           <div style={{ color: 'var(--text-secondary)', fontSize: '0.875rem', marginTop: 4 }}>

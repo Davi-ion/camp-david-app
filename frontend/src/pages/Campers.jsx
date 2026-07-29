@@ -198,7 +198,7 @@ export default function Campers() {
                 <div style={{ fontSize: '0.75rem', color: 'rgba(255,255,255,0.95)', marginTop: 2 }}>Medical Alerts</div>
               </div>
               <div style={{ textAlign: 'center', padding: '10px 4px', background: 'rgba(255,255,255,0.12)', borderRadius: 12 }}>
-                <div style={{ fontSize: '1.25rem', fontWeight: 700, color: '#60A5FA' }}>{GROUPS.length}</div>
+                <div style={{ fontSize: '1.25rem', fontWeight: 700, color: '#60A5FA' }}>{platoonOptions.length || 16}</div>
                 <div style={{ fontSize: '0.75rem', color: 'rgba(255,255,255,0.95)', marginTop: 2 }}>Platoons / Groups</div>
               </div>
             </div>
@@ -251,29 +251,7 @@ export default function Campers() {
           )}
         </div>
 
-        {/* Group Filter (Admin) */}
-        {canEdit && (
-          <div className="filter-tabs" style={{ marginTop: 16 }}>
-            <button
-              className={`filter-tab ${groupFilter === 'all' ? 'active' : ''}`}
-              onClick={() => setGroupFilter('all')}
-            >
-              All ({state.campers.length})
-            </button>
-            {GROUPS.map((g) => {
-              const count = state.campers.filter((c) => c.group === g.id).length;
-              return (
-                <button
-                  key={g.id}
-                  className={`filter-tab ${groupFilter === g.id ? 'active' : ''}`}
-                  onClick={() => setGroupFilter(g.id)}
-                >
-                  {g.emoji} {g.name} ({count})
-                </button>
-              );
-            })}
-          </div>
-        )}
+
 
         {/* CSV Import (Admin only) */}
         {canEdit && (
@@ -326,7 +304,7 @@ export default function Campers() {
           Showing {filteredCampers.length} camper{filteredCampers.length !== 1 ? 's' : ''}
         </p>
 
-        {/* Camper List */}
+        {/* Camper List (Unified Roll Call style with avatars) */}
         {filteredCampers.length === 0 ? (
           <EmptyState 
             icon={<IconUsers size={48} color="var(--teal)" />}
@@ -334,77 +312,137 @@ export default function Campers() {
             description="Try adjusting your search query or group filter."
           />
         ) : (
-          Object.entries(groupedCampers).map(([groupId, camperList]) => {
-            const group = GROUPS.find((g) => g.id === groupId);
-            return (
-              <div key={groupId} style={{ marginBottom: 20 }}>
-                <div className="group-header" style={{ fontSize: '0.9375rem', fontWeight: 700, letterSpacing: '0.02em', marginBottom: 10 }}>
-                  {group?.emoji} {group?.name || groupId} ({camperList.length})
-                </div>
-                <div style={{ display: 'flex', flexDirection: 'column', gap: 10 }}>
-                  {camperList.map((camper) => {
-                    const isExpanded = expandedId === camper.id;
-                    return (
-                      <div key={camper.id} style={{ background: '#fff', borderRadius: 14, border: '1px solid var(--border)', overflow: 'hidden', boxShadow: '0 2px 8px rgba(0,0,0,0.03)' }}>
-                        <div
-                          className="camper-row"
-                          onClick={() => setExpandedId(isExpanded ? null : camper.id)}
-                          style={{ cursor: 'pointer', padding: '14px 18px', border: 'none' }}
-                        >
-                          <div className="avatar avatar-sm" style={{ background: 'var(--teal)', color: '#fff', fontWeight: 700 }}>
-                            {getInitials(camper.name)}
-                          </div>
-                          <div className="camper-info">
-                            <div className="camper-name" style={{ fontWeight: 600, color: 'var(--text)' }}>
-                              {camper.name}
-                              {camper.medicalNotes && <span className="medical-flag" title="Medical Notes Present">⚕️</span>}
-                            </div>
-                            <div className="camper-meta" style={{ fontSize: '0.78125rem', color: 'var(--text-secondary)' }}>
-                              Age {camper.age} · {group?.emoji} {group?.name}
-                            </div>
-                          </div>
-                          <IconChevronDown
-                            size={18}
-                            color="var(--text-muted)"
-                            style={{ transition: 'transform 0.2s', transform: isExpanded ? 'rotate(180deg)' : 'rotate(0deg)' }}
-                          />
-                        </div>
+          <div style={{ marginTop: 18, background: '#fff', borderRadius: 16, border: '1px solid var(--border, #E2E8F0)', boxShadow: '0 4px 16px rgba(0,0,0,0.03)', overflow: 'hidden' }}>
+            <div style={{ padding: '12px 16px', background: '#F8FAFC', borderBottom: '1px solid var(--border, #E2E8F0)', display: 'flex', justifyContent: 'space-between', alignItems: 'center' }}>
+              <span style={{ fontSize: '0.8125rem', fontWeight: 700, color: 'var(--text-secondary, #64748B)', textTransform: 'uppercase', letterSpacing: '0.05em' }}>
+                Camper Directory ({filteredCampers.length})
+              </span>
+              <span style={{ fontSize: '0.75rem', color: 'var(--text-muted, #94A3B8)' }}>
+                Page {page} of {Math.ceil(filteredCampers.length / pageSize)}
+              </span>
+            </div>
 
-                        {/* Expanded Details Card */}
-                        {isExpanded && (
-                          <div style={{ padding: '0 18px 18px 60px', borderTop: '1px solid var(--border-light)', paddingTop: 14, background: '#FAFAFA' }}>
-                            {camper.medicalNotes && (
-                              <div className="medical-block" style={{ marginBottom: 12, background: '#FEF2F2', border: '1px solid #FCA5A5', color: '#991B1B', borderRadius: 10, padding: 12, fontSize: '0.8125rem' }}>
-                                <strong>⚕ Medical Notes:</strong> {camper.medicalNotes}
-                              </div>
-                            )}
-                            <div className="profile-detail" style={{ marginBottom: 6, fontSize: '0.8125rem', display: 'flex', justifyContent: 'space-between' }}>
-                              <span className="profile-label" style={{ color: 'var(--text-muted)' }}>Age</span>
-                              <span style={{ fontWeight: 600 }}>{camper.age} years old</span>
-                            </div>
-                            <div className="profile-detail" style={{ marginBottom: 6, fontSize: '0.8125rem', display: 'flex', justifyContent: 'space-between' }}>
-                              <span className="profile-label" style={{ color: 'var(--text-muted)' }}>Group / Platoon</span>
-                              <span style={{ fontWeight: 600 }}>{group?.emoji} {group?.name}</span>
-                            </div>
-                            <div className="profile-detail" style={{ fontSize: '0.8125rem', display: 'flex', justifyContent: 'space-between', alignItems: 'flex-start' }}>
-                              <span className="profile-label" style={{ color: 'var(--text-muted)' }}>Emergency Contact</span>
-                              <span style={{ textAlign: 'right', fontWeight: 600 }}>
-                                {camper.emergencyContact.name}
-                                <br />
-                                <a href={`tel:${camper.emergencyContact.phone}`} style={{ color: 'var(--teal)', fontWeight: 600, display: 'inline-flex', alignItems: 'center', gap: 4, marginTop: 2, textDecoration: 'none' }}>
-                                  <IconPhone size={14} /> {camper.emergencyContact.phone}
-                                </a>
-                              </span>
-                            </div>
+            <div style={{ display: 'flex', flexDirection: 'column' }}>
+              {paginatedCampers.map((camper, idx) => {
+                const isExpanded = expandedId === camper.id;
+                const isLast = idx === paginatedCampers.length - 1;
+                const avatarSrc = camper.photo && (camper.photo.startsWith('/') || camper.photo.startsWith('http')) 
+                  ? camper.photo 
+                  : `/avatars/character${(idx % 20) + 1}.jpg`;
+
+                return (
+                  <div 
+                    key={camper.id} 
+                    style={{ 
+                      borderBottom: isLast ? 'none' : '1px solid #F1F5F9',
+                      background: '#FFFFFF', 
+                      transition: 'all 0.15s ease'
+                    }}
+                  >
+                    <div
+                      onClick={() => setExpandedId(isExpanded ? null : camper.id)}
+                      style={{
+                        padding: '12px 16px', 
+                        cursor: 'pointer',
+                        display: 'flex',
+                        alignItems: 'center',
+                        justifyContent: 'space-between',
+                        gap: 12
+                      }}
+                    >
+                      <div style={{ display: 'flex', alignItems: 'center', gap: 12, flex: 1, minWidth: 0 }}>
+                        <img 
+                          src={avatarSrc} 
+                          alt={camper.name} 
+                          style={{
+                            width: 40,
+                            height: 40,
+                            borderRadius: 9999,
+                            objectFit: 'cover',
+                            flexShrink: 0,
+                            border: '2px solid #E2E8F0',
+                            boxShadow: '0 2px 6px rgba(0,0,0,0.08)'
+                          }}
+                        />
+                        <div className="camper-info" style={{ minWidth: 0 }}>
+                          <div className="camper-name" style={{ fontWeight: 600, color: 'var(--text)', whiteSpace: 'nowrap', overflow: 'hidden', textOverflow: 'ellipsis' }}>
+                            {camper.name}
+                            {camper.medicalNotes && <span className="medical-flag" title={`Medical: ${camper.medicalNotes}`} style={{ marginLeft: 6 }}>⚕️</span>}
+                          </div>
+                          <div style={{ fontSize: '0.75rem', color: 'var(--text-secondary)', display: 'flex', gap: 8, flexWrap: 'wrap', marginTop: 2 }}>
+                            {camper.registrationNumber && <span>{camper.registrationNumber}</span>}
+                            {camper.age && <span>· Age {camper.age}</span>}
+                            {camper.platoon?.name ? (
+                              <span>· {camper.platoon.emoji || '🏴'} {camper.platoon.name}</span>
+                            ) : camper.group ? (
+                              <span>· {camper.group}</span>
+                            ) : null}
+                            {camper.dorm?.name && <span>· 🏢 {camper.dorm.name}</span>}
+                            {camper.bedNumber && <span>· Bed {camper.bedNumber}</span>}
+                          </div>
+                        </div>
+                      </div>
+
+                      <IconChevronDown
+                        size={18}
+                        color="var(--text-muted)"
+                        style={{ transition: 'transform 0.2s', transform: isExpanded ? 'rotate(180deg)' : 'rotate(0deg)', flexShrink: 0 }}
+                      />
+                    </div>
+
+                    {/* Expanded Details Card */}
+                    {isExpanded && (
+                      <div style={{ padding: '0 16px 16px 68px', borderTop: '1px solid #F1F5F9', paddingTop: 12, background: '#FAFAFA' }}>
+                        {camper.medicalNotes && (
+                          <div className="medical-block" style={{ marginBottom: 12, background: '#FEF2F2', border: '1px solid #FCA5A5', color: '#991B1B', borderRadius: 10, padding: 12, fontSize: '0.8125rem' }}>
+                            <strong>⚕ Medical Notes:</strong> {camper.medicalNotes}
+                          </div>
+                        )}
+                        {camper.registrationNumber && (
+                          <div className="profile-detail" style={{ marginBottom: 6, fontSize: '0.8125rem', display: 'flex', justifyContent: 'space-between' }}>
+                            <span className="profile-label" style={{ color: 'var(--text-muted)' }}>Registration Number</span>
+                            <span style={{ fontWeight: 600 }}>{camper.registrationNumber}</span>
+                          </div>
+                        )}
+                        <div className="profile-detail" style={{ marginBottom: 6, fontSize: '0.8125rem', display: 'flex', justifyContent: 'space-between' }}>
+                          <span className="profile-label" style={{ color: 'var(--text-muted)' }}>Age</span>
+                          <span style={{ fontWeight: 600 }}>{camper.age} years old</span>
+                        </div>
+                        {(camper.platoon?.name || camper.group) && (
+                          <div className="profile-detail" style={{ marginBottom: 6, fontSize: '0.8125rem', display: 'flex', justifyContent: 'space-between' }}>
+                            <span className="profile-label" style={{ color: 'var(--text-muted)' }}>Platoon</span>
+                            <span style={{ fontWeight: 600 }}>{camper.platoon?.emoji || '🏴'} {camper.platoon?.name || camper.group}</span>
+                          </div>
+                        )}
+                        {camper.dorm?.name && (
+                          <div className="profile-detail" style={{ marginBottom: 6, fontSize: '0.8125rem', display: 'flex', justifyContent: 'space-between' }}>
+                            <span className="profile-label" style={{ color: 'var(--text-muted)' }}>Dorm & Bed</span>
+                            <span style={{ fontWeight: 600 }}>🏢 {camper.dorm.name} {camper.bedNumber ? `(Bed ${camper.bedNumber})` : ''}</span>
+                          </div>
+                        )}
+                        {camper.emergencyContact && (camper.emergencyContact.name || camper.emergencyContact.phone) && (
+                          <div className="profile-detail" style={{ fontSize: '0.8125rem', display: 'flex', justifyContent: 'space-between', alignItems: 'flex-start' }}>
+                            <span className="profile-label" style={{ color: 'var(--text-muted)' }}>Emergency Contact</span>
+                            <span style={{ textAlign: 'right', fontWeight: 600 }}>
+                              {camper.emergencyContact.name}
+                              {camper.emergencyContact.phone && (
+                                <>
+                                  <br />
+                                  <a href={`tel:${camper.emergencyContact.phone}`} style={{ color: 'var(--teal)', fontWeight: 600, display: 'inline-flex', alignItems: 'center', gap: 4, marginTop: 2, textDecoration: 'none' }}>
+                                    <IconPhone size={14} /> {camper.emergencyContact.phone}
+                                  </a>
+                                </>
+                              )}
+                            </span>
                           </div>
                         )}
                       </div>
-                    );
-                  })}
-                </div>
-              </div>
-            );
-          })
+                    )}
+                  </div>
+                );
+              })}
+            </div>
+          </div>
         )}
 
         {/* Pagination Controller */}

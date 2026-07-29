@@ -6,8 +6,6 @@ import (
 	"os"
 	"time"
 
-	"camp-david-backend/models"
-
 	"gorm.io/driver/mysql"
 	"gorm.io/gorm"
 	"gorm.io/gorm/logger"
@@ -57,19 +55,6 @@ func ConnectDB() *gorm.DB {
 	}
 
 	log.Println("[GORM] Successfully connected to Remote MySQL!")
-
-	log.Println("[GORM] Auto-migrating database schemas...")
-	db.AutoMigrate(
-		&models.Staff{},
-		&models.Platoon{},
-		&models.Dorm{},
-		&models.Camper{},
-		&models.Incident{},
-		&models.Announcement{},
-		&models.CampDrill{},
-		&models.Role{},
-		&models.RoleAssignment{},
-	)
 
 	DB = db
 	return db

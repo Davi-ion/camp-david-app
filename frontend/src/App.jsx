@@ -22,7 +22,6 @@ import ConsolePlatoons from './console/ConsolePlatoons';
 import ConsoleDorms from './console/ConsoleDorms';
 import ConsoleStaff from './console/ConsoleStaff';
 import ConsoleProgramme from './console/ConsoleProgramme';
-import ConsoleDrills from './console/ConsoleDrills';
 import ConsoleAttendance from './console/ConsoleAttendance';
 import ConsoleAnnouncements from './console/ConsoleAnnouncements';
 import ConsoleReports from './console/ConsoleReports';
@@ -147,9 +146,6 @@ function App() {
           </Route>
           <Route element={<ConsoleRouteGuard screen="programme" />}>
             <Route path="programme" element={<ConsoleProgramme />} />
-          </Route>
-          <Route element={<ConsoleRouteGuard screen="drills" />}>
-            <Route path="drills" element={<ConsoleDrills />} />
           </Route>
           <Route element={<ConsoleRouteGuard screen="announcements" />}>
             <Route path="announcements" element={<ConsoleAnnouncements />} />

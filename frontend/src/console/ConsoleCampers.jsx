@@ -206,7 +206,7 @@ export default function ConsoleCampers() {
   };
 
   return (
-    <div className="console-fade-in">
+    <div className="console-fade-in console-campers-page">
       <div className="console-page-header">
         <div>
           <h1 className="console-page-title">Campers</h1>
@@ -382,7 +382,7 @@ export default function ConsoleCampers() {
       </div>
 
       {modalOpen && (
-        <div className="modal-overlay" style={{ position: 'fixed', inset: 0, background: 'rgba(0,0,0,0.5)', zIndex: 100, display: 'flex', alignItems: 'center', justifyContent: 'center' }}>
+        <div className="modal-overlay" style={{ position: 'fixed', inset: 0, background: 'rgba(0,0,0,0.5)', zIndex: 100, display: 'flex', alignItems: 'flex-start', justifyContent: 'center', paddingTop: 40, overflowY: 'auto' }}>
           <div className="console-card" style={{ width: 540, maxWidth: '90%', maxHeight: '90vh', overflowY: 'auto' }}>
             <div className="console-card-header">
               <span className="console-card-title">{editingCamper ? 'Edit Camper' : 'Add Camper'}</span>

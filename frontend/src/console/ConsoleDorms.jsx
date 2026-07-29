@@ -342,9 +342,11 @@ export default function ConsoleDorms() {
               <div style={{ padding: '0 24px 20px', flex: 1, display: 'flex', flexDirection: 'column', gap: 16 }}>
                 {/* Supervisor Info Pill */}
                 <div style={{ display: 'flex', alignItems: 'center', gap: 12, padding: '12px 14px', background: 'var(--bg-light, #F8FAFC)', borderRadius: 12, border: '1px solid var(--border-light)' }}>
-                  <div style={{ width: 34, height: 34, borderRadius: 9999, background: dorm.supervisor ? brandColor : '#94A3B8', color: '#fff', display: 'flex', alignItems: 'center', justifyContent: 'center', fontSize: '0.75rem', fontWeight: 700, flexShrink: 0 }}>
-                    {getInitials(dorm.supervisor?.name || 'Unassigned')}
-                  </div>
+                  <img
+                    src={dorm.supervisor?.avatar && (dorm.supervisor.avatar.startsWith('/') || dorm.supervisor.avatar.startsWith('http')) ? dorm.supervisor.avatar : '/avatars/character1.jpg'}
+                    alt={dorm.supervisor?.name || 'Supervisor'}
+                    style={{ width: 34, height: 34, borderRadius: 9999, objectFit: 'cover', border: `1.5px solid ${brandColor}`, flexShrink: 0 }}
+                  />
                   <div style={{ flex: 1, minWidth: 0 }}>
                     <div style={{ fontSize: '0.625rem', fontWeight: 700, textTransform: 'uppercase', letterSpacing: '0.06em', color: 'var(--text-muted)' }}>Dorm Supervisor</div>
                     <div style={{ fontSize: '0.875rem', fontWeight: 600, color: 'var(--text)', whiteSpace: 'nowrap', overflow: 'hidden', textOverflow: 'ellipsis' }}>{dorm.supervisor?.name || 'No supervisor assigned'}</div>
@@ -457,7 +459,7 @@ export default function ConsoleDorms() {
       
       {/* Assign Modal */}
       {assignModalOpen && (
-        <div className="modal-overlay" style={{ position: 'fixed', inset: 0, background: 'rgba(0,0,0,0.5)', zIndex: 100, display: 'flex', alignItems: 'center', justifyContent: 'center' }}>
+        <div className="modal-overlay" style={{ position: 'fixed', inset: 0, background: 'rgba(0,0,0,0.5)', zIndex: 100, display: 'flex', alignItems: 'flex-start', justifyContent: 'center', paddingTop: 40, overflowY: 'auto' }}>
           <div className="console-card" style={{ width: 500, maxWidth: '90%', maxHeight: '80vh', display: 'flex', flexDirection: 'column' }}>
             <div className="console-card-header">
               <span className="console-card-title">Assign Campers to {selectedDorm.name}</span>
@@ -490,7 +492,7 @@ export default function ConsoleDorms() {
       
       {/* Move Modal */}
       {moveModalOpen && camperToMove && (
-        <div className="modal-overlay" style={{ position: 'fixed', inset: 0, background: 'rgba(0,0,0,0.5)', zIndex: 100, display: 'flex', alignItems: 'center', justifyContent: 'center' }}>
+        <div className="modal-overlay" style={{ position: 'fixed', inset: 0, background: 'rgba(0,0,0,0.5)', zIndex: 100, display: 'flex', alignItems: 'flex-start', justifyContent: 'center', paddingTop: 40, overflowY: 'auto' }}>
           <div className="console-card" style={{ width: 400, maxWidth: '90%' }}>
             <div className="console-card-header">
               <span className="console-card-title">Move {camperToMove.name}</span>
@@ -519,7 +521,7 @@ export default function ConsoleDorms() {
       
       {/* Supervisors Modal */}
       {supervisorsModalOpen && (
-        <div className="modal-overlay" style={{ position: 'fixed', inset: 0, background: 'rgba(0,0,0,0.5)', zIndex: 100, display: 'flex', alignItems: 'center', justifyContent: 'center' }}>
+        <div className="modal-overlay" style={{ position: 'fixed', inset: 0, background: 'rgba(0,0,0,0.5)', zIndex: 100, display: 'flex', alignItems: 'flex-start', justifyContent: 'center', paddingTop: 40, overflowY: 'auto' }}>
           <div className="console-card" style={{ width: 450, maxWidth: '90%' }}>
             <div className="console-card-header">
               <span className="console-card-title">Assign Supervisors for {selectedDorm.name}</span>

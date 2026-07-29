@@ -47,17 +47,20 @@ export default function UserMenu({ lightMode = false }) {
             cursor: 'pointer', display: 'flex', alignItems: 'center'
           }}
         >
-          <div
-            className="avatar avatar-sm"
+          <img
+            src={user?.avatar && (user.avatar.startsWith('/') || user.avatar.startsWith('http')) ? user.avatar : '/avatars/character1.jpg'}
+            alt={user?.name || 'User'}
             style={{
-              background: lightMode ? 'rgba(255,255,255,0.2)' : 'var(--teal)',
-              color: '#fff',
+              width: 34,
+              height: 34,
+              borderRadius: 9999,
+              objectFit: 'cover',
+              border: lightMode ? '2px solid rgba(255,255,255,0.8)' : '2px solid var(--teal)',
+              boxShadow: '0 2px 6px rgba(0,0,0,0.1)',
               transition: 'transform 0.2s ease',
               transform: dropdownOpen ? 'scale(0.95)' : 'scale(1)'
             }}
-          >
-            {getInitials(user.name)}
-          </div>
+          />
         </button>
 
         {dropdownOpen && (

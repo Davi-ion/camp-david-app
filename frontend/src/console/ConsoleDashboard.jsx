@@ -174,7 +174,7 @@ export default function ConsoleDashboard() {
         />
         <KpiCard
           label="Platoons"
-          value={platoonSummary.length || 4}
+          value={totalPlatoons}
           icon={<IconFlag size={18} />}
           delta={{ type: 'neutral', text: 'Active groups' }}
           to="/console/platoons"

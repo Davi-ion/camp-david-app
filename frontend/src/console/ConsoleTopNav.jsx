@@ -211,9 +211,11 @@ export default function ConsoleTopNav({ onMenuClick }) {
 
         <div ref={dropdownRef} style={{ position: 'relative' }}>
           <button className="console-user-chip" onClick={() => setDropdownOpen(!dropdownOpen)} style={{ borderRadius: 9999, padding: '4px 12px 4px 6px' }}>
-            <div className="avatar avatar-sm" style={{ background: '#14442C', color: '#fff', width: 30, height: 30, fontSize: '0.75rem', fontWeight: 700 }}>
-              {getInitials(user?.name)}
-            </div>
+            <img 
+              src={user?.avatar && (user.avatar.startsWith('/') || user.avatar.startsWith('http')) ? user.avatar : '/avatars/character1.jpg'} 
+              alt={user?.name || 'User'} 
+              style={{ width: 30, height: 30, borderRadius: 9999, objectFit: 'cover', border: '1.5px solid #14442C', flexShrink: 0 }}
+            />
             <div style={{ textAlign: 'left' }}>
               <div className="console-user-chip-name">{user?.name?.split(' ')[0] || 'Admin'}</div>
               <div className="console-user-chip-role" style={{ color: '#F49E82', fontWeight: 600 }}>{user?.roleName || user?.role}</div>

@@ -123,9 +123,11 @@ export default function ConsolePlatoons() {
                 <div style={{ padding: '0 24px 20px', flex: 1, display: 'flex', flexDirection: 'column', gap: 16 }}>
                   {/* Leader Info Pill */}
                   <div style={{ display: 'flex', alignItems: 'center', gap: 12, padding: '12px 14px', background: 'var(--bg-light, #F8FAFC)', borderRadius: 12, border: '1px solid var(--border-light)' }}>
-                    <div style={{ width: 34, height: 34, borderRadius: 9999, background: p.leader ? brandColor : '#94A3B8', color: '#fff', display: 'flex', alignItems: 'center', justifyContent: 'center', fontSize: '0.75rem', fontWeight: 700, flexShrink: 0 }}>
-                      {getInitials(p.leader?.name || 'Unassigned')}
-                    </div>
+                    <img
+                      src={p.leader?.avatar && (p.leader.avatar.startsWith('/') || p.leader.avatar.startsWith('http')) ? p.leader.avatar : '/avatars/character1.jpg'}
+                      alt={p.leader?.name || 'Leader'}
+                      style={{ width: 34, height: 34, borderRadius: 9999, objectFit: 'cover', border: `1.5px solid ${brandColor}`, flexShrink: 0 }}
+                    />
                     <div style={{ flex: 1, minWidth: 0 }}>
                       <div style={{ fontSize: '0.625rem', fontWeight: 700, textTransform: 'uppercase', letterSpacing: '0.06em', color: 'var(--text-muted)' }}>Platoon Leader</div>
                       <div style={{ fontSize: '0.875rem', fontWeight: 600, color: 'var(--text)', whiteSpace: 'nowrap', overflow: 'hidden', textOverflow: 'ellipsis' }}>{p.leader?.name || 'No leader assigned'}</div>
@@ -165,7 +167,7 @@ export default function ConsolePlatoons() {
       )}
 
       {selectedPlatoon && (
-        <div className="modal-overlay" style={{ position: 'fixed', inset: 0, background: 'rgba(0,0,0,0.5)', zIndex: 100, display: 'flex', alignItems: 'center', justifyContent: 'center' }}>
+        <div className="modal-overlay" style={{ position: 'fixed', inset: 0, background: 'rgba(0,0,0,0.5)', zIndex: 100, display: 'flex', alignItems: 'flex-start', justifyContent: 'center', paddingTop: 40, overflowY: 'auto' }}>
           <div className="console-card" style={{ width: 800, maxWidth: '95%', maxHeight: '90vh', display: 'flex', flexDirection: 'column' }}>
             <div className="console-card-header" style={{ display: 'flex', justifyContent: 'space-between', alignItems: 'center', background: selectedPlatoon.colorHex + '10', borderBottom: `2px solid ${selectedPlatoon.colorHex}` }}>
               <div style={{ display: 'flex', alignItems: 'center', gap: 12 }}>
