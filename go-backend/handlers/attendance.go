@@ -165,3 +165,44 @@ func GetSessionAttendanceHandler(c *gin.Context) {
 
 	c.JSON(http.StatusOK, records)
 }
+
+// UnifiedSyncHandler returns attendance, incidents, announcements, and campers in a single lightweight batched call
+func UnifiedSyncHandler(c *gin.Context) {
+	db := database.DB
+
+	// 1. Attendance Map
+	var attRecords []models.AttendanceRecord
+	db.Find(&attRecords)
+	attendanceMap := make(map[string]map[string]string)
+	for _, r := range attRecords {
+		if r.SessionID == "" || r.CamperID == nil || *r.CamperID == "" {
+			continue
+		}
+		if _, exists := attendanceMap[r.SessionID]; !exists {
+			attendanceMap[r.SessionID] = make(map[string]string)
+		}
+		attendanceMap[r.SessionID][*r.CamperID] = r.Status
+	}
+
+	// 2. Incidents
+	var incidents []models.Incident
+	db.Preload("Camper").Preload("AssignedStaff").Preload("ReportedBy").
+		Order("reportedAt desc").Limit(100).Find(&incidents)
+
+	// 3. Announcements
+	var announcements []models.Announcement
+	db.Order("createdAt desc").Limit(50).Find(&announcements)
+
+	// 4. Campers
+	var campers []models.Camper
+	db.Preload("Platoon").Preload("Dorm").Find(&campers)
+
+	c.JSON(http.StatusOK, gin.H{
+		"attendance":    attendanceMap,
+		"incidents":     incidents,
+		"announcements": announcements,
+		"campers":       campers,
+		"ts":            time.Now().Format(time.RFC3339),
+	})
+}
+

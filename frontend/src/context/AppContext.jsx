@@ -86,6 +86,12 @@ function reducer(state, action) {
         attendance: action.payload || {},
       };
 
+    case 'SET_INCIDENTS':
+      return { ...state, incidents: action.payload || [] };
+
+    case 'SET_ANNOUNCEMENTS':
+      return { ...state, announcements: action.payload || [] };
+
     case 'ADD_INCIDENT':
       return { ...state, incidents: [action.payload, ...state.incidents] };
 
@@ -124,44 +130,71 @@ export function AppProvider({ children }) {
     localStorage.setItem('campDavid2026', JSON.stringify(rest));
   }, [state]);
 
-  // Sync live campers & attendance from backend API into AppContext state (and poll every 15s for multi-device sync)
+  // Unified 15-second sync service: fetches campers, attendance, incidents, and announcements/programme in 1 batched call
   useEffect(() => {
-    const fetchData = async () => {
+    const fetchBatchedData = async () => {
       const token = localStorage.getItem('camp_token');
       if (!token) return;
+
       try {
-        const [campersRes, attRes] = await Promise.all([
-          fetch(`${API}/api/campers?limit=500&status=all`, {
-            headers: { Authorization: `Bearer ${token}` }
-          }),
-          fetch(`${API}/api/attendance/all`, {
-            headers: { Authorization: `Bearer ${token}` }
-          })
+        // Single batched sync call to keep DB query threshold low
+        const syncRes = await fetch(`${API}/api/sync/all`, {
+          headers: { Authorization: `Bearer ${token}` }
+        });
+
+        if (syncRes.ok) {
+          const data = await syncRes.json();
+          if (data.campers && data.campers.length > 0) {
+            dispatch({ type: 'SET_CAMPERS', payload: data.campers });
+          }
+          if (data.attendance && typeof data.attendance === 'object') {
+            dispatch({ type: 'SET_ATTENDANCE_MAP', payload: data.attendance });
+          }
+          if (data.incidents && Array.isArray(data.incidents)) {
+            dispatch({ type: 'SET_INCIDENTS', payload: data.incidents });
+          }
+          if (data.announcements && Array.isArray(data.announcements)) {
+            dispatch({ type: 'SET_ANNOUNCEMENTS', payload: data.announcements });
+          }
+          return;
+        }
+
+        // Fallback: parallel sync calls tied together in Promise.all
+        const [campersRes, attRes, incRes, annRes] = await Promise.all([
+          fetch(`${API}/api/campers?limit=500&status=all`, { headers: { Authorization: `Bearer ${token}` } }),
+          fetch(`${API}/api/attendance/all`, { headers: { Authorization: `Bearer ${token}` } }),
+          fetch(`${API}/api/incidents`, { headers: { Authorization: `Bearer ${token}` } }),
+          fetch(`${API}/api/announcements`, { headers: { Authorization: `Bearer ${token}` } }),
         ]);
 
         if (campersRes.ok) {
-          const data = await campersRes.json();
-          const list = Array.isArray(data) ? data : (data.campers || []);
-          if (list.length > 0) {
-            dispatch({ type: 'SET_CAMPERS', payload: list });
-          }
+          const campersData = await campersRes.json();
+          const list = Array.isArray(campersData) ? campersData : (campersData.campers || []);
+          if (list.length > 0) dispatch({ type: 'SET_CAMPERS', payload: list });
         }
-
         if (attRes.ok) {
           const attMap = await attRes.json();
-          if (attMap && typeof attMap === 'object') {
-            dispatch({ type: 'SET_ATTENDANCE_MAP', payload: attMap });
-          }
+          if (attMap && typeof attMap === 'object') dispatch({ type: 'SET_ATTENDANCE_MAP', payload: attMap });
+        }
+        if (incRes.ok) {
+          const incData = await incRes.json();
+          const list = Array.isArray(incData) ? incData : (incData.incidents || []);
+          dispatch({ type: 'SET_INCIDENTS', payload: list });
+        }
+        if (annRes.ok) {
+          const annData = await annRes.json();
+          const list = Array.isArray(annData) ? annData : (annData.announcements || []);
+          dispatch({ type: 'SET_ANNOUNCEMENTS', payload: list });
         }
       } catch (err) {
-        console.error('Failed to sync data from API:', err);
+        console.error('Failed to sync batched data from API:', err);
       }
     };
 
-    fetchData();
+    fetchBatchedData();
 
-    // Background poll every 15 seconds to fetch live updates from other devices
-    const interval = setInterval(fetchData, 15000);
+    // 15-second background poll for multi-device sync
+    const interval = setInterval(fetchBatchedData, 15000);
     return () => clearInterval(interval);
   }, [state.currentUser]);
 

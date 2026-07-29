@@ -61,26 +61,59 @@ export default function Incidents() {
     return state.incidents.filter((i) => i.status !== 'resolved').length;
   }, [state.incidents]);
 
-  const handleSubmit = () => {
+  const API = import.meta.env.VITE_API_URL || 'https://camp-david-app.onrender.com';
+
+  const handleSubmit = async () => {
     if (!formCamper || !formDesc.trim()) return;
-    const incident = {
-      id: `inc-${Date.now()}`,
-      camperId: formCamper,
-      type: formType,
+    const payload = {
+      title: `${(formType || 'general').toUpperCase()} Incident`,
       description: formDesc.trim(),
-      reportedBy: user.id,
-      reportedAt: new Date().toISOString(),
-      status: 'open',
+      category: formType || 'other',
+      severity: 'low',
+      camperId: formCamper,
     };
-    dispatch({ type: 'ADD_INCIDENT', payload: incident });
+
+    try {
+      const token = localStorage.getItem('camp_token');
+      const res = await fetch(`${API}/api/incidents`, {
+        method: 'POST',
+        headers: {
+          'Content-Type': 'application/json',
+          ...(token ? { Authorization: `Bearer ${token}` } : {})
+        },
+        body: JSON.stringify(payload)
+      });
+      if (res.ok) {
+        const saved = await res.json();
+        dispatch({ type: 'ADD_INCIDENT', payload: saved });
+      } else {
+        dispatch({ type: 'ADD_INCIDENT', payload: { ...payload, id: `inc-${Date.now()}`, reportedAt: new Date().toISOString(), status: 'open', reportedBy: user?.id } });
+      }
+    } catch (err) {
+      dispatch({ type: 'ADD_INCIDENT', payload: { ...payload, id: `inc-${Date.now()}`, reportedAt: new Date().toISOString(), status: 'open', reportedBy: user?.id } });
+    }
+
     setFormCamper('');
     setFormType('medical');
     setFormDesc('');
     setShowForm(false);
   };
 
-  const handleStatusChange = (incidentId, newStatus) => {
+  const handleStatusChange = async (incidentId, newStatus) => {
     dispatch({ type: 'UPDATE_INCIDENT_STATUS', payload: { id: incidentId, status: newStatus } });
+    try {
+      const token = localStorage.getItem('camp_token');
+      await fetch(`${API}/api/incidents/${incidentId}`, {
+        method: 'PUT',
+        headers: {
+          'Content-Type': 'application/json',
+          ...(token ? { Authorization: `Bearer ${token}` } : {})
+        },
+        body: JSON.stringify({ status: newStatus })
+      });
+    } catch (err) {
+      console.error('Failed to update incident status on API:', err);
+    }
   };
 
   const canUpdateStatus = hasPermission('resolve:incidents');

@@ -40,17 +40,40 @@ export default function Programme() {
     return daySchedule.find((e) => isNow(e.time, e.end));
   }, [daySchedule, campDay, todayStr, nowMinutes]);
 
-  const handlePost = () => {
+  const API = import.meta.env.VITE_API_URL || 'https://camp-david-app.onrender.com';
+
+  const handlePost = async () => {
     if (!annText.trim()) return;
-    const announcement = {
-      id: `ann-${Date.now()}`,
-      text: annText.trim(),
-      author: user.id,
-      createdAt: new Date().toISOString(),
-      urgent: annUrgent,
-      day: selectedDay,
+    const payload = {
+      title: annUrgent ? 'URGENT PROGRAMME NOTICE' : 'Programme Announcement',
+      body: annText.trim(),
+      category: 'General',
+      priority: annUrgent ? 'urgent' : 'normal',
+      isEmergency: annUrgent,
+      authorId: user?.id,
+      authorName: user?.name,
     };
-    dispatch({ type: 'ADD_ANNOUNCEMENT', payload: announcement });
+
+    try {
+      const token = localStorage.getItem('camp_token');
+      const res = await fetch(`${API}/api/announcements`, {
+        method: 'POST',
+        headers: {
+          'Content-Type': 'application/json',
+          ...(token ? { Authorization: `Bearer ${token}` } : {})
+        },
+        body: JSON.stringify(payload)
+      });
+      if (res.ok) {
+        const saved = await res.json();
+        dispatch({ type: 'ADD_ANNOUNCEMENT', payload: { ...saved, text: saved.body || annText.trim(), day: selectedDay } });
+      } else {
+        dispatch({ type: 'ADD_ANNOUNCEMENT', payload: { ...payload, id: `ann-${Date.now()}`, text: annText.trim(), day: selectedDay, createdAt: new Date().toISOString() } });
+      }
+    } catch (err) {
+      dispatch({ type: 'ADD_ANNOUNCEMENT', payload: { ...payload, id: `ann-${Date.now()}`, text: annText.trim(), day: selectedDay, createdAt: new Date().toISOString() } });
+    }
+
     setAnnText('');
     setAnnUrgent(false);
     setShowAnnounceForm(false);
