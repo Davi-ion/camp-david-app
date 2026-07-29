@@ -283,21 +283,43 @@ export default function ConsoleProgramme() {
                     )}
                   </td>
                   <td style={{ textAlign: 'right' }}>
-                    <div style={{ display: 'flex', justifyContent: 'flex-end', gap: 8 }}>
+                    <div style={{ display: 'flex', justifyContent: 'flex-end', alignItems: 'center', gap: 12 }}>
                       <button 
                         onClick={() => handleOpenEditModal(session)} 
-                        className="btn btn-secondary" 
-                        style={{ fontSize: '0.8125rem', padding: '4px 10px', borderRadius: 8, display: 'inline-flex', alignItems: 'center', gap: 4 }}
+                        title="Edit Session"
+                        style={{ 
+                          background: 'transparent', 
+                          border: 'none', 
+                          padding: 4, 
+                          cursor: 'pointer', 
+                          color: 'var(--primary, #0F766E)', 
+                          display: 'inline-flex', 
+                          alignItems: 'center', 
+                          justifyContent: 'center',
+                          opacity: 0.85,
+                          transition: 'opacity 0.15s ease'
+                        }}
                       >
-                        <IconEdit size={14} /> Edit
+                        <IconEdit size={18} />
                       </button>
                       {session.id && (
                         <button 
                           onClick={() => handleDelete(session.id)} 
-                          className="btn btn-secondary" 
-                          style={{ fontSize: '0.8125rem', padding: '4px 10px', borderRadius: 8, color: '#EF4444', border: '1px solid #FCA5A5' }}
+                          title="Delete Session"
+                          style={{ 
+                            background: 'transparent', 
+                            border: 'none', 
+                            padding: 4, 
+                            cursor: 'pointer', 
+                            color: '#EF4444', 
+                            display: 'inline-flex', 
+                            alignItems: 'center', 
+                            justifyContent: 'center',
+                            opacity: 0.85,
+                            transition: 'opacity 0.15s ease'
+                          }}
                         >
-                          <IconTrash size={14} />
+                          <IconTrash size={18} />
                         </button>
                       )}
                     </div>
