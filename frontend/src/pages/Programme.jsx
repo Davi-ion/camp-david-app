@@ -56,8 +56,9 @@ export default function Programme() {
   const { hasPermission } = usePermissions();
   const user = state.currentUser;
 
-  const today = new Date();
-  const todayStr = `${today.getFullYear()}-${String(today.getMonth() + 1).padStart(2, '0')}-${String(today.getDate()).padStart(2, '0')}`;
+  const [currentTime, setCurrentTime] = useState(new Date());
+
+  const todayStr = `${currentTime.getFullYear()}-${String(currentTime.getMonth() + 1).padStart(2, '0')}-${String(currentTime.getDate()).padStart(2, '0')}`;
   const defaultDay = CAMP_DAYS.find((d) => d.date === todayStr)?.key || 'wed';
 
   const [selectedDay, setSelectedDay] = useState(defaultDay);
@@ -68,6 +69,8 @@ export default function Programme() {
 
   useEffect(() => {
     fetchSessions();
+    const interval = setInterval(() => setCurrentTime(new Date()), 10000);
+    return () => clearInterval(interval);
   }, []);
 
   const fetchSessions = async () => {
@@ -85,6 +88,14 @@ export default function Programme() {
     }
   };
 
+  const nowMinutes = currentTime.getHours() * 60 + currentTime.getMinutes();
+
+  const parseMin = (tStr) => {
+    if (!tStr) return 0;
+    const [h, m] = tStr.split(':').map(Number);
+    return (h || 0) * 60 + (m || 0);
+  };
+
   const campDay = CAMP_DAYS.find((d) => d.key === selectedDay) || CAMP_DAYS[0];
   
   const daySchedule = useMemo(() => {
@@ -97,19 +108,23 @@ export default function Programme() {
 
   const canPost = hasPermission('create:announcements');
 
-  // Check if event is happening now
-  const nowMinutes = today.getHours() * 60 + today.getMinutes();
-  const isNow = (time, end) => {
-    if (!time || !end) return false;
-    const [sh, sm] = time.split(':').map(Number);
-    const [eh, em] = end.split(':').map(Number);
-    if (campDay?.date !== todayStr) return false;
-    return nowMinutes >= sh * 60 + sm && nowMinutes < eh * 60 + em;
-  };
-
+  // Calculate happening now event
   const currentEvent = useMemo(() => {
-    return daySchedule.find((e) => isNow(e.time, e.end));
-  }, [daySchedule, campDay, todayStr, nowMinutes]);
+    return daySchedule.find((e, idx) => {
+      const s = parseMin(e.time);
+      const end = parseMin(e.end);
+      const nextEvt = daySchedule[idx + 1];
+      const nextS = nextEvt ? parseMin(nextEvt.time) : end;
+      const effectiveEnd = Math.max(end, nextS);
+      return nowMinutes >= s && nowMinutes < effectiveEnd;
+    });
+  }, [daySchedule, nowMinutes]);
+
+  // Calculate next upcoming event if no event is currently active
+  const nextEvent = useMemo(() => {
+    if (currentEvent) return null;
+    return daySchedule.find((e) => parseMin(e.time) > nowMinutes) || daySchedule[0];
+  }, [daySchedule, currentEvent, nowMinutes]);
 
   const handlePost = async () => {
     if (!annText.trim()) return;
@@ -231,7 +246,7 @@ export default function Programme() {
               <div className="now-card" style={{ background: 'rgba(255, 255, 255, 0.12)', border: '1px solid rgba(255, 255, 255, 0.3)', marginBottom: 0, padding: '14px 18px', boxShadow: 'none' }}>
                 <div style={{ fontSize: '0.875rem', fontWeight: 600, color: 'rgba(255, 255, 255, 0.95)', display: 'flex', alignItems: 'center', gap: 8 }}>
                   <IconCalendarEvent size={18} color="#A7F3D0" />
-                  <span>Next Event Scheduled: {daySchedule[0]?.time || 'TBA'} — {daySchedule[0]?.title || 'See timeline below'}</span>
+                  <span>Next Event Scheduled: {nextEvent?.time || 'TBA'} — {nextEvent?.title || 'See timeline below'}</span>
                 </div>
               </div>
             )}

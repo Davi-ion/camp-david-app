@@ -35,7 +35,15 @@ function getCurrentAndNext(dayKey, now) {
     const start = sh * 60 + sm;
     const end = eh * 60 + em;
 
-    if (nowMinutes >= start && nowMinutes < end) {
+    const nextEvt = events[i + 1];
+    let nextStart = end;
+    if (nextEvt) {
+      const [nsh, nsm] = nextEvt.time.split(':').map(Number);
+      nextStart = nsh * 60 + nsm;
+    }
+    const effectiveEnd = Math.max(end, nextStart);
+
+    if (nowMinutes >= start && nowMinutes < effectiveEnd) {
       current = { ...events[i], startMin: start, endMin: end };
     }
     if (start > nowMinutes && !next) {
@@ -43,19 +51,14 @@ function getCurrentAndNext(dayKey, now) {
     }
   }
 
-  if (!current && events.length > 0) {
-    current = { ...events[Math.floor(events.length / 2)], demo: true };
-    const [sh, sm] = current.time.split(':').map(Number);
-    const [eh, em] = current.end.split(':').map(Number);
-    current.startMin = sh * 60 + sm;
-    current.endMin = eh * 60 + em;
-  }
-  if (!next && events.length > 1) {
-    const idx = events.indexOf(events.find(e => e.time === current?.time));
-    if (idx >= 0 && idx < events.length - 1) {
-      next = events[idx + 1];
-      const [sh, sm] = next.time.split(':').map(Number);
-      next.startMin = sh * 60 + sm;
+  if (!next && events.length > 0) {
+    const upcoming = events.find(e => {
+      const [sh, sm] = e.time.split(':').map(Number);
+      return (sh * 60 + sm) > nowMinutes;
+    });
+    if (upcoming) {
+      const [sh, sm] = upcoming.time.split(':').map(Number);
+      next = { ...upcoming, startMin: sh * 60 + sm };
     }
   }
 
@@ -75,12 +78,19 @@ export default function Dashboard() {
   const { state } = useApp();
   const navigate = useNavigate();
   const user = state.currentUser;
-  const now = new Date();
+  
+  const [now, setNow] = useState(new Date());
+
+  useEffect(() => {
+    const timer = setInterval(() => setNow(new Date()), 10000);
+    return () => clearInterval(timer);
+  }, []);
+
   const campDay = getCampDay(now);
 
   const { current, next } = useMemo(() => {
     return getCurrentAndNext(campDay.key, now);
-  }, [campDay.key]);
+  }, [campDay.key, now]);
 
   const nowMinutes = now.getHours() * 60 + now.getMinutes();
 
