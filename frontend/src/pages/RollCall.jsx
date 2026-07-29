@@ -33,7 +33,7 @@ function getInitials(name) {
 
 export default function RollCall() {
   const { state, dispatch } = useApp();
-  const { isAdmin, isCommander } = usePermissions();
+  const { isAdmin, isCommander, isDormLead } = usePermissions();
   const user = state.currentUser;
 
   // Default day to Wednesday or current matching day
@@ -78,20 +78,32 @@ export default function RollCall() {
   // Scoped camper list based on user role & assigned platoon/dorm
   const scopedCampers = useMemo(() => {
     let list = state.campers || [];
-    if (!isAdmin && !isCommander) {
-      // Counselors/leads see campers matching their platoon or dorm if assigned
-      const userPlatoon = user?.platoon?.name || user?.group || user?.department;
-      const userDorm = user?.dorm?.name;
-      if (userPlatoon || userDorm) {
-        list = list.filter((c) => {
-          const matchesPlatoon = userPlatoon && (c.platoon?.name === userPlatoon || c.group === userPlatoon || c.platoonId === userPlatoon);
-          const matchesDorm = userDorm && (c.dorm?.name === userDorm || c.dormId === userDorm);
-          return matchesPlatoon || matchesDorm;
-        });
-      }
+    if (isAdmin || isCommander) {
+      return list;
     }
+
+    // Dorm Leads see campers in their assigned dorm, or all campers if no specific dorm is assigned
+    if (isDormLead) {
+      const userDorm = user?.dorm?.name || user?.dorm || user?.dormId;
+      if (userDorm) {
+        return list.filter((c) => c.dorm?.name === userDorm || c.dorm?.id === userDorm || c.dormId === userDorm);
+      }
+      return list;
+    }
+
+    // Platoon Leads or counselors see campers matching their platoon/dorm if assigned
+    const userPlatoon = user?.platoon?.name || user?.group;
+    const userDorm = user?.dorm?.name || user?.dorm;
+    if (userPlatoon || userDorm) {
+      return list.filter((c) => {
+        const matchesPlatoon = userPlatoon && (c.platoon?.name === userPlatoon || c.group === userPlatoon || c.platoonId === userPlatoon);
+        const matchesDorm = userDorm && (c.dorm?.name === userDorm || c.dormId === userDorm || c.dorm === userDorm);
+        return matchesPlatoon || matchesDorm;
+      });
+    }
+
     return list;
-  }, [state.campers, user, isAdmin, isCommander]);
+  }, [state.campers, user, isAdmin, isCommander, isDormLead]);
 
   // Filtered campers for search and filters
   const filteredCampers = useMemo(() => {

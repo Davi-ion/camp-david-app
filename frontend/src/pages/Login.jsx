@@ -73,12 +73,7 @@ export default function Login() {
         return;
       }
 
-      if (data.user.forcePasswordChange) {
-        localStorage.setItem('camp_token', data.token);
-        setForceChange(true);
-        setLoading(false);
-        return;
-      }
+      localStorage.setItem('camp_token', data.token);
 
       try {
         const campersRes = await fetch(`${API}/api/campers?status=active`, {
