@@ -243,14 +243,40 @@ export default function ConsoleDorms() {
       
       {error && <div className="alert alert-error mb-4">{error}</div>}
 
+      {/* Top KPI Summary Header */}
+      <div style={{ display: 'grid', gridTemplateColumns: 'repeat(auto-fit, minmax(200px, 1fr))', gap: 16, marginBottom: 24 }}>
+        <div style={{ background: '#fff', padding: '16px 20px', borderRadius: 16, border: '1px solid var(--border-light, #E2E8F0)', boxShadow: '0 2px 8px rgba(0,0,0,0.02)' }}>
+          <div style={{ fontSize: '0.75rem', fontWeight: 700, color: 'var(--text-muted, #94A3B8)', textTransform: 'uppercase', letterSpacing: '0.05em' }}>Total Dormitories</div>
+          <div style={{ fontSize: '1.5rem', fontWeight: 800, color: 'var(--text, #0F172A)', marginTop: 4 }}>{dorms.length}</div>
+        </div>
+        <div style={{ background: '#fff', padding: '16px 20px', borderRadius: 16, border: '1px solid var(--border-light, #E2E8F0)', boxShadow: '0 2px 8px rgba(0,0,0,0.02)' }}>
+          <div style={{ fontSize: '0.75rem', fontWeight: 700, color: 'var(--text-muted, #94A3B8)', textTransform: 'uppercase', letterSpacing: '0.05em' }}>Total Capacity</div>
+          <div style={{ fontSize: '1.5rem', fontWeight: 800, color: 'var(--text, #0F172A)', marginTop: 4 }}>{dorms.reduce((acc, d) => acc + (d.capacity || 0), 0)} Beds</div>
+        </div>
+        <div style={{ background: '#fff', padding: '16px 20px', borderRadius: 16, border: '1px solid var(--border-light, #E2E8F0)', boxShadow: '0 2px 8px rgba(0,0,0,0.02)' }}>
+          <div style={{ fontSize: '0.75rem', fontWeight: 700, color: 'var(--text-muted, #94A3B8)', textTransform: 'uppercase', letterSpacing: '0.05em' }}>Occupied Beds</div>
+          <div style={{ fontSize: '1.5rem', fontWeight: 800, color: '#10B981', marginTop: 4 }}>
+            {dorms.reduce((acc, d) => acc + (Array.isArray(d.campers) ? d.campers.length : (d.occupancy || 0)), 0)}
+          </div>
+        </div>
+        <div style={{ background: '#fff', padding: '16px 20px', borderRadius: 16, border: '1px solid var(--border-light, #E2E8F0)', boxShadow: '0 2px 8px rgba(0,0,0,0.02)' }}>
+          <div style={{ fontSize: '0.75rem', fontWeight: 700, color: 'var(--text-muted, #94A3B8)', textTransform: 'uppercase', letterSpacing: '0.05em' }}>Available Beds</div>
+          <div style={{ fontSize: '1.5rem', fontWeight: 800, color: '#3B82F6', marginTop: 4 }}>
+            {Math.max(0, dorms.reduce((acc, d) => acc + (d.capacity || 0), 0) - dorms.reduce((acc, d) => acc + (Array.isArray(d.campers) ? d.campers.length : (d.occupancy || 0)), 0))}
+          </div>
+        </div>
+      </div>
+
       <div style={{ display: 'grid', gridTemplateColumns: 'repeat(auto-fill, minmax(320px, 1fr))', gap: 20 }}>
         {dorms.map(dorm => {
           const isFemale = dorm.gender?.toLowerCase() === 'female';
           const brandColor = isFemale ? '#F49E82' : '#14442C';
           const bgTint = isFemale ? '#FDF2EE' : '#F0FDF4';
-          const isFull = dorm.occupancy >= dorm.capacity;
-          const percentage = Math.round((dorm.occupancy / dorm.capacity) * 100) || 0;
-          const remaining = dorm.capacity - dorm.occupancy;
+          const actualOccupancy = Array.isArray(dorm.campers) ? dorm.campers.length : (dorm.occupancy || 0);
+          const capacity = dorm.capacity || 50;
+          const isFull = actualOccupancy >= capacity;
+          const percentage = Math.round((actualOccupancy / capacity) * 100) || 0;
+          const remaining = Math.max(0, capacity - actualOccupancy);
           const isSelected = selectedDorm?.id === dorm.id;
           
           return (
@@ -329,7 +355,7 @@ export default function ConsoleDorms() {
                 <div style={{ display: 'grid', gridTemplateColumns: '1fr 1fr', gap: 12 }}>
                   <div style={{ padding: '12px 14px', border: '1px solid var(--border-light)', borderRadius: 12, background: '#fff' }}>
                     <div style={{ fontSize: '0.625rem', fontWeight: 700, textTransform: 'uppercase', letterSpacing: '0.05em', color: 'var(--text-muted)', marginBottom: 4 }}>Occupancy</div>
-                    <div style={{ fontSize: '1.25rem', fontWeight: 700, color: 'var(--text)' }}>{dorm.occupancy || 0} <span style={{ fontSize: '0.8125rem', fontWeight: 500, color: 'var(--text-muted)' }}>/ {dorm.capacity}</span></div>
+                    <div style={{ fontSize: '1.25rem', fontWeight: 700, color: 'var(--text)' }}>{actualOccupancy} <span style={{ fontSize: '0.8125rem', fontWeight: 500, color: 'var(--text-muted)' }}>/ {capacity}</span></div>
                   </div>
                   <div style={{ padding: '12px 14px', border: '1px solid var(--border-light)', borderRadius: 12, background: '#fff' }}>
                     <div style={{ fontSize: '0.625rem', fontWeight: 700, textTransform: 'uppercase', letterSpacing: '0.05em', color: 'var(--text-muted)', marginBottom: 4 }}>Available Beds</div>
@@ -366,7 +392,7 @@ export default function ConsoleDorms() {
         <div className="console-card" style={{ marginTop: 24 }}>
           <div style={{ display: 'flex', flexWrap: 'wrap', gap: 12, justifyContent: 'space-between', alignItems: 'center', marginBottom: 16 }}>
             <h2 style={{ fontSize: '1.25rem', fontWeight: 600, margin: 0 }}>
-              {selectedDorm.name} Roster
+              {selectedDorm.name} Roster ({dormCampers.length} Campers)
             </h2>
             <div style={{ display: 'flex', gap: 10 }}>
               <button className="btn btn-outline btn-sm" onClick={openSupervisorsModal}>
