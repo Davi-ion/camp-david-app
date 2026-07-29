@@ -507,36 +507,38 @@ export default function ConsoleAttendance() {
                   </td>
                 </tr>
               ) : (
-                paginatedCampers.map((c) => (
-                  <tr key={c.id}>
-                    {/* Camper Sticky Column */}
-                    <td style={{ position: 'sticky', left: 0, zIndex: 5, background: '#FFFFFF', borderRight: '1px solid var(--border-light)' }}>
-                      <div style={{ display: 'flex', alignItems: 'center', gap: 10 }}>
-                        <div 
-                          style={{ 
-                            width: 34, 
-                            height: 34, 
-                            borderRadius: '50%', 
-                            background: 'linear-gradient(135deg, #1B7865 0%, #0F766E 100%)', 
-                            color: '#FFFFFF', 
-                            fontWeight: 700, 
-                            fontSize: '0.8125rem', 
-                            display: 'flex', 
-                            alignItems: 'center', 
-                            justifyContent: 'center',
-                            flexShrink: 0
-                          }}
-                        >
-                          {getInitials(c.name)}
-                        </div>
-                        <div>
-                          <div style={{ fontWeight: 600, color: 'var(--text)', fontSize: '0.875rem' }}>{c.name}</div>
-                          <div style={{ fontSize: '0.75rem', color: 'var(--text-muted)', fontFamily: 'monospace' }}>
-                            {c.registrationNumber || c.id}
+                paginatedCampers.map((c, idx) => {
+                  const avatarSrc = c.avatar || c.photo || `/avatars/character${(idx % 20) + 1}.jpg`;
+                  return (
+                    <tr key={c.id}>
+                      {/* Camper Sticky Column */}
+                      <td style={{ position: 'sticky', left: 0, zIndex: 5, background: '#FFFFFF', borderRight: '1px solid var(--border-light)' }}>
+                        <div style={{ display: 'flex', alignItems: 'center', gap: 10 }}>
+                          <img 
+                            src={avatarSrc} 
+                            alt={c.name} 
+                            style={{ 
+                              width: 34, 
+                              height: 34, 
+                              borderRadius: '50%', 
+                              objectFit: 'cover', 
+                              flexShrink: 0,
+                              border: '1.5px solid #FFFFFF',
+                              boxShadow: '0 2px 6px rgba(0,0,0,0.12)'
+                            }}
+                            onError={(e) => {
+                              e.target.onerror = null;
+                              e.target.src = `/avatars/character${(idx % 20) + 1}.jpg`;
+                            }}
+                          />
+                          <div>
+                            <div style={{ fontWeight: 600, color: 'var(--text)', fontSize: '0.875rem' }}>{c.name}</div>
+                            <div style={{ fontSize: '0.75rem', color: 'var(--text-muted)', fontFamily: 'monospace' }}>
+                              {c.registrationNumber || c.id}
+                            </div>
                           </div>
                         </div>
-                      </div>
-                    </td>
+                      </td>
 
                     {/* Platoon */}
                     <td>
@@ -615,8 +617,9 @@ export default function ConsoleAttendance() {
                       );
                     })}
                   </tr>
-                ))
-              )}
+                );
+              })
+            )}
             </tbody>
           </table>
         </div>

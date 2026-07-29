@@ -301,14 +301,27 @@ export default function ConsoleCampers() {
                 <tr><td colSpan="11" style={{ textAlign: 'center', padding: '30px' }}>Loading...</td></tr>
               ) : campers.length === 0 ? (
                 <tr><td colSpan="11" style={{ textAlign: 'center', padding: '30px' }}>No campers found.</td></tr>
-              ) : campers.map(c => (
+              ) : campers.map((c, idx) => (
                 <tr key={c.id} style={{ background: selectedIds.has(c.id) ? 'var(--bg-light)' : 'transparent' }}>
                   <td><input type="checkbox" checked={selectedIds.has(c.id)} onChange={() => toggleSelection(c.id)} /></td>
                   <td style={{ fontWeight: 500 }}>{c.registrationNumber || '-'}</td>
                   <td>
-                    <div style={{ fontWeight: 500, color: 'var(--text)' }}>{c.name}</div>
-                    <div style={{ fontSize: '0.75rem', color: 'var(--text-muted)' }}>
-                      {[c.gender, c.age ? `${c.age} yrs` : null].filter(Boolean).join(' • ')}
+                    <div style={{ display: 'flex', alignItems: 'center', gap: 10 }}>
+                      <img 
+                        src={c.avatar || c.photo || `/avatars/character${(idx % 20) + 1}.jpg`} 
+                        alt={c.name} 
+                        style={{ width: 34, height: 34, borderRadius: 9999, objectFit: 'cover', flexShrink: 0, border: '1px solid var(--border-light, #E2E8F0)' }}
+                        onError={(e) => {
+                          e.target.onerror = null;
+                          e.target.src = `/avatars/character${(idx % 20) + 1}.jpg`;
+                        }}
+                      />
+                      <div>
+                        <div style={{ fontWeight: 500, color: 'var(--text)' }}>{c.name}</div>
+                        <div style={{ fontSize: '0.75rem', color: 'var(--text-muted)' }}>
+                          {[c.gender, c.age ? `${c.age} yrs` : null].filter(Boolean).join(' • ')}
+                        </div>
+                      </div>
                     </div>
                   </td>
                   <td>{c.ageGroup || '-'}</td>
