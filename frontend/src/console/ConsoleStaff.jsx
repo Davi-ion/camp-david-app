@@ -1,5 +1,17 @@
 import { useState, useEffect } from 'react';
 import { usePermissions } from '../hooks/usePermissions';
+import {
+  IconDownload,
+  IconUserPlus,
+  IconSearch,
+  IconEdit,
+  IconUserX,
+  IconChevronLeft,
+  IconChevronRight,
+  IconCheck,
+  IconUsers,
+  IconFilter,
+} from '@tabler/icons-react';
 
 const API = import.meta.env.VITE_API_URL || 'https://camp-david-app.onrender.com';
 
@@ -111,17 +123,27 @@ export default function ConsoleStaff() {
     <div className="console-fade-in">
       <div className="console-page-header">
         <div>
-          <h1 className="console-page-title">Volunteer & Staff Directory</h1>
+          <h1 className="console-page-title" style={{ display: 'flex', alignItems: 'center', gap: 10 }}>
+            <IconUsers size={28} style={{ color: 'var(--teal, #10B981)' }} />
+            Volunteer & Staff Directory
+          </h1>
           <p className="console-page-subtitle">Manage camp volunteers, team leaders, commanders, and roles ({total} total)</p>
         </div>
         <div style={{ display: 'flex', gap: 10 }}>
           {hasPermission('manage:users') && (
             <>
-              <button onClick={handleExport} className="btn btn-secondary" style={{ padding: '8px 16px', borderRadius: 9999, fontSize: '0.875rem' }}>
-                📥 Export Roster
+              <button
+                onClick={handleExport}
+                className="btn btn-secondary"
+                style={{ display: 'inline-flex', alignItems: 'center', gap: 8, padding: '8px 16px', borderRadius: 9999, fontSize: '0.875rem' }}
+              >
+                <IconDownload size={16} /> Export Roster
               </button>
-              <button className="btn btn-primary" style={{ padding: '8px 16px', borderRadius: 9999, fontSize: '0.875rem' }}>
-                + Add Volunteer
+              <button
+                className="btn btn-primary"
+                style={{ display: 'inline-flex', alignItems: 'center', gap: 8, padding: '8px 16px', borderRadius: 9999, fontSize: '0.875rem' }}
+              >
+                <IconUserPlus size={16} /> Add Volunteer
               </button>
             </>
           )}
@@ -131,14 +153,17 @@ export default function ConsoleStaff() {
       <div className="console-card">
         <div className="console-card-header" style={{ padding: '12px 20px', display: 'flex', flexWrap: 'wrap', gap: 12, justifyContent: 'space-between' }}>
           <form onSubmit={handleSearch} style={{ display: 'flex', gap: 12, flex: 1, alignItems: 'center', minWidth: 300 }}>
-            <input 
-              type="text" 
-              placeholder="Search by name, email, or username..." 
-              value={search}
-              onChange={e => setSearch(e.target.value)}
-              className="input-field" 
-              style={{ maxWidth: 320, padding: '8px 12px', fontSize: '0.875rem', borderRadius: 9999 }}
-            />
+            <div style={{ position: 'relative', flex: 1, maxWidth: 320 }}>
+              <IconSearch size={16} style={{ position: 'absolute', left: 12, top: '50%', transform: 'translateY(-50%)', color: 'var(--text-muted)' }} />
+              <input 
+                type="text" 
+                placeholder="Search by name, email, or username..." 
+                value={search}
+                onChange={e => setSearch(e.target.value)}
+                className="input-field" 
+                style={{ width: '100%', padding: '8px 12px 8px 36px', fontSize: '0.875rem', borderRadius: 9999 }}
+              />
+            </div>
             <select 
               value={status} 
               onChange={e => { setStatus(e.target.value); setPage(1); }}
@@ -149,7 +174,13 @@ export default function ConsoleStaff() {
               <option value="inactive">Inactive</option>
               <option value="all">All Statuses</option>
             </select>
-            <button type="submit" className="btn btn-secondary" style={{ padding: '8px 16px', fontSize: '0.875rem', borderRadius: 9999 }}>Search</button>
+            <button
+              type="submit"
+              className="btn btn-secondary"
+              style={{ display: 'inline-flex', alignItems: 'center', gap: 6, padding: '8px 16px', fontSize: '0.875rem', borderRadius: 9999 }}
+            >
+              <IconSearch size={14} /> Search
+            </button>
           </form>
 
           {selectedIds.size > 0 && (
@@ -161,7 +192,9 @@ export default function ConsoleStaff() {
                 <option value="deactivate">Deactivate</option>
                 <option value="reset-password">Reset Passwords</option>
               </select>
-              <button disabled={!bulkAction} className="btn btn-primary" style={{ padding: '6px 12px', fontSize: '0.75rem', borderRadius: 9999 }}>Apply</button>
+              <button disabled={!bulkAction} className="btn btn-primary" style={{ display: 'inline-flex', alignItems: 'center', gap: 4, padding: '6px 12px', fontSize: '0.75rem', borderRadius: 9999 }}>
+                <IconCheck size={14} /> Apply
+              </button>
             </div>
           )}
         </div>
@@ -181,9 +214,9 @@ export default function ConsoleStaff() {
             </thead>
             <tbody>
               {loading ? (
-                <tr><td colSpan="7" style={{ textAlign: 'center', padding: '30px' }}>Loading volunteers...</td></tr>
+                <tr><td colSpan="7" style={{ textAlign: 'center', padding: '30px', color: 'var(--text-muted)' }}>Loading volunteers...</td></tr>
               ) : staffList.length === 0 ? (
-                <tr><td colSpan="7" style={{ textAlign: 'center', padding: '30px' }}>No volunteers found.</td></tr>
+                <tr><td colSpan="7" style={{ textAlign: 'center', padding: '30px', color: 'var(--text-muted)' }}>No volunteers found.</td></tr>
               ) : staffList.map((s, idx) => {
                 const isSystemAdmin = s.role === 'admin' || s.role === 'Super Admin';
                 return (
@@ -244,9 +277,13 @@ export default function ConsoleStaff() {
                       </span>
                     </td>
                     <td style={{ textAlign: 'right' }}>
-                      <button className="btn btn-text" style={{ fontSize: '0.8125rem', padding: '4px 8px' }}>Edit</button>
+                      <button className="btn btn-text" style={{ fontSize: '0.8125rem', padding: '4px 8px', display: 'inline-flex', alignItems: 'center', gap: 4 }}>
+                        <IconEdit size={14} /> Edit
+                      </button>
                       {!isSystemAdmin && hasPermission('manage:users') && (
-                        <button className="btn btn-text" style={{ fontSize: '0.8125rem', padding: '4px 8px', color: 'var(--red)' }}>Deactivate</button>
+                        <button className="btn btn-text" style={{ fontSize: '0.8125rem', padding: '4px 8px', color: 'var(--red)', display: 'inline-flex', alignItems: 'center', gap: 4 }}>
+                          <IconUserX size={14} /> Deactivate
+                        </button>
                       )}
                     </td>
                   </tr>
@@ -262,8 +299,22 @@ export default function ConsoleStaff() {
             Showing {staffList.length} of {total} volunteers
           </div>
           <div style={{ display: 'flex', gap: 8 }}>
-            <button disabled={page === 1} onClick={() => setPage(p => p - 1)} className="btn btn-secondary" style={{ padding: '4px 12px', fontSize: '0.8125rem', borderRadius: 9999 }}>Prev</button>
-            <button disabled={staffList.length < limit} onClick={() => setPage(p => p + 1)} className="btn btn-secondary" style={{ padding: '4px 12px', fontSize: '0.8125rem', borderRadius: 9999 }}>Next</button>
+            <button
+              disabled={page === 1}
+              onClick={() => setPage(p => p - 1)}
+              className="btn btn-secondary"
+              style={{ display: 'inline-flex', alignItems: 'center', gap: 4, padding: '4px 12px', fontSize: '0.8125rem', borderRadius: 9999 }}
+            >
+              <IconChevronLeft size={16} /> Prev
+            </button>
+            <button
+              disabled={staffList.length < limit}
+              onClick={() => setPage(p => p + 1)}
+              className="btn btn-secondary"
+              style={{ display: 'inline-flex', alignItems: 'center', gap: 4, padding: '4px 12px', fontSize: '0.8125rem', borderRadius: 9999 }}
+            >
+              Next <IconChevronRight size={16} />
+            </button>
           </div>
         </div>
       </div>
