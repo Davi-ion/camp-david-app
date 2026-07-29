@@ -331,3 +331,23 @@ model DrillChecklistItem {
 
   drill       CampDrill @relation(fields: [drillId], references: [id], onDelete: Cascade)
 }
+
+model ProgramSession {
+  id                 String   @id @default(cuid())
+  day                String   // e.g. "wed", "thu", "fri", "sat", "sun"
+  key                String   // e.g. "wed-morning"
+  title              String
+  time               String   // e.g. "07:00"
+  end                String   // e.g. "08:30"
+  location           String?
+  type               String?  // e.g. "Roll Call", "Worship", "Meal", "Activity"
+  groups             String?  @default("all")
+  speaker            String?
+  description        String?
+  requiresAttendance Boolean  @default(false)
+  createdAt          DateTime @default(now())
+  updatedAt          DateTime @updatedAt
+
+  @@index([day])
+}
+

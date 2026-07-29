@@ -300,3 +300,23 @@ type AttendanceRecord struct {
 
 func (AttendanceRecord) TableName() string { return "AttendanceRecord" }
 
+type ProgramSession struct {
+	ID                 string    `gorm:"primaryKey;column:id;type:varchar(191)" json:"id"`
+	Day                string    `gorm:"column:day;type:varchar(191)" json:"day"`
+	Key                string    `gorm:"column:key;type:varchar(191)" json:"key"`
+	Title              string    `gorm:"column:title;type:varchar(191)" json:"title"`
+	Time               string    `gorm:"column:time;type:varchar(191)" json:"time"`
+	End                string    `gorm:"column:end;type:varchar(191)" json:"end"`
+	Location           *string   `gorm:"column:location;type:varchar(191)" json:"location,omitempty"`
+	Type               *string   `gorm:"column:type;type:varchar(191)" json:"type,omitempty"`
+	Groups             *string   `gorm:"column:groups;type:varchar(191);default:'all'" json:"groups,omitempty"`
+	Speaker            *string   `gorm:"column:speaker;type:varchar(191)" json:"speaker,omitempty"`
+	Description        *string   `gorm:"column:description;type:varchar(191)" json:"description,omitempty"`
+	RequiresAttendance bool      `gorm:"column:requiresAttendance;default:false" json:"requiresAttendance"`
+	CreatedAt          time.Time `gorm:"column:createdAt;default:current_timestamp(3)" json:"createdAt"`
+	UpdatedAt          time.Time `gorm:"column:updatedAt" json:"updatedAt"`
+}
+
+func (ProgramSession) TableName() string { return "ProgramSession" }
+
+

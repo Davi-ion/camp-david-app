@@ -43,6 +43,10 @@ func main() {
 	r.POST("/api/attendance/bulk-mark", handlers.BulkMarkAttendanceHandler)
 	r.GET("/api/attendance/session/:sessionId", handlers.GetSessionAttendanceHandler)
 	r.GET("/api/sync/all", handlers.UnifiedSyncHandler)
+	r.GET("/api/program-sessions", handlers.GetProgramSessionsHandler)
+	r.POST("/api/program-sessions", handlers.CreateProgramSessionHandler)
+	r.PUT("/api/program-sessions/:id", handlers.UpdateProgramSessionHandler)
+	r.DELETE("/api/program-sessions/:id", handlers.DeleteProgramSessionHandler)
 
 	// 6. Authenticated Routes Group
 	authGroup := r.Group("/api")

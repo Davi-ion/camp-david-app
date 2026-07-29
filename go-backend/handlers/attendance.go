@@ -197,12 +197,17 @@ func UnifiedSyncHandler(c *gin.Context) {
 	var campers []models.Camper
 	db.Preload("Platoon").Preload("Dorm").Find(&campers)
 
+	// 5. Program Sessions
+	var programSessions []models.ProgramSession
+	db.Order("time asc").Find(&programSessions)
+
 	c.JSON(http.StatusOK, gin.H{
-		"attendance":    attendanceMap,
-		"incidents":     incidents,
-		"announcements": announcements,
-		"campers":       campers,
-		"ts":            time.Now().Format(time.RFC3339),
+		"attendance":      attendanceMap,
+		"incidents":       incidents,
+		"announcements":   announcements,
+		"campers":         campers,
+		"programSessions": programSessions,
+		"ts":              time.Now().Format(time.RFC3339),
 	})
 }
 

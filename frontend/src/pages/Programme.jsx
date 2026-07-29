@@ -64,9 +64,35 @@ export default function Programme() {
   const [showAnnounceForm, setShowAnnounceForm] = useState(false);
   const [annText, setAnnText] = useState('');
   const [annUrgent, setAnnUrgent] = useState(false);
+  const [dbSessions, setDbSessions] = useState([]);
+
+  useEffect(() => {
+    fetchSessions();
+  }, []);
+
+  const fetchSessions = async () => {
+    try {
+      const token = localStorage.getItem('camp_token');
+      const res = await fetch(`${API}/api/program-sessions`, {
+        headers: { Authorization: `Bearer ${token}` }
+      });
+      if (res.ok) {
+        const data = await res.json();
+        setDbSessions(data || []);
+      }
+    } catch (err) {
+      console.error('Failed to fetch programme sessions:', err);
+    }
+  };
 
   const campDay = CAMP_DAYS.find((d) => d.key === selectedDay) || CAMP_DAYS[0];
-  const daySchedule = schedule[selectedDay] || [];
+  
+  const daySchedule = useMemo(() => {
+    const fromDb = (state.programSessions && state.programSessions.length > 0 ? state.programSessions : dbSessions).filter((s) => s.day === selectedDay);
+    if (fromDb.length > 0) return fromDb;
+    return schedule[selectedDay] || [];
+  }, [state.programSessions, dbSessions, selectedDay]);
+
   const dayAnnouncements = state.announcements.filter((a) => a.day === selectedDay || !a.day);
 
   const canPost = hasPermission('create:announcements');

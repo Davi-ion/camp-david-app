@@ -92,6 +92,9 @@ function reducer(state, action) {
     case 'SET_ANNOUNCEMENTS':
       return { ...state, announcements: action.payload || [] };
 
+    case 'SET_PROGRAM_SESSIONS':
+      return { ...state, programSessions: action.payload || [] };
+
     case 'ADD_INCIDENT':
       return { ...state, incidents: [action.payload, ...state.incidents] };
 
@@ -155,6 +158,9 @@ export function AppProvider({ children }) {
           }
           if (data.announcements && Array.isArray(data.announcements)) {
             dispatch({ type: 'SET_ANNOUNCEMENTS', payload: data.announcements });
+          }
+          if (data.programSessions && Array.isArray(data.programSessions)) {
+            dispatch({ type: 'SET_PROGRAM_SESSIONS', payload: data.programSessions });
           }
           return;
         }
