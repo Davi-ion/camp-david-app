@@ -2,6 +2,17 @@ import { useState, useEffect, useMemo } from 'react';
 import { Link } from 'react-router-dom';
 import { useApp } from '../context/AppContext';
 import { CAMP_DAYS, schedule } from '../data/schedule';
+import {
+  IconUsers,
+  IconUserCheck,
+  IconAlertTriangle,
+  IconStethoscope,
+  IconCalendar,
+  IconSpeakerphone,
+  IconFlag,
+  IconBolt,
+  IconLayoutDashboard,
+} from '@tabler/icons-react';
 const API = import.meta.env.VITE_API_URL || 'http://localhost:3001';
 
 // ─── Helpers ────────────────────────────────────────────────────────────────
@@ -113,17 +124,17 @@ export default function ConsoleDashboard() {
 
       {/* KPI Grid — Row 1 */}
       <div className="console-kpi-grid">
-        <KpiCard label="Total Campers"   value={totalCampers}  icon="👥" to="/console/campers" />
-        <KpiCard label="Total Staff"     value={totalStaff}    icon="👮" to="/console/staff" />
+        <KpiCard label="Total Campers"   value={totalCampers}  icon={<IconUsers size={18} />} to="/console/campers" />
+        <KpiCard label="Total Staff"     value={totalStaff}    icon={<IconUserCheck size={18} />} to="/console/staff" />
         <KpiCard
           label="Open Incidents"
           value={openIncidents}
-          icon="⚠️"
+          icon={<IconAlertTriangle size={18} />}
           color={openIncidents === 0 ? '' : openIncidents > 3 ? 'red' : 'orange'}
           delta={{ type: openIncidents === 0 ? 'positive' : 'negative', text: openIncidents === 0 ? 'All clear' : `${openIncidents} requiring attention` }}
           to="/console/incidents"
         />
-        <KpiCard label="Medical Alerts" value={medAlerts} icon="⚕️" color={medAlerts > 0 ? 'orange' : ''} delta={{ type: medAlerts > 0 ? 'neutral' : 'positive', text: medAlerts > 0 ? 'Campers with medical notes' : 'No medical alerts' }} to="/console/campers" />
+        <KpiCard label="Medical Alerts" value={medAlerts} icon={<IconStethoscope size={18} />} color={medAlerts > 0 ? 'orange' : ''} delta={{ type: medAlerts > 0 ? 'neutral' : 'positive', text: medAlerts > 0 ? 'Campers with medical notes' : 'No medical alerts' }} to="/console/campers" />
       </div>
 
       {/* KPI Grid — Row 2 */}
@@ -131,28 +142,28 @@ export default function ConsoleDashboard() {
         <KpiCard
           label="Camp Days Remaining"
           value={daysRemaining}
-          icon="📅"
+          icon={<IconCalendar size={18} />}
           color={daysRemaining <= 1 ? 'red' : daysRemaining <= 2 ? 'orange' : ''}
           delta={{ type: 'neutral', text: `Day ${campDay.dayNum} of 5` }}
         />
         <KpiCard
           label="Announcements"
           value={announcements.length}
-          icon="📢"
+          icon={<IconSpeakerphone size={18} />}
           delta={{ type: 'neutral', text: `${announcements.filter(a => a.pinned).length} pinned` }}
           to="/console/announcements"
         />
         <KpiCard
           label="Platoons"
           value={platoonSummary.length || 4}
-          icon="🛡️"
+          icon={<IconFlag size={18} />}
           delta={{ type: 'neutral', text: 'Active groups' }}
           to="/console/platoons"
         />
         <KpiCard
           label="Activity Today"
           value={recentActivity.length}
-          icon="⚡"
+          icon={<IconBolt size={18} />}
           delta={{ type: 'neutral', text: 'Admin actions logged' }}
           to="/console/activity"
         />

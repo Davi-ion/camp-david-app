@@ -18,6 +18,8 @@ import {
   IconChartBar,
   IconFileText,
   IconSettings,
+  IconChevronLeft,
+  IconChevronRight,
 } from '@tabler/icons-react';
 
 const NAV_SECTIONS = [
@@ -60,7 +62,7 @@ const NAV_SECTIONS = [
   },
 ];
 
-export default function ConsoleSidebar({ isOpen, onClose }) {
+export default function ConsoleSidebar({ isOpen, onClose, isCollapsed, onToggleCollapse }) {
   const { state } = useApp();
   const location = useLocation();
 
@@ -79,23 +81,49 @@ export default function ConsoleSidebar({ isOpen, onClose }) {
   };
 
   return (
-    <aside className={`console-sidebar ${isOpen ? 'open' : ''}`}>
-      {/* Brand */}
-      <div className="console-brand">
-        <div className="console-brand-logo">
-          <img src="/logo-white.png" alt="Camp David Logo" style={{ width: '100%', height: '100%', objectFit: 'contain' }} />
+    <aside className={`console-sidebar ${isOpen ? 'open' : ''} ${isCollapsed ? 'collapsed' : ''}`}>
+      {/* Brand & Collapse Toggle */}
+      <div className="console-brand" style={{ position: 'relative', display: 'flex', alignItems: 'center', justifyContent: isCollapsed ? 'center' : 'space-between' }}>
+        <div style={{ display: 'flex', alignItems: 'center', gap: 12 }}>
+          <div className="console-brand-logo">
+            <img src="/logo-white.png" alt="Camp David Logo" style={{ width: '100%', height: '100%', objectFit: 'contain' }} />
+          </div>
+          {!isCollapsed && (
+            <div className="console-brand-text">
+              <div className="console-brand-name">Camp David</div>
+              <div className="console-brand-sub" style={{ color: '#F49E82', fontWeight: 600 }}>Management Console</div>
+            </div>
+          )}
         </div>
-        <div>
-          <div className="console-brand-name">Camp David</div>
-          <div className="console-brand-sub">Management Console</div>
-        </div>
+
+        <button
+          onClick={onToggleCollapse}
+          className="console-sidebar-collapse-btn"
+          title={isCollapsed ? "Expand Sidebar" : "Collapse Sidebar"}
+          style={{
+            background: 'rgba(255,255,255,0.08)',
+            border: '1px solid rgba(255,255,255,0.12)',
+            color: 'rgba(255,255,255,0.8)',
+            borderRadius: '9999px',
+            width: 28,
+            height: 28,
+            display: 'flex',
+            alignItems: 'center',
+            justifyContent: 'center',
+            cursor: 'pointer',
+            flexShrink: 0,
+            transition: 'all 0.2s ease',
+          }}
+        >
+          {isCollapsed ? <IconChevronRight size={16} /> : <IconChevronLeft size={16} />}
+        </button>
       </div>
 
       {/* Navigation */}
       <nav className="console-nav">
         {NAV_SECTIONS.map((section) => (
           <div key={section.label} className="console-nav-section">
-            <span className="console-nav-section-label">{section.label}</span>
+            {!isCollapsed && <span className="console-nav-section-label">{section.label}</span>}
             {section.items.map((item) => {
               const badge  = item.badgeKey ? getBadge(item.badgeKey) : null;
               const active = isActive(item);
@@ -106,12 +134,13 @@ export default function ConsoleSidebar({ isOpen, onClose }) {
                   to={item.to}
                   onClick={onClose}
                   className={`console-nav-item ${active ? 'active' : ''}`}
+                  title={isCollapsed ? item.label : undefined}
                 >
                   <span className="console-nav-icon" style={{ display: 'inline-flex', alignItems: 'center', justifyContent: 'center' }}>
                     {item.icon}
                   </span>
-                  <span className="console-nav-label">{item.label}</span>
-                  {badge !== null && (
+                  {!isCollapsed && <span className="console-nav-label">{item.label}</span>}
+                  {!isCollapsed && badge !== null && (
                     <span className={`console-nav-badge ${item.badgeKey === 'openIncidents' ? 'badge-red' : ''}`}>
                       {badge}
                     </span>
@@ -125,9 +154,9 @@ export default function ConsoleSidebar({ isOpen, onClose }) {
 
       {/* Back to Staff Portal */}
       <div className="console-sidebar-footer">
-        <Link to="/app" className="console-portal-link">
-          <IconUser size={16} style={{ marginRight: 6 }} />
-          Return to Staff Portal
+        <Link to="/app" className="console-portal-link" title={isCollapsed ? "Return to Staff Portal" : undefined}>
+          <IconUser size={16} style={{ flexShrink: 0 }} />
+          {!isCollapsed && <span className="console-portal-link-text" style={{ marginLeft: 6 }}>Return to Staff Portal</span>}
         </Link>
       </div>
     </aside>

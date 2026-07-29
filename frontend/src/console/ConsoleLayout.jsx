@@ -50,6 +50,7 @@ export default function ConsoleLayout() {
   const { permissions, isAdmin } = usePermissions();
 
   const [isSidebarOpen, setSidebarOpen] = useState(false);
+  const [isCollapsed, setIsCollapsed] = useState(false);
 
   // Must be authenticated
   if (!state.currentUser) {
@@ -68,8 +69,13 @@ export default function ConsoleLayout() {
         className={`console-sidebar-overlay ${isSidebarOpen ? 'open' : ''}`} 
         onClick={() => setSidebarOpen(false)}
       />
-      <ConsoleSidebar isOpen={isSidebarOpen} onClose={() => setSidebarOpen(false)} />
-      <div className="console-main">
+      <ConsoleSidebar 
+        isOpen={isSidebarOpen} 
+        onClose={() => setSidebarOpen(false)} 
+        isCollapsed={isCollapsed}
+        onToggleCollapse={() => setIsCollapsed(!isCollapsed)}
+      />
+      <div className={`console-main ${isCollapsed ? 'collapsed' : ''}`}>
         <ConsoleTopNav onMenuClick={() => setSidebarOpen(true)} />
         <main className="console-content console-fade-in">
           <Outlet />
