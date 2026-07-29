@@ -52,13 +52,17 @@ function StaffPortalLayout() {
   );
 }
 
+import { IconShieldLock } from '@tabler/icons-react';
+
 // ─── Staff Portal Route Guard ──────────────────────────────────────────────────
 function AppRouteGuard({ screen }) {
   const { canAccessAppScreen } = usePermissions();
   if (!canAccessAppScreen(screen)) {
     return (
       <div className="container" style={{ textAlign: 'center', marginTop: 100 }}>
-        <div style={{ fontSize: 40, marginBottom: 16 }}>🔒</div>
+        <div style={{ width: 64, height: 64, borderRadius: '50%', background: '#FEF2F2', color: '#EF4444', display: 'flex', alignItems: 'center', justifyContent: 'center', margin: '0 auto 16px' }}>
+          <IconShieldLock size={36} stroke={1.8} />
+        </div>
         <h2 style={{ fontSize: '1.5rem', fontWeight: 700 }}>Access Denied</h2>
         <p style={{ color: 'var(--text-muted, #666)', marginTop: 8 }}>
           Your role does not have access to this feature.
@@ -76,7 +80,9 @@ function ConsoleRouteGuard({ screen }) {
   if (!canAccessConsole || !canAccessConsoleScreen(screen)) {
     return (
       <div className="console-card" style={{ textAlign: 'center', margin: '40px auto', maxWidth: 500, padding: 40 }}>
-        <div style={{ fontSize: 48, marginBottom: 16 }}>🔒</div>
+        <div style={{ width: 64, height: 64, borderRadius: '50%', background: '#FEF2F2', color: '#EF4444', display: 'flex', alignItems: 'center', justifyContent: 'center', margin: '0 auto 16px' }}>
+          <IconShieldLock size={36} stroke={1.8} />
+        </div>
         <h2 style={{ fontSize: '1.25rem', fontWeight: 700 }}>Console Access Denied</h2>
         <p style={{ color: 'var(--text-muted, #64748B)', marginTop: 8, fontSize: '0.875rem' }}>
           You do not have permission to access this management module.
