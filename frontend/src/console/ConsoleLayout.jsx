@@ -7,18 +7,28 @@ import ConsoleSidebar from './ConsoleSidebar';
 import ConsoleTopNav from './ConsoleTopNav';
 import './console.css';
 
+import { getCanonicalRole, ROLES } from '../utils/roleHelper';
+
 // Roles/permissions that can access the management console
 const CONSOLE_PERMISSIONS = ['manage:users', 'view:audit', 'all'];
 
-function hasConsoleAccess(user, permissions = [], isAdmin = false) {
+function hasConsoleAccess(user, permissions = [], isAdmin = false, isCommander = false) {
   if (!user) return false;
-  if (isAdmin) return true;
+  if (isAdmin || isCommander) return true;
+  
+  const canonicalRole = getCanonicalRole(user);
+  if (canonicalRole === ROLES.ADMIN || canonicalRole === ROLES.CAMP_COMMANDER) {
+    return true;
+  }
+
+  const roleStr = (user.roleName || user.role || '').toLowerCase();
   if (
-    user.role === 'admin' ||
-    user.role === 'Super Admin' ||
-    user.roleName === 'Super Admin' ||
-    user.roleName === 'Operations Admin' ||
-    user.roleName === 'Camp Director'
+    roleStr === 'admin' ||
+    roleStr.includes('super admin') ||
+    roleStr.includes('operations admin') ||
+    roleStr.includes('camp director') ||
+    roleStr.includes('commander') ||
+    roleStr.includes('commandant')
   ) {
     return true;
   }
@@ -47,7 +57,7 @@ function AccessDenied() {
 
 export default function ConsoleLayout() {
   const { state } = useApp();
-  const { permissions, isAdmin } = usePermissions();
+  const { permissions, isAdmin, isCommander, canAccessConsole } = usePermissions();
 
   const [isSidebarOpen, setSidebarOpen] = useState(false);
   const [isCollapsed, setIsCollapsed] = useState(false);
@@ -58,7 +68,7 @@ export default function ConsoleLayout() {
   }
 
   // Must have console access
-  if (!hasConsoleAccess(state.currentUser, permissions, isAdmin)) {
+  if (!canAccessConsole && !hasConsoleAccess(state.currentUser, permissions, isAdmin, isCommander)) {
     return <AccessDenied />;
   }
 
