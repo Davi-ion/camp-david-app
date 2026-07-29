@@ -6,3 +6,6 @@ dist/
 backend/node_modules/
 frontend/node_modules/
 frontend/dist/
+go-backend/camp-david-backend
+backend/campers_seed.json
+go-backend/campers_seed.json

@@ -1,0 +1,2279 @@
+[
+  {
+    "name": "Abolaji Adeniji",
+    "registrationNumber": "CD26130E",
+    "platoon": "Bravo",
+    "gender": "Female",
+    "tshirtSize": "M",
+    "dorm": "LQF1",
+    "age": 13
+  },
+  {
+    "name": "Adaeze Eze",
+    "registrationNumber": "CD26412E",
+    "platoon": "Echo",
+    "gender": "Female",
+    "tshirtSize": "M",
+    "dorm": "LQF1",
+    "age": 13
+  },
+  {
+    "name": "Adaeze Ogbonnaya",
+    "registrationNumber": "CD26326E",
+    "platoon": "Romeo",
+    "gender": "Female",
+    "tshirtSize": "M",
+    "dorm": "LQF2",
+    "age": 13
+  },
+  {
+    "name": "Adanna Obioha",
+    "registrationNumber": "CD24085E",
+    "platoon": "Bravo",
+    "gender": "Female",
+    "tshirtSize": "L",
+    "dorm": "LQF2",
+    "age": 17
+  },
+  {
+    "name": "Adebiyi Temiloluwa",
+    "registrationNumber": "CD24193E",
+    "platoon": "Charlie",
+    "gender": "Female",
+    "tshirtSize": "XL",
+    "dorm": "LQF1",
+    "age": 15
+  },
+  {
+    "name": "Adora Egbuleze",
+    "registrationNumber": "CD26120E",
+    "platoon": "Delta",
+    "gender": "Female",
+    "tshirtSize": "L",
+    "dorm": "LQF1",
+    "age": 14
+  },
+  {
+    "name": "Ahmed Akinfewa",
+    "registrationNumber": "CD26424E",
+    "platoon": "Alfa",
+    "gender": "Male",
+    "tshirtSize": "M",
+    "dorm": "LQM1",
+    "age": 14
+  },
+  {
+    "name": "Aishat Pelumi Shoyoye",
+    "registrationNumber": "CD25032E",
+    "platoon": "Echo",
+    "gender": "Female",
+    "tshirtSize": "S",
+    "dorm": "LQF2",
+    "age": 18
+  },
+  {
+    "name": "Akili Opuofoni",
+    "registrationNumber": "CD26104E",
+    "platoon": "Foxtrot",
+    "gender": "Female",
+    "tshirtSize": "M",
+    "dorm": "LQF2",
+    "age": 12
+  },
+  {
+    "name": "AKOREDE ADEJANA",
+    "registrationNumber": "CD26271E",
+    "platoon": "Golf",
+    "gender": "Male",
+    "tshirtSize": "L",
+    "dorm": "LQM1",
+    "age": 20
+  },
+  {
+    "name": "Angel Dimson",
+    "registrationNumber": "CD25284E",
+    "platoon": "Victor",
+    "gender": "Female",
+    "tshirtSize": "L",
+    "dorm": "LQF1",
+    "age": 15
+  },
+  {
+    "name": "Angel Favour",
+    "registrationNumber": "CD26153E",
+    "platoon": "Bravo",
+    "gender": "Female",
+    "tshirtSize": "M",
+    "dorm": "LQF1",
+    "age": 13
+  },
+  {
+    "name": "Angel Maduakolam",
+    "registrationNumber": "CD26289E",
+    "platoon": "Delta",
+    "gender": "Female",
+    "tshirtSize": "M",
+    "dorm": "LQF2",
+    "age": 16
+  },
+  {
+    "name": "Angel Mbamalu",
+    "registrationNumber": "CD26056E",
+    "platoon": "Oscar",
+    "gender": "Female",
+    "tshirtSize": "L",
+    "dorm": "LQF2",
+    "age": 14
+  },
+  {
+    "name": "Anjola Adejana",
+    "registrationNumber": "CD24008E",
+    "platoon": "Victor",
+    "gender": "Female",
+    "tshirtSize": "XL",
+    "dorm": "LQF2",
+    "age": 20
+  },
+  {
+    "name": "Anjola Oyesanmi",
+    "registrationNumber": "CD25299E",
+    "platoon": "Alfa",
+    "gender": "Female",
+    "tshirtSize": "XL",
+    "dorm": "LQF2",
+    "age": 18
+  },
+  {
+    "name": "Anuoluwapo Adegoke",
+    "registrationNumber": "CD26367E",
+    "platoon": "Echo",
+    "gender": "Female",
+    "tshirtSize": "L",
+    "dorm": "LQF1",
+    "age": 17
+  },
+  {
+    "name": "Archibong Jonathan",
+    "registrationNumber": "CD26043E",
+    "platoon": "Alfa",
+    "gender": "Male",
+    "tshirtSize": "M",
+    "dorm": "LQM2",
+    "age": 17
+  },
+  {
+    "name": "ARIEL UZOESHI",
+    "registrationNumber": "CD26213E",
+    "platoon": "Alfa",
+    "gender": "Female",
+    "tshirtSize": "L",
+    "dorm": "LQF1",
+    "age": 13
+  },
+  {
+    "name": "Augusta Enyi",
+    "registrationNumber": "CD25014E",
+    "platoon": "Foxtrot",
+    "gender": "Female",
+    "tshirtSize": "XL",
+    "dorm": "LQF2",
+    "age": 16
+  },
+  {
+    "name": "Avwara Michael",
+    "registrationNumber": "CD26378E",
+    "platoon": "Alfa",
+    "gender": "Male",
+    "tshirtSize": "L",
+    "dorm": "LQM2",
+    "age": 14
+  },
+  {
+    "name": "Ayanfeoluwa Odutayo",
+    "registrationNumber": "CD25465E",
+    "platoon": "Romeo",
+    "gender": "Female",
+    "tshirtSize": "M",
+    "dorm": "LQF1",
+    "age": 14
+  },
+  {
+    "name": "Ayomide Akinyemi",
+    "registrationNumber": "CD26073E",
+    "platoon": "Lima",
+    "gender": "Male",
+    "tshirtSize": "L",
+    "dorm": "LQM2",
+    "age": 13
+  },
+  {
+    "name": "Ayomiposi Odebode",
+    "registrationNumber": "CD26304E",
+    "platoon": "Mike",
+    "gender": "Male",
+    "tshirtSize": "M",
+    "dorm": "LQM2",
+    "age": 16
+  },
+  {
+    "name": "Ayoola Otuyemi",
+    "registrationNumber": "CD26290E",
+    "platoon": "Bravo",
+    "gender": "Female",
+    "tshirtSize": "L",
+    "dorm": "LQF2",
+    "age": 15
+  },
+  {
+    "name": "Babalola Adegoke",
+    "registrationNumber": "CD26359E",
+    "platoon": "Quebec",
+    "gender": "Male",
+    "tshirtSize": "M",
+    "dorm": "LQM1",
+    "age": 15
+  },
+  {
+    "name": "Belema Mitchelle Braide",
+    "registrationNumber": "CD25073E",
+    "platoon": "Echo",
+    "gender": "Female",
+    "tshirtSize": "XL",
+    "dorm": "LQF1",
+    "age": 17
+  },
+  {
+    "name": "Bene Marvellous Braide",
+    "registrationNumber": "CD26363E",
+    "platoon": "Alfa",
+    "gender": "Female",
+    "tshirtSize": "M",
+    "dorm": "LQF2",
+    "age": 16
+  },
+  {
+    "name": "Benebo Miracle Braide",
+    "registrationNumber": "CD26365E",
+    "platoon": "Foxtrot",
+    "gender": "Male",
+    "tshirtSize": "M",
+    "dorm": "LQM1",
+    "age": 16
+  },
+  {
+    "name": "Benjamin Princess",
+    "registrationNumber": "CD26249E",
+    "platoon": "Delta",
+    "gender": "Female",
+    "tshirtSize": "M",
+    "dorm": "LQF1",
+    "age": 15
+  },
+  {
+    "name": "Blessing Ughagwu",
+    "registrationNumber": "CD26066E",
+    "platoon": "Delta",
+    "gender": "Female",
+    "tshirtSize": "XL",
+    "dorm": "LQF2",
+    "age": 19
+  },
+  {
+    "name": "Blossom Anosike",
+    "registrationNumber": "CD25280E",
+    "platoon": "Kilo",
+    "gender": "Female",
+    "tshirtSize": "XL",
+    "dorm": "LQF1",
+    "age": 17
+  },
+  {
+    "name": "Bolu Bako",
+    "registrationNumber": "CD24009E",
+    "platoon": "Mike",
+    "gender": "Female",
+    "tshirtSize": "L",
+    "dorm": "LQF1",
+    "age": 19
+  },
+  {
+    "name": "Boyowa Ghereje",
+    "registrationNumber": "CD24010E",
+    "platoon": "Foxtrot",
+    "gender": "Male",
+    "tshirtSize": "M",
+    "dorm": "LQM1",
+    "age": 19
+  },
+  {
+    "name": "Bryan-martins Robinson",
+    "registrationNumber": "CD26171E",
+    "platoon": "Tango",
+    "gender": "Male",
+    "tshirtSize": "M",
+    "dorm": "LQM2",
+    "age": 14
+  },
+  {
+    "name": "Chidinma Emmanuella",
+    "registrationNumber": "CD26201E",
+    "platoon": "Foxtrot",
+    "gender": "Female",
+    "tshirtSize": "M",
+    "dorm": "LQF1",
+    "age": 15
+  },
+  {
+    "name": "Chidubem Emmanuel",
+    "registrationNumber": "CD26106E",
+    "platoon": "Oscar",
+    "gender": "Male",
+    "tshirtSize": "L",
+    "dorm": "LQM1",
+    "age": 14
+  },
+  {
+    "name": "Chidubem Osemeke",
+    "registrationNumber": "CD25159E",
+    "platoon": "Golf",
+    "gender": "Male",
+    "tshirtSize": "M",
+    "dorm": "LQM1",
+    "age": 17
+  },
+  {
+    "name": "Chigoziem Enunwa",
+    "registrationNumber": "CD24301E",
+    "platoon": "Echo",
+    "gender": "Male",
+    "tshirtSize": "M",
+    "dorm": "LQM2",
+    "age": 14
+  },
+  {
+    "name": "Chikamso Ghereje",
+    "registrationNumber": "CD24076E",
+    "platoon": "Lima",
+    "gender": "Female",
+    "tshirtSize": "M",
+    "dorm": "LQF1",
+    "age": 15
+  },
+  {
+    "name": "Chimamanda Anyanwu",
+    "registrationNumber": "CD25302E",
+    "platoon": "Golf",
+    "gender": "Female",
+    "tshirtSize": "S",
+    "dorm": "LQF2",
+    "age": 15
+  },
+  {
+    "name": "Chimamanda Nwabueze",
+    "registrationNumber": "CD26382E",
+    "platoon": "Echo",
+    "gender": "Female",
+    "tshirtSize": "L",
+    "dorm": "LQF1",
+    "age": 16
+  },
+  {
+    "name": "Chinasa Okechukwu",
+    "registrationNumber": "CD26246E",
+    "platoon": "Lima",
+    "gender": "Female",
+    "tshirtSize": "L",
+    "dorm": "LQF2",
+    "age": 17
+  },
+  {
+    "name": "Chinedu Ibelo",
+    "registrationNumber": "CD26388E",
+    "platoon": "Oscar",
+    "gender": "Male",
+    "tshirtSize": "XL",
+    "dorm": "LQM2",
+    "age": 16
+  },
+  {
+    "name": "Chinedum Michael-Ogbonna",
+    "registrationNumber": "CD24185E",
+    "platoon": "Romeo",
+    "gender": "Male",
+    "tshirtSize": "XL",
+    "dorm": "LQM2",
+    "age": 18
+  },
+  {
+    "name": "Chinemerem Favour",
+    "registrationNumber": "CD25142E",
+    "platoon": "Mike",
+    "gender": "Female",
+    "tshirtSize": "M",
+    "dorm": "LQF2",
+    "age": 20
+  },
+  {
+    "name": "Chisom Eze",
+    "registrationNumber": "CD24092E",
+    "platoon": "Tango",
+    "gender": "Male",
+    "tshirtSize": "L",
+    "dorm": "LQM1",
+    "age": 18
+  },
+  {
+    "name": "Chisom Onyeukwu",
+    "registrationNumber": "CD26085E",
+    "platoon": "Foxtrot",
+    "gender": "Male",
+    "tshirtSize": "XL",
+    "dorm": "LQM1",
+    "age": 16
+  },
+  {
+    "name": "Chiziterem Ikejide",
+    "registrationNumber": "CD26050E",
+    "platoon": "Golf",
+    "gender": "Female",
+    "tshirtSize": "M",
+    "dorm": "LQF1",
+    "age": 15
+  },
+  {
+    "name": "Chris Olajide",
+    "registrationNumber": "CD26253E",
+    "platoon": "Kilo",
+    "gender": "Male",
+    "tshirtSize": "L",
+    "dorm": "LQM2",
+    "age": 15
+  },
+  {
+    "name": "Christabel Benjamin-Aguonye",
+    "registrationNumber": "CD25512E",
+    "platoon": "Oscar",
+    "gender": "Female",
+    "tshirtSize": "S",
+    "dorm": "LQF1",
+    "age": 13
+  },
+  {
+    "name": "Christabel Chukwukezirim",
+    "registrationNumber": "CD26233E",
+    "platoon": "Lima",
+    "gender": "Female",
+    "tshirtSize": "M",
+    "dorm": "LQF2",
+    "age": 13
+  },
+  {
+    "name": "Christopher Ubiagba",
+    "registrationNumber": "CD26244E",
+    "platoon": "Quebec",
+    "gender": "Male",
+    "tshirtSize": "L",
+    "dorm": "LQM1",
+    "age": 19
+  },
+  {
+    "name": "Chukwukadibia Charlyn",
+    "registrationNumber": "CD25242E",
+    "platoon": "Golf",
+    "gender": "Female",
+    "tshirtSize": "XL",
+    "dorm": "LQF2",
+    "age": 19
+  },
+  {
+    "name": "Claire Nnaji",
+    "registrationNumber": "CD26211E",
+    "platoon": "Quebec",
+    "gender": "Female",
+    "tshirtSize": "L",
+    "dorm": "LQF1",
+    "age": 15
+  },
+  {
+    "name": "Damilare Agbaje",
+    "registrationNumber": "CD26093E",
+    "platoon": "Sierra",
+    "gender": "Male",
+    "tshirtSize": "M",
+    "dorm": "LQM1",
+    "age": 16
+  },
+  {
+    "name": "Daniel Emuh",
+    "registrationNumber": "CD26421E",
+    "platoon": "Charlie",
+    "gender": "Male",
+    "tshirtSize": "L",
+    "dorm": "LQM2",
+    "age": 12
+  },
+  {
+    "name": "Daniel Ezeamama",
+    "registrationNumber": "CD26332E",
+    "platoon": "Foxtrot",
+    "gender": "Male",
+    "tshirtSize": "L",
+    "dorm": "LQM1",
+    "age": 15
+  },
+  {
+    "name": "Daniel John",
+    "registrationNumber": "CD26316E",
+    "platoon": "Bravo",
+    "gender": "Male",
+    "tshirtSize": "L",
+    "dorm": "LQM1",
+    "age": 18
+  },
+  {
+    "name": "Daniel Maduforo",
+    "registrationNumber": "CD26319E",
+    "platoon": "Tango",
+    "gender": "Male",
+    "tshirtSize": "S",
+    "dorm": "LQM2",
+    "age": 18
+  },
+  {
+    "name": "Daniel Odigbo",
+    "registrationNumber": "CD26216E",
+    "platoon": "Kilo",
+    "gender": "Male",
+    "tshirtSize": "L",
+    "dorm": "LQM1",
+    "age": 13
+  },
+  {
+    "name": "Daniel Okechukwu",
+    "registrationNumber": "CD26063E",
+    "platoon": "Romeo",
+    "gender": "Male",
+    "tshirtSize": "M",
+    "dorm": "LQM2",
+    "age": 16
+  },
+  {
+    "name": "Daniel Olofi",
+    "registrationNumber": "CD26419E",
+    "platoon": "Bravo",
+    "gender": "Male",
+    "tshirtSize": "M",
+    "dorm": "LQM1",
+    "age": 15
+  },
+  {
+    "name": "Daniel Owhe",
+    "registrationNumber": "CD25358E",
+    "platoon": "Tango",
+    "gender": "Male",
+    "tshirtSize": "M",
+    "dorm": "LQM1",
+    "age": 18
+  },
+  {
+    "name": "Daniel Oyelohunnu",
+    "registrationNumber": "CD25238E",
+    "platoon": "Charlie",
+    "gender": "Male",
+    "tshirtSize": "L",
+    "dorm": "LQM2",
+    "age": 18
+  },
+  {
+    "name": "Daniella Emmanuel Ekong",
+    "registrationNumber": "CD25016E",
+    "platoon": "Bravo",
+    "gender": "Female",
+    "tshirtSize": "XL",
+    "dorm": "LQF1",
+    "age": 19
+  },
+  {
+    "name": "Daniella Mesh-Masade",
+    "registrationNumber": "CD26205E",
+    "platoon": "Sierra",
+    "gender": "Female",
+    "tshirtSize": "M",
+    "dorm": "LQF2",
+    "age": 14
+  },
+  {
+    "name": "Daniella Nwaorgu",
+    "registrationNumber": "CD24032E",
+    "platoon": "Quebec",
+    "gender": "Female",
+    "tshirtSize": "XL",
+    "dorm": "LQF1",
+    "age": 20
+  },
+  {
+    "name": "Daniella Ojochide obaka",
+    "registrationNumber": "CD25297E",
+    "platoon": "Romeo",
+    "gender": "Female",
+    "tshirtSize": "L",
+    "dorm": "LQF2",
+    "age": 16
+  },
+  {
+    "name": "David Amisu",
+    "registrationNumber": "CD24267E",
+    "platoon": "Bravo",
+    "gender": "Male",
+    "tshirtSize": "L",
+    "dorm": "LQM2",
+    "age": 16
+  },
+  {
+    "name": "David Apeh",
+    "registrationNumber": "CD26027E",
+    "platoon": "Bravo",
+    "gender": "Male",
+    "tshirtSize": "L",
+    "dorm": "LQM1",
+    "age": 18
+  },
+  {
+    "name": "David eneojo Obaka",
+    "registrationNumber": "CD25296E",
+    "platoon": "Foxtrot",
+    "gender": "Male",
+    "tshirtSize": "L",
+    "dorm": "LQM1",
+    "age": 16
+  },
+  {
+    "name": "David Etim-Bassey",
+    "registrationNumber": "CD25058E",
+    "platoon": "Charlie",
+    "gender": "Male",
+    "tshirtSize": "XL",
+    "dorm": "LQM2",
+    "age": 14
+  },
+  {
+    "name": "David Ojumu",
+    "registrationNumber": "CD26259E",
+    "platoon": "Echo",
+    "gender": "Male",
+    "tshirtSize": "L",
+    "dorm": "LQM2",
+    "age": 15
+  },
+  {
+    "name": "David Oyelohunnu",
+    "registrationNumber": "CD25300E",
+    "platoon": "Delta",
+    "gender": "Male",
+    "tshirtSize": "M",
+    "dorm": "LQM1",
+    "age": 16
+  },
+  {
+    "name": "david sini",
+    "registrationNumber": "CD26255E",
+    "platoon": "Delta",
+    "gender": "Male",
+    "tshirtSize": "L",
+    "dorm": "LQM1",
+    "age": 16
+  },
+  {
+    "name": "Davida Okonkwo",
+    "registrationNumber": "CD26398E",
+    "platoon": "Romeo",
+    "gender": "Female",
+    "tshirtSize": "M",
+    "dorm": "LQF2",
+    "age": 12
+  },
+  {
+    "name": "Davidson Ojeomere",
+    "registrationNumber": "CD25224E",
+    "platoon": "Romeo",
+    "gender": "Male",
+    "tshirtSize": "M",
+    "dorm": "LQM2",
+    "age": 20
+  },
+  {
+    "name": "Deborah Adigwe",
+    "registrationNumber": "CD24096E",
+    "platoon": "Quebec",
+    "gender": "Female",
+    "tshirtSize": "S",
+    "dorm": "LQF1",
+    "age": 15
+  },
+  {
+    "name": "Destiny Bugartti",
+    "registrationNumber": "CD26420E",
+    "platoon": "Echo",
+    "gender": "Male",
+    "tshirtSize": "M",
+    "dorm": "LQM2",
+    "age": 12
+  },
+  {
+    "name": "Dlama Garba sini",
+    "registrationNumber": "CD24134E",
+    "platoon": "Golf",
+    "gender": "Male",
+    "tshirtSize": "S",
+    "dorm": "LQM2",
+    "age": 15
+  },
+  {
+    "name": "Douye Eselemo",
+    "registrationNumber": "CD26052E",
+    "platoon": "Sierra",
+    "gender": "Female",
+    "tshirtSize": "S",
+    "dorm": "LQF1",
+    "age": 13
+  },
+  {
+    "name": "Dunkwu Prosper",
+    "registrationNumber": "CD26260E",
+    "platoon": "Lima",
+    "gender": "Male",
+    "tshirtSize": "M",
+    "dorm": "LQM2",
+    "age": 20
+  },
+  {
+    "name": "Ebubechukwu Ekeh",
+    "registrationNumber": "CD25029E",
+    "platoon": "Romeo",
+    "gender": "Male",
+    "tshirtSize": "L",
+    "dorm": "LQM2",
+    "age": 13
+  },
+  {
+    "name": "Edith Chukwuma",
+    "registrationNumber": "CD26281E",
+    "platoon": "Victor",
+    "gender": "Female",
+    "tshirtSize": "L",
+    "dorm": "LQF1",
+    "age": 18
+  },
+  {
+    "name": "Efe Samuel",
+    "registrationNumber": "CD26034E",
+    "platoon": "Echo",
+    "gender": "Male",
+    "tshirtSize": "XL",
+    "dorm": "LQM1",
+    "age": 17
+  },
+  {
+    "name": "Elijah Bolarinwa",
+    "registrationNumber": "CD26283E",
+    "platoon": "Sierra",
+    "gender": "Male",
+    "tshirtSize": "M",
+    "dorm": "LQM1",
+    "age": 14
+  },
+  {
+    "name": "Elizabeth Bakare",
+    "registrationNumber": "CD24226E",
+    "platoon": "Oscar",
+    "gender": "Female",
+    "tshirtSize": "S",
+    "dorm": "LQF1",
+    "age": 16
+  },
+  {
+    "name": "Emmanuel Adenodi",
+    "registrationNumber": "CD26229E",
+    "platoon": "Quebec",
+    "gender": "Male",
+    "tshirtSize": "M",
+    "dorm": "LQM2",
+    "age": 12
+  },
+  {
+    "name": "Emmanuel Agbasimalo",
+    "registrationNumber": "CD26303E",
+    "platoon": "Delta",
+    "gender": "Male",
+    "tshirtSize": "L",
+    "dorm": "LQM2",
+    "age": 18
+  },
+  {
+    "name": "Emmanuel Chinerem Okoli",
+    "registrationNumber": "CD25041E",
+    "platoon": "Sierra",
+    "gender": "Male",
+    "tshirtSize": "L",
+    "dorm": "LQM1",
+    "age": 14
+  },
+  {
+    "name": "Emmanuel Nweke",
+    "registrationNumber": "CD24029E",
+    "platoon": "Foxtrot",
+    "gender": "Male",
+    "tshirtSize": "L",
+    "dorm": "LQM1",
+    "age": 16
+  },
+  {
+    "name": "Emmanuel Popoola",
+    "registrationNumber": "CD26197E",
+    "platoon": "Golf",
+    "gender": "Male",
+    "tshirtSize": "M",
+    "dorm": "LQM1",
+    "age": 12
+  },
+  {
+    "name": "Emmanuella Ogbonna",
+    "registrationNumber": "CD26362E",
+    "platoon": "Lima",
+    "gender": "Female",
+    "tshirtSize": "L",
+    "dorm": "LQF2",
+    "age": 16
+  },
+  {
+    "name": "Emmanuella Popoola",
+    "registrationNumber": "CD26194E",
+    "platoon": "Sierra",
+    "gender": "Female",
+    "tshirtSize": "L",
+    "dorm": "LQF2",
+    "age": 12
+  },
+  {
+    "name": "Enioluwafe Adetutu",
+    "registrationNumber": "CD25077E",
+    "platoon": "Sierra",
+    "gender": "Male",
+    "tshirtSize": "M",
+    "dorm": "LQM1",
+    "age": 13
+  },
+  {
+    "name": "Ese Samuel",
+    "registrationNumber": "CD26036E",
+    "platoon": "Bravo",
+    "gender": "Male",
+    "tshirtSize": "L",
+    "dorm": "LQM1",
+    "age": 14
+  },
+  {
+    "name": "Esther Jigide",
+    "registrationNumber": "CD25233E",
+    "platoon": "Golf",
+    "gender": "Female",
+    "tshirtSize": "L",
+    "dorm": "LQF1",
+    "age": 15
+  },
+  {
+    "name": "Ethan Henry-Ikeh",
+    "registrationNumber": "CD26368E",
+    "platoon": "Delta",
+    "gender": "Male",
+    "tshirtSize": "M",
+    "dorm": "LQM2",
+    "age": 12
+  },
+  {
+    "name": "Eudora Nnaji",
+    "registrationNumber": "CD26210E",
+    "platoon": "Alfa",
+    "gender": "Female",
+    "tshirtSize": "L",
+    "dorm": "LQF2",
+    "age": 12
+  },
+  {
+    "name": "Eustace Chidubem",
+    "registrationNumber": "CD26225E",
+    "platoon": "Tango",
+    "gender": "Male",
+    "tshirtSize": "L",
+    "dorm": "LQM2",
+    "age": 12
+  },
+  {
+    "name": "Eyituoyo Abiloye",
+    "registrationNumber": "CD26277E",
+    "platoon": "Kilo",
+    "gender": "Male",
+    "tshirtSize": "M",
+    "dorm": "LQM1",
+    "age": 13
+  },
+  {
+    "name": "Ezeh Esther",
+    "registrationNumber": "CD24220E",
+    "platoon": "Mike",
+    "gender": "Female",
+    "tshirtSize": "XL",
+    "dorm": "LQF2",
+    "age": 18
+  },
+  {
+    "name": "Faith Elvis",
+    "registrationNumber": "CD26376E",
+    "platoon": "Mike",
+    "gender": "Female",
+    "tshirtSize": "M",
+    "dorm": "LQF2",
+    "age": 19
+  },
+  {
+    "name": "Falodun Titobiloluwa",
+    "registrationNumber": "CD26126E",
+    "platoon": "Oscar",
+    "gender": "Female",
+    "tshirtSize": "L",
+    "dorm": "LQF1",
+    "age": 18
+  },
+  {
+    "name": "Favour Agba",
+    "registrationNumber": "CD25429E",
+    "platoon": "Alfa",
+    "gender": "Female",
+    "tshirtSize": "XL",
+    "dorm": "LQF1",
+    "age": 19
+  },
+  {
+    "name": "Favour Akpan",
+    "registrationNumber": "CD26060E",
+    "platoon": "Tango",
+    "gender": "Female",
+    "tshirtSize": "L",
+    "dorm": "LQF2",
+    "age": 19
+  },
+  {
+    "name": "Favour Nwabueze",
+    "registrationNumber": "CD25088E",
+    "platoon": "Charlie",
+    "gender": "Female",
+    "tshirtSize": "XL",
+    "dorm": "LQF1",
+    "age": 19
+  },
+  {
+    "name": "Favour-Benjamin Matthews",
+    "registrationNumber": "CD26157E",
+    "platoon": "Lima",
+    "gender": "Male",
+    "tshirtSize": "XL",
+    "dorm": "LQM2",
+    "age": 16
+  },
+  {
+    "name": "Femi Ojeleke",
+    "registrationNumber": "CD26112E",
+    "platoon": "Golf",
+    "gender": "Male",
+    "tshirtSize": "XL",
+    "dorm": "LQM2",
+    "age": 17
+  },
+  {
+    "name": "FIYIN ADETUTU",
+    "registrationNumber": "CD24195E",
+    "platoon": "Mike",
+    "gender": "Male",
+    "tshirtSize": "L",
+    "dorm": "LQM2",
+    "age": 15
+  },
+  {
+    "name": "Fragrance Anosike",
+    "registrationNumber": "CD25279E",
+    "platoon": "Alfa",
+    "gender": "Female",
+    "tshirtSize": "L",
+    "dorm": "LQF2",
+    "age": 15
+  },
+  {
+    "name": "Francis Uwadia",
+    "registrationNumber": "CD26193E",
+    "platoon": "Victor",
+    "gender": "Male",
+    "tshirtSize": "L",
+    "dorm": "LQM1",
+    "age": 13
+  },
+  {
+    "name": "Gabriel Akejelu",
+    "registrationNumber": "CD26296E",
+    "platoon": "Lima",
+    "gender": "Male",
+    "tshirtSize": "S",
+    "dorm": "LQM2",
+    "age": 14
+  },
+  {
+    "name": "Gabriel Amisu",
+    "registrationNumber": "CD25067E",
+    "platoon": "Oscar",
+    "gender": "Male",
+    "tshirtSize": "L",
+    "dorm": "LQM1",
+    "age": 13
+  },
+  {
+    "name": "Gabriel Ikuyinminu",
+    "registrationNumber": "CD24101E",
+    "platoon": "Oscar",
+    "gender": "Male",
+    "tshirtSize": "XL",
+    "dorm": "LQM2",
+    "age": 19
+  },
+  {
+    "name": "Glory Oginni",
+    "registrationNumber": "CD26423E",
+    "platoon": "Quebec",
+    "gender": "Female",
+    "tshirtSize": "M",
+    "dorm": "LQF2",
+    "age": 15
+  },
+  {
+    "name": "Glory Okechukwu",
+    "registrationNumber": "CD26247E",
+    "platoon": "Delta",
+    "gender": "Female",
+    "tshirtSize": "M",
+    "dorm": "LQF2",
+    "age": 15
+  },
+  {
+    "name": "Goshen Ukpabi",
+    "registrationNumber": "CD26045E",
+    "platoon": "Quebec",
+    "gender": "Female",
+    "tshirtSize": "L",
+    "dorm": "LQF1",
+    "age": 16
+  },
+  {
+    "name": "Grace Uyoyo",
+    "registrationNumber": "CD26058E",
+    "platoon": "Echo",
+    "gender": "Female",
+    "tshirtSize": "M",
+    "dorm": "LQF2",
+    "age": 16
+  },
+  {
+    "name": "Great Chukwukadibia",
+    "registrationNumber": "CD26212E",
+    "platoon": "Lima",
+    "gender": "Male",
+    "tshirtSize": "L",
+    "dorm": "LQM2",
+    "age": 14
+  },
+  {
+    "name": "Great Ukpong",
+    "registrationNumber": "CD26417E",
+    "platoon": "Foxtrot",
+    "gender": "Male",
+    "tshirtSize": "M",
+    "dorm": "LQM1",
+    "age": 17
+  },
+  {
+    "name": "Habakkuk Adebisi",
+    "registrationNumber": "CD26200E",
+    "platoon": "Bravo",
+    "gender": "Male",
+    "tshirtSize": "M",
+    "dorm": "LQM2",
+    "age": 18
+  },
+  {
+    "name": "Hadassah Adeyemi",
+    "registrationNumber": "CD26042E",
+    "platoon": "Foxtrot",
+    "gender": "Female",
+    "tshirtSize": "M",
+    "dorm": "LQF1",
+    "age": 14
+  },
+  {
+    "name": "Hadassah Okonkwo",
+    "registrationNumber": "CD25096E",
+    "platoon": "Mike",
+    "gender": "Female",
+    "tshirtSize": "M",
+    "dorm": "LQF1",
+    "age": 15
+  },
+  {
+    "name": "Ibukunoluwa Oyedemi",
+    "registrationNumber": "CD24323E",
+    "platoon": "Kilo",
+    "gender": "Male",
+    "tshirtSize": "L",
+    "dorm": "LQM1",
+    "age": 17
+  },
+  {
+    "name": "Ifeoluwa Bamidele",
+    "registrationNumber": "CD26360E",
+    "platoon": "Delta",
+    "gender": "Female",
+    "tshirtSize": "M",
+    "dorm": "LQF2",
+    "age": 15
+  },
+  {
+    "name": "Influence Mba",
+    "registrationNumber": "CD26250E",
+    "platoon": "Bravo",
+    "gender": "Male",
+    "tshirtSize": "S",
+    "dorm": "LQM2",
+    "age": 13
+  },
+  {
+    "name": "Inioluwa Adepitan",
+    "registrationNumber": "CD26123E",
+    "platoon": "Golf",
+    "gender": "Female",
+    "tshirtSize": "M",
+    "dorm": "LQF1",
+    "age": 14
+  },
+  {
+    "name": "isaac onyeani",
+    "registrationNumber": "CD26169E",
+    "platoon": "Quebec",
+    "gender": "Male",
+    "tshirtSize": "M",
+    "dorm": "LQM2",
+    "age": 13
+  },
+  {
+    "name": "Isioma Onwuka",
+    "registrationNumber": "CD26148E",
+    "platoon": "Oscar",
+    "gender": "Female",
+    "tshirtSize": "M",
+    "dorm": "LQF2",
+    "age": 12
+  },
+  {
+    "name": "Iteoluwakishi Abdul-Martins",
+    "registrationNumber": "CD24167E",
+    "platoon": "Bravo",
+    "gender": "Female",
+    "tshirtSize": "M",
+    "dorm": "LQF2",
+    "age": 18
+  },
+  {
+    "name": "iyinoluwa adebanjo",
+    "registrationNumber": "CD25063E",
+    "platoon": "Charlie",
+    "gender": "Female",
+    "tshirtSize": "M",
+    "dorm": "LQF2",
+    "age": 17
+  },
+  {
+    "name": "Jadesola Adejana",
+    "registrationNumber": "CD24007E",
+    "platoon": "Charlie",
+    "gender": "Female",
+    "tshirtSize": "XL",
+    "dorm": "LQF1",
+    "age": 20
+  },
+  {
+    "name": "JAIYEOLA SHOAGA",
+    "registrationNumber": "CD26280E",
+    "platoon": "Delta",
+    "gender": "Male",
+    "tshirtSize": "XL",
+    "dorm": "LQM2",
+    "age": 13
+  },
+  {
+    "name": "jayden SHOAGA",
+    "registrationNumber": "CD26278E",
+    "platoon": "Sierra",
+    "gender": "Female",
+    "tshirtSize": "M",
+    "dorm": "LQF2",
+    "age": 16
+  },
+  {
+    "name": "Jayson Ezeamama",
+    "registrationNumber": "CD26333E",
+    "platoon": "Charlie",
+    "gender": "Male",
+    "tshirtSize": "S",
+    "dorm": "LQM2",
+    "age": 14
+  },
+  {
+    "name": "Jeriah Stephen",
+    "registrationNumber": "CD26318E",
+    "platoon": "Romeo",
+    "gender": "Male",
+    "tshirtSize": "L",
+    "dorm": "LQM1",
+    "age": 13
+  },
+  {
+    "name": "Jesse Johnson",
+    "registrationNumber": "CD26070E",
+    "platoon": "Alfa",
+    "gender": "Male",
+    "tshirtSize": "L",
+    "dorm": "LQM2",
+    "age": 14
+  },
+  {
+    "name": "Jolaoluwa Dedewo",
+    "registrationNumber": "CD26040E",
+    "platoon": "Kilo",
+    "gender": "Female",
+    "tshirtSize": "S",
+    "dorm": "LQF2",
+    "age": 12
+  },
+  {
+    "name": "Joshua Benjamin",
+    "registrationNumber": "CD26207E",
+    "platoon": "Lima",
+    "gender": "Male",
+    "tshirtSize": "M",
+    "dorm": "LQM1",
+    "age": 19
+  },
+  {
+    "name": "Juliana Ogunsan",
+    "registrationNumber": "CD25006E",
+    "platoon": "Lima",
+    "gender": "Female",
+    "tshirtSize": "S",
+    "dorm": "LQF1",
+    "age": 14
+  },
+  {
+    "name": "Kamsi Daniella",
+    "registrationNumber": "CD25221E",
+    "platoon": "Quebec",
+    "gender": "Female",
+    "tshirtSize": "M",
+    "dorm": "LQF1",
+    "age": 17
+  },
+  {
+    "name": "Kayla Esejindu",
+    "registrationNumber": "CD26013E",
+    "platoon": "Foxtrot",
+    "gender": "Female",
+    "tshirtSize": "L",
+    "dorm": "LQF1",
+    "age": 15
+  },
+  {
+    "name": "Kayla Essien",
+    "registrationNumber": "CD25286E",
+    "platoon": "Mike",
+    "gender": "Female",
+    "tshirtSize": "S",
+    "dorm": "LQF1",
+    "age": 15
+  },
+  {
+    "name": "Kayla Michael",
+    "registrationNumber": "CD26273E",
+    "platoon": "Kilo",
+    "gender": "Female",
+    "tshirtSize": "XL",
+    "dorm": "LQF1",
+    "age": 13
+  },
+  {
+    "name": "Kayla Nnamdi",
+    "registrationNumber": "CD26235E",
+    "platoon": "Kilo",
+    "gender": "Female",
+    "tshirtSize": "M",
+    "dorm": "LQF2",
+    "age": 14
+  },
+  {
+    "name": "Kayode Oluwajoba",
+    "registrationNumber": "CD25017E",
+    "platoon": "Charlie",
+    "gender": "Male",
+    "tshirtSize": "L",
+    "dorm": "LQM2",
+    "age": 15
+  },
+  {
+    "name": "Kelechi Marcus",
+    "registrationNumber": "CD26122E",
+    "platoon": "Kilo",
+    "gender": "Male",
+    "tshirtSize": "L",
+    "dorm": "LQM1",
+    "age": 17
+  },
+  {
+    "name": "Kelvin Anthony",
+    "registrationNumber": "CD26269E",
+    "platoon": "Echo",
+    "gender": "Male",
+    "tshirtSize": "M",
+    "dorm": "LQM1",
+    "age": 14
+  },
+  {
+    "name": "Kingdom Mba",
+    "registrationNumber": "CD24248E",
+    "platoon": "Mike",
+    "gender": "Male",
+    "tshirtSize": "M",
+    "dorm": "LQM1",
+    "age": 16
+  },
+  {
+    "name": "Kobindi Peace Afuwah",
+    "registrationNumber": "CD25360E",
+    "platoon": "Oscar",
+    "gender": "Female",
+    "tshirtSize": "L",
+    "dorm": "LQF1",
+    "age": 13
+  },
+  {
+    "name": "Kosi Ezeonwuka",
+    "registrationNumber": "CD26374E",
+    "platoon": "Victor",
+    "gender": "Female",
+    "tshirtSize": "L",
+    "dorm": "LQF2",
+    "age": 15
+  },
+  {
+    "name": "Kosisochukwu Olisahaenye",
+    "registrationNumber": "CD25298E",
+    "platoon": "Kilo",
+    "gender": "Female",
+    "tshirtSize": "M",
+    "dorm": "LQF2",
+    "age": 17
+  },
+  {
+    "name": "Laura Nneoma",
+    "registrationNumber": "CD26327E",
+    "platoon": "Quebec",
+    "gender": "Female",
+    "tshirtSize": "M",
+    "dorm": "LQF2",
+    "age": 14
+  },
+  {
+    "name": "Lauren Ekpe",
+    "registrationNumber": "CD26162E",
+    "platoon": "Romeo",
+    "gender": "Female",
+    "tshirtSize": "L",
+    "dorm": "LQF1",
+    "age": 14
+  },
+  {
+    "name": "Madalzere Gang",
+    "registrationNumber": "CD24216E",
+    "platoon": "Sierra",
+    "gender": "Female",
+    "tshirtSize": "L",
+    "dorm": "LQF1",
+    "age": 15
+  },
+  {
+    "name": "Maranatha Nnamdi-Ibeanusi",
+    "registrationNumber": "CD26092E",
+    "platoon": "Lima",
+    "gender": "Female",
+    "tshirtSize": "M",
+    "dorm": "LQF1",
+    "age": 13
+  },
+  {
+    "name": "Marcelina Ekere",
+    "registrationNumber": "CD24062E",
+    "platoon": "Tango",
+    "gender": "Female",
+    "tshirtSize": "M",
+    "dorm": "LQF2",
+    "age": 15
+  },
+  {
+    "name": "Marvelous Etisiobi",
+    "registrationNumber": "CD26408E",
+    "platoon": "Lima",
+    "gender": "Male",
+    "tshirtSize": "M",
+    "dorm": "LQM2",
+    "age": 17
+  },
+  {
+    "name": "Masenken Gang",
+    "registrationNumber": "CD25323E",
+    "platoon": "Tango",
+    "gender": "Female",
+    "tshirtSize": "S",
+    "dorm": "LQF2",
+    "age": 13
+  },
+  {
+    "name": "McAnthony Akintujoye",
+    "registrationNumber": "CD26381E",
+    "platoon": "Kilo",
+    "gender": "Male",
+    "tshirtSize": "M",
+    "dorm": "LQM1",
+    "age": 19
+  },
+  {
+    "name": "Melvin Osuofia",
+    "registrationNumber": "CD26320E",
+    "platoon": "Tango",
+    "gender": "Male",
+    "tshirtSize": "L",
+    "dorm": "LQM1",
+    "age": 15
+  },
+  {
+    "name": "Mene Dominion",
+    "registrationNumber": "CD25114E",
+    "platoon": "Alfa",
+    "gender": "Male",
+    "tshirtSize": "M",
+    "dorm": "LQM1",
+    "age": 19
+  },
+  {
+    "name": "Mercy Amaraha",
+    "registrationNumber": "CD26113E",
+    "platoon": "Golf",
+    "gender": "Male",
+    "tshirtSize": "L",
+    "dorm": "LQM1",
+    "age": 13
+  },
+  {
+    "name": "Michael Kosi Mordi",
+    "registrationNumber": "CD26355E",
+    "platoon": "Golf",
+    "gender": "Male",
+    "tshirtSize": "L",
+    "dorm": "LQM1",
+    "age": 17
+  },
+  {
+    "name": "Michael Otuyemi",
+    "registrationNumber": "CD26288E",
+    "platoon": "Quebec",
+    "gender": "Male",
+    "tshirtSize": "L",
+    "dorm": "LQM2",
+    "age": 17
+  },
+  {
+    "name": "Micheal Moses",
+    "registrationNumber": "CD25045E",
+    "platoon": "Victor",
+    "gender": "Male",
+    "tshirtSize": "M",
+    "dorm": "LQM2",
+    "age": 14
+  },
+  {
+    "name": "Michelle Michael",
+    "registrationNumber": "CD26272E",
+    "platoon": "Kilo",
+    "gender": "Female",
+    "tshirtSize": "M",
+    "dorm": "LQF2",
+    "age": 13
+  },
+  {
+    "name": "Miracle Anyahuru",
+    "registrationNumber": "CD26377E",
+    "platoon": "Lima",
+    "gender": "Female",
+    "tshirtSize": "M",
+    "dorm": "LQF1",
+    "age": 13
+  },
+  {
+    "name": "Miracle Okechukwu",
+    "registrationNumber": "CD26248E",
+    "platoon": "Lima",
+    "gender": "Male",
+    "tshirtSize": "M",
+    "dorm": "LQM1",
+    "age": 13
+  },
+  {
+    "name": "Mishel Nwabueze",
+    "registrationNumber": "CD26198E",
+    "platoon": "Victor",
+    "gender": "Female",
+    "tshirtSize": "L",
+    "dorm": "LQF2",
+    "age": 15
+  },
+  {
+    "name": "Morah Marvellous",
+    "registrationNumber": "CD26262E",
+    "platoon": "Romeo",
+    "gender": "Female",
+    "tshirtSize": "M",
+    "dorm": "LQF2",
+    "age": 13
+  },
+  {
+    "name": "Munachimso Enweani",
+    "registrationNumber": "CD26089E",
+    "platoon": "Tango",
+    "gender": "Female",
+    "tshirtSize": "XL",
+    "dorm": "LQF1",
+    "age": 15
+  },
+  {
+    "name": "Munachimso Okpala",
+    "registrationNumber": "CD26061E",
+    "platoon": "Victor",
+    "gender": "Female",
+    "tshirtSize": "M",
+    "dorm": "LQF1",
+    "age": 12
+  },
+  {
+    "name": "Nancy Chiamaka",
+    "registrationNumber": "CD24110E",
+    "platoon": "Alfa",
+    "gender": "Female",
+    "tshirtSize": "L",
+    "dorm": "LQF2",
+    "age": 19
+  },
+  {
+    "name": "Nancy Osuji",
+    "registrationNumber": "CD24042E",
+    "platoon": "Sierra",
+    "gender": "Female",
+    "tshirtSize": "L",
+    "dorm": "LQF1",
+    "age": 20
+  },
+  {
+    "name": "Nathan Esejindu",
+    "registrationNumber": "CD26222E",
+    "platoon": "Sierra",
+    "gender": "Male",
+    "tshirtSize": "S",
+    "dorm": "LQM2",
+    "age": 13
+  },
+  {
+    "name": "Nora Akinyoyenu",
+    "registrationNumber": "CD24183E",
+    "platoon": "Golf",
+    "gender": "Female",
+    "tshirtSize": "M",
+    "dorm": "LQF1",
+    "age": 18
+  },
+  {
+    "name": "Nwachukwu Chibuike",
+    "registrationNumber": "CD26425E",
+    "platoon": "Mike",
+    "gender": "Male",
+    "tshirtSize": "M",
+    "dorm": "LQM1",
+    "age": 13
+  },
+  {
+    "name": "OBI DIVINE",
+    "registrationNumber": "CD26196E",
+    "platoon": "Bravo",
+    "gender": "Female",
+    "tshirtSize": "L",
+    "dorm": "LQF1",
+    "age": 13
+  },
+  {
+    "name": "Obinna Eneghalu",
+    "registrationNumber": "CD26087E",
+    "platoon": "Alfa",
+    "gender": "Male",
+    "tshirtSize": "M",
+    "dorm": "LQM2",
+    "age": 17
+  },
+  {
+    "name": "Obosa Iruobe",
+    "registrationNumber": "CD25054E",
+    "platoon": "Bravo",
+    "gender": "Male",
+    "tshirtSize": "M",
+    "dorm": "LQM2",
+    "age": 13
+  },
+  {
+    "name": "Odinaka Ezurike",
+    "registrationNumber": "CD24104E",
+    "platoon": "Oscar",
+    "gender": "Male",
+    "tshirtSize": "M",
+    "dorm": "LQM2",
+    "age": 17
+  },
+  {
+    "name": "Ogbonna Emeka",
+    "registrationNumber": "CD26071E",
+    "platoon": "Golf",
+    "gender": "Male",
+    "tshirtSize": "L",
+    "dorm": "LQM2",
+    "age": 17
+  },
+  {
+    "name": "Okafor Daniel",
+    "registrationNumber": "CD24017E",
+    "platoon": "Victor",
+    "gender": "Male",
+    "tshirtSize": "L",
+    "dorm": "LQM2",
+    "age": 19
+  },
+  {
+    "name": "Okechukwu Caleb",
+    "registrationNumber": "CD26065E",
+    "platoon": "Sierra",
+    "gender": "Male",
+    "tshirtSize": "M",
+    "dorm": "LQM2",
+    "age": 14
+  },
+  {
+    "name": "Okezino Akpobome",
+    "registrationNumber": "CD26049E",
+    "platoon": "Quebec",
+    "gender": "Male",
+    "tshirtSize": "L",
+    "dorm": "LQM1",
+    "age": 20
+  },
+  {
+    "name": "Olivia Walter",
+    "registrationNumber": "CD26285E",
+    "platoon": "Charlie",
+    "gender": "Female",
+    "tshirtSize": "M",
+    "dorm": "LQF1",
+    "age": 13
+  },
+  {
+    "name": "Oluchi Peace Ogbonna",
+    "registrationNumber": "CD26084E",
+    "platoon": "Romeo",
+    "gender": "Female",
+    "tshirtSize": "L",
+    "dorm": "LQF2",
+    "age": 16
+  },
+  {
+    "name": "Olukorede Fayomi",
+    "registrationNumber": "CD24319E",
+    "platoon": "Charlie",
+    "gender": "Male",
+    "tshirtSize": "S",
+    "dorm": "LQM1",
+    "age": 14
+  },
+  {
+    "name": "Oluwadamisi Awoyemi",
+    "registrationNumber": "CD26264E",
+    "platoon": "Delta",
+    "gender": "Female",
+    "tshirtSize": "L",
+    "dorm": "LQF2",
+    "age": 15
+  },
+  {
+    "name": "oluwafemi John",
+    "registrationNumber": "CD24265E",
+    "platoon": "Delta",
+    "gender": "Male",
+    "tshirtSize": "L",
+    "dorm": "LQM2",
+    "age": 14
+  },
+  {
+    "name": "Oluwagbemisola Adeite",
+    "registrationNumber": "CD24173E",
+    "platoon": "Sierra",
+    "gender": "Female",
+    "tshirtSize": "XL",
+    "dorm": "LQF1",
+    "age": 16
+  },
+  {
+    "name": "Oluwaloba Adebanjo",
+    "registrationNumber": "CD25064E",
+    "platoon": "Echo",
+    "gender": "Male",
+    "tshirtSize": "L",
+    "dorm": "LQM1",
+    "age": 14
+  },
+  {
+    "name": "Oluwaseun Jonah",
+    "registrationNumber": "CD24121E",
+    "platoon": "Quebec",
+    "gender": "Male",
+    "tshirtSize": "L",
+    "dorm": "LQM1",
+    "age": 16
+  },
+  {
+    "name": "Oluwaseun Oluwadare",
+    "registrationNumber": "CD25151E",
+    "platoon": "Charlie",
+    "gender": "Male",
+    "tshirtSize": "L",
+    "dorm": "LQM2",
+    "age": 19
+  },
+  {
+    "name": "OLUWATOBILOBA GODMAN Abdul-Martins",
+    "registrationNumber": "CD25120E",
+    "platoon": "Alfa",
+    "gender": "Male",
+    "tshirtSize": "M",
+    "dorm": "LQM2",
+    "age": 15
+  },
+  {
+    "name": "Oluwatobiloba Joel",
+    "registrationNumber": "CD26266E",
+    "platoon": "Foxtrot",
+    "gender": "Male",
+    "tshirtSize": "S",
+    "dorm": "LQM2",
+    "age": 13
+  },
+  {
+    "name": "Oluwatobiloba Odeyemi",
+    "registrationNumber": "CD26305E",
+    "platoon": "Mike",
+    "gender": "Male",
+    "tshirtSize": "L",
+    "dorm": "LQM2",
+    "age": 15
+  },
+  {
+    "name": "Oluwatofunmi Arowolo",
+    "registrationNumber": "CD24247E",
+    "platoon": "Echo",
+    "gender": "Female",
+    "tshirtSize": "M",
+    "dorm": "LQF2",
+    "age": 14
+  },
+  {
+    "name": "Onyinyechi Obialo",
+    "registrationNumber": "CD26100E",
+    "platoon": "Quebec",
+    "gender": "Female",
+    "tshirtSize": "XL",
+    "dorm": "LQF1",
+    "age": 20
+  },
+  {
+    "name": "Opemipo Akinyemi",
+    "registrationNumber": "CD26137E",
+    "platoon": "Foxtrot",
+    "gender": "Female",
+    "tshirtSize": "XL",
+    "dorm": "LQF2",
+    "age": 14
+  },
+  {
+    "name": "Oreoluwa Fajoyomi",
+    "registrationNumber": "CD26422E",
+    "platoon": "Oscar",
+    "gender": "Female",
+    "tshirtSize": "M",
+    "dorm": "LQF2",
+    "age": 15
+  },
+  {
+    "name": "Oreoluwa Oyedemi",
+    "registrationNumber": "CD24324E",
+    "platoon": "Foxtrot",
+    "gender": "Female",
+    "tshirtSize": "S",
+    "dorm": "LQF2",
+    "age": 15
+  },
+  {
+    "name": "Oshonoiki Peculiar",
+    "registrationNumber": "CD26385E",
+    "platoon": "Victor",
+    "gender": "Female",
+    "tshirtSize": "M",
+    "dorm": "LQF2",
+    "age": 13
+  },
+  {
+    "name": "Oyewole Olatomiwa",
+    "registrationNumber": "CD26321E",
+    "platoon": "Romeo",
+    "gender": "Male",
+    "tshirtSize": "M",
+    "dorm": "LQM2",
+    "age": 20
+  },
+  {
+    "name": "Paula Emmanuel Ekong",
+    "registrationNumber": "CD25109E",
+    "platoon": "Foxtrot",
+    "gender": "Female",
+    "tshirtSize": "M",
+    "dorm": "LQF1",
+    "age": 20
+  },
+  {
+    "name": "Pershyami Paul",
+    "registrationNumber": "CD24318E",
+    "platoon": "Oscar",
+    "gender": "Female",
+    "tshirtSize": "XL",
+    "dorm": "LQF1",
+    "age": 20
+  },
+  {
+    "name": "Praise Oduleye",
+    "registrationNumber": "CD24294E",
+    "platoon": "Sierra",
+    "gender": "Male",
+    "tshirtSize": "M",
+    "dorm": "LQM1",
+    "age": 18
+  },
+  {
+    "name": "Precious Ola",
+    "registrationNumber": "CD26433E",
+    "platoon": "Golf",
+    "gender": "Female",
+    "tshirtSize": "S",
+    "dorm": "LQF1",
+    "age": 14
+  },
+  {
+    "name": "Precious Osuofia",
+    "registrationNumber": "CD26240E",
+    "platoon": "Golf",
+    "gender": "Female",
+    "tshirtSize": "M",
+    "dorm": "LQF2",
+    "age": 17
+  },
+  {
+    "name": "Prince Adelokun",
+    "registrationNumber": "CD26284E",
+    "platoon": "Tango",
+    "gender": "Male",
+    "tshirtSize": "L",
+    "dorm": "LQM1",
+    "age": 14
+  },
+  {
+    "name": "Prosper Eze",
+    "registrationNumber": "CD26405E",
+    "platoon": "Romeo",
+    "gender": "Male",
+    "tshirtSize": "M",
+    "dorm": "LQM1",
+    "age": 17
+  },
+  {
+    "name": "Rachael Sanda",
+    "registrationNumber": "CD26353E",
+    "platoon": "Tango",
+    "gender": "Female",
+    "tshirtSize": "M",
+    "dorm": "LQF2",
+    "age": 19
+  },
+  {
+    "name": "Remilekun Precious Oshonoiki",
+    "registrationNumber": "CD24039E",
+    "platoon": "Echo",
+    "gender": "Female",
+    "tshirtSize": "L",
+    "dorm": "LQF1",
+    "age": 18
+  },
+  {
+    "name": "Rhema Sobayo",
+    "registrationNumber": "CD25492E",
+    "platoon": "Victor",
+    "gender": "Female",
+    "tshirtSize": "M",
+    "dorm": "LQF1",
+    "age": 13
+  },
+  {
+    "name": "Richie-Rich Olagunju",
+    "registrationNumber": "CD25098E",
+    "platoon": "Kilo",
+    "gender": "Male",
+    "tshirtSize": "M",
+    "dorm": "LQM1",
+    "age": 17
+  },
+  {
+    "name": "Roqeebah Alogba",
+    "registrationNumber": "CD25012E",
+    "platoon": "Alfa",
+    "gender": "Female",
+    "tshirtSize": "M",
+    "dorm": "LQF1",
+    "age": 14
+  },
+  {
+    "name": "Rosemary Omemogho",
+    "registrationNumber": "CD25074E",
+    "platoon": "Quebec",
+    "gender": "Female",
+    "tshirtSize": "M",
+    "dorm": "LQF2",
+    "age": 13
+  },
+  {
+    "name": "Samuel Egwuatu",
+    "registrationNumber": "CD26402E",
+    "platoon": "Sierra",
+    "gender": "Male",
+    "tshirtSize": "M",
+    "dorm": "LQM2",
+    "age": 17
+  },
+  {
+    "name": "Samuel Utomudo",
+    "registrationNumber": "CD25508E",
+    "platoon": "Victor",
+    "gender": "Male",
+    "tshirtSize": "M",
+    "dorm": "LQM1",
+    "age": 16
+  },
+  {
+    "name": "Sarah Adebusoye",
+    "registrationNumber": "CD25437E",
+    "platoon": "Delta",
+    "gender": "Female",
+    "tshirtSize": "M",
+    "dorm": "LQF1",
+    "age": 17
+  },
+  {
+    "name": "Sean Walsh",
+    "registrationNumber": "CD24266E",
+    "platoon": "Kilo",
+    "gender": "Male",
+    "tshirtSize": "L",
+    "dorm": "LQM2",
+    "age": 16
+  },
+  {
+    "name": "Semilore Romeo",
+    "registrationNumber": "CD24202E",
+    "platoon": "Tango",
+    "gender": "Female",
+    "tshirtSize": "M",
+    "dorm": "LQF1",
+    "age": 18
+  },
+  {
+    "name": "Shalom Ikpide",
+    "registrationNumber": "CD24321E",
+    "platoon": "Charlie",
+    "gender": "Female",
+    "tshirtSize": "XL",
+    "dorm": "LQF2",
+    "age": 14
+  },
+  {
+    "name": "Shedrack Adetutu",
+    "registrationNumber": "CD25085E",
+    "platoon": "Oscar",
+    "gender": "Male",
+    "tshirtSize": "L",
+    "dorm": "LQM2",
+    "age": 17
+  },
+  {
+    "name": "Sochikaima Mbanusi",
+    "registrationNumber": "CD26379E",
+    "platoon": "Mike",
+    "gender": "Male",
+    "tshirtSize": "M",
+    "dorm": "LQM2",
+    "age": 13
+  },
+  {
+    "name": "Somtochukwu Ejinkeonye",
+    "registrationNumber": "CD26344E",
+    "platoon": "Victor",
+    "gender": "Male",
+    "tshirtSize": "L",
+    "dorm": "LQM2",
+    "age": 13
+  },
+  {
+    "name": "Sophia Avwara",
+    "registrationNumber": "CD26131E",
+    "platoon": "Sierra",
+    "gender": "Female",
+    "tshirtSize": "L",
+    "dorm": "LQF2",
+    "age": 16
+  },
+  {
+    "name": "Sophia Ekene",
+    "registrationNumber": "CD26254E",
+    "platoon": "Mike",
+    "gender": "Female",
+    "tshirtSize": "L",
+    "dorm": "LQF1",
+    "age": 15
+  },
+  {
+    "name": "Stanley Chukwuma",
+    "registrationNumber": "CD26132E",
+    "platoon": "Victor",
+    "gender": "Male",
+    "tshirtSize": "L",
+    "dorm": "LQM1",
+    "age": 17
+  },
+  {
+    "name": "Stephanie Awoyemi",
+    "registrationNumber": "CD26263E",
+    "platoon": "Kilo",
+    "gender": "Female",
+    "tshirtSize": "XL",
+    "dorm": "LQF2",
+    "age": 14
+  },
+  {
+    "name": "Stephenie Mahaja",
+    "registrationNumber": "CD26175E",
+    "platoon": "Charlie",
+    "gender": "Female",
+    "tshirtSize": "L",
+    "dorm": "LQF1",
+    "age": 15
+  },
+  {
+    "name": "Success Nwadike",
+    "registrationNumber": "CD26209E",
+    "platoon": "Mike",
+    "gender": "Male",
+    "tshirtSize": "L",
+    "dorm": "LQM1",
+    "age": 16
+  },
+  {
+    "name": "Tamilore Akintujoye",
+    "registrationNumber": "CD26094E",
+    "platoon": "Oscar",
+    "gender": "Male",
+    "tshirtSize": "M",
+    "dorm": "LQM1",
+    "age": 17
+  },
+  {
+    "name": "Tamilore Awoyemi",
+    "registrationNumber": "CD26016E",
+    "platoon": "Tango",
+    "gender": "Female",
+    "tshirtSize": "XL",
+    "dorm": "LQF1",
+    "age": 18
+  },
+  {
+    "name": "Temisan Ghereje",
+    "registrationNumber": "CD24068E",
+    "platoon": "Bravo",
+    "gender": "Female",
+    "tshirtSize": "S",
+    "dorm": "LQF2",
+    "age": 16
+  },
+  {
+    "name": "Timileyin Agbaje",
+    "registrationNumber": "CD26095E",
+    "platoon": "Victor",
+    "gender": "Male",
+    "tshirtSize": "S",
+    "dorm": "LQM1",
+    "age": 13
+  },
+  {
+    "name": "Tioluwani Emmanuel Oyedemi",
+    "registrationNumber": "CD25068E",
+    "platoon": "Oscar",
+    "gender": "Male",
+    "tshirtSize": "M",
+    "dorm": "LQM2",
+    "age": 13
+  },
+  {
+    "name": "Tobiloba Arogundade",
+    "registrationNumber": "CD24262E",
+    "platoon": "Delta",
+    "gender": "Male",
+    "tshirtSize": "L",
+    "dorm": "LQM1",
+    "age": 19
+  },
+  {
+    "name": "Tolani Arowolo",
+    "registrationNumber": "CD26127E",
+    "platoon": "Lima",
+    "gender": "Female",
+    "tshirtSize": "M",
+    "dorm": "LQF1",
+    "age": 14
+  },
+  {
+    "name": "Treasure Adigwe",
+    "registrationNumber": "CD25070E",
+    "platoon": "Romeo",
+    "gender": "Female",
+    "tshirtSize": "S",
+    "dorm": "LQF2",
+    "age": 13
+  },
+  {
+    "name": "TREASURE ENOGIERU",
+    "registrationNumber": "CD26286E",
+    "platoon": "Mike",
+    "gender": "Female",
+    "tshirtSize": "S",
+    "dorm": "LQF2",
+    "age": 12
+  },
+  {
+    "name": "Treasure Imala",
+    "registrationNumber": "CD25278E",
+    "platoon": "Kilo",
+    "gender": "Female",
+    "tshirtSize": "M",
+    "dorm": "LQF2",
+    "age": 19
+  },
+  {
+    "name": "Ugochukwu Anozie",
+    "registrationNumber": "CD26354E",
+    "platoon": "Mike",
+    "gender": "Male",
+    "tshirtSize": "L",
+    "dorm": "LQM1",
+    "age": 15
+  },
+  {
+    "name": "Ugochukwu Ogbonna",
+    "registrationNumber": "CD26185E",
+    "platoon": "Tango",
+    "gender": "Male",
+    "tshirtSize": "M",
+    "dorm": "LQM1",
+    "age": 13
+  },
+  {
+    "name": "Victor Ifeanyichukwu",
+    "registrationNumber": "CD26164E",
+    "platoon": "Echo",
+    "gender": "Male",
+    "tshirtSize": "XL",
+    "dorm": "LQM1",
+    "age": 18
+  },
+  {
+    "name": "Victor Okechukwu",
+    "registrationNumber": "CD26387E",
+    "platoon": "Victor",
+    "gender": "Male",
+    "tshirtSize": "M",
+    "dorm": "LQM2",
+    "age": 16
+  },
+  {
+    "name": "Victory Cyprain",
+    "registrationNumber": "CD26270E",
+    "platoon": "Tango",
+    "gender": "Female",
+    "tshirtSize": "M",
+    "dorm": "LQF1",
+    "age": 13
+  },
+  {
+    "name": "Zara Ejinkeonye",
+    "registrationNumber": "CD26300E",
+    "platoon": "Delta",
+    "gender": "Female",
+    "tshirtSize": "L",
+    "dorm": "LQF2",
+    "age": 13
+  },
+  {
+    "name": "Zikorah Udeh",
+    "registrationNumber": "CD26180E",
+    "platoon": "Alfa",
+    "gender": "Male",
+    "tshirtSize": "M",
+    "dorm": "LQM2",
+    "age": 13
+  },
+  {
+    "name": "Zion Adeoti",
+    "registrationNumber": "CD26224E",
+    "platoon": "Echo",
+    "gender": "Male",
+    "tshirtSize": "S",
+    "dorm": "LQM1",
+    "age": 12
+  }
+]

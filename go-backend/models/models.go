@@ -81,6 +81,7 @@ type Camper struct {
 	DateOfBirth         *string   `gorm:"column:dateOfBirth;type:varchar(191)" json:"dateOfBirth,omitempty"`
 	Age                 *int      `gorm:"column:age" json:"age,omitempty"`
 	Gender              *string   `gorm:"column:gender;type:varchar(191)" json:"gender,omitempty"`
+	TShirtSize          *string   `gorm:"column:tshirtSize;type:varchar(191)" json:"tshirtSize,omitempty"`
 	Photo               *string   `gorm:"column:photo;type:varchar(191)" json:"photo,omitempty"`
 	PlatoonID           *string   `gorm:"column:platoonId;type:varchar(191)" json:"platoonId,omitempty"`
 	DormID              *string   `gorm:"column:dormId;type:varchar(191)" json:"dormId,omitempty"`

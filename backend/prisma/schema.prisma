@@ -104,6 +104,7 @@ model Camper {
   dateOfBirth        String?
   age                Int?
   gender             String?
+  tshirtSize         String?
   photo              String?   // URL or base64
   platoonId          String?
   dormId             String?

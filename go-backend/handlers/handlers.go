@@ -507,5 +507,16 @@ func SeedHandler(c *gin.Context) {
 
 	db.Where(models.Staff{Email: &adminEmail}).FirstOrCreate(&admin)
 
-	c.JSON(http.StatusOK, gin.H{"message": "Database seeded successfully via GORM!"})
+	platoonsCreated, dormsCreated, campersProcessed, err := SeedCampersLogic()
+	if err != nil {
+		c.JSON(http.StatusInternalServerError, gin.H{"error": err.Error()})
+		return
+	}
+
+	c.JSON(http.StatusOK, gin.H{
+		"message":          "Database and campers seeded successfully via GORM!",
+		"platoonsCreated": platoonsCreated,
+		"dormsCreated":    dormsCreated,
+		"campersProcessed": campersProcessed,
+	})
 }

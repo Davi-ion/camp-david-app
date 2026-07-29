@@ -35,6 +35,7 @@ func main() {
 	// 5. Public Routes
 	r.GET("/api/health", handlers.HealthHandler)
 	r.POST("/api/seed", handlers.SeedHandler)
+	r.POST("/api/seed/campers", handlers.SeedCampersEndpointHandler)
 	r.POST("/api/auth/login", handlers.LoginHandler)
 
 	// 6. Authenticated Routes Group
