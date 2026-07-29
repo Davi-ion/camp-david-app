@@ -509,7 +509,7 @@ export default function RollCall() {
                       </div>
                     </div>
 
-                    {/* Unboxed User Attendance Tabler Icon Actions (Green, Red, Yellow) */}
+                    {/* Unboxed User Attendance Tabler Icon Actions (Always Green, Red, Yellow) */}
                     <div className="status-buttons" style={{ display: 'flex', gap: 8, flexShrink: 0, alignItems: 'center' }}>
                       <button
                         onClick={() => handleMark(camper.id, 'present')}
@@ -519,15 +519,16 @@ export default function RollCall() {
                           border: 'none',
                           padding: 4,
                           cursor: 'pointer',
-                          color: status === 'present' ? '#22C55E' : '#CBD5E1',
+                          color: '#22C55E',
+                          opacity: status === 'present' ? 1 : 0.4,
                           display: 'inline-flex',
                           alignItems: 'center',
                           justifyContent: 'center',
                           transition: 'all 0.15s ease',
-                          transform: status === 'present' ? 'scale(1.2)' : 'scale(1)'
+                          transform: status === 'present' ? 'scale(1.25)' : 'scale(1)'
                         }}
                       >
-                        <IconUserCheck size={24} stroke={status === 'present' ? 2.5 : 1.75} />
+                        <IconUserCheck size={24} stroke={status === 'present' ? 2.5 : 2} />
                       </button>
                       <button
                         onClick={() => handleMark(camper.id, 'absent')}
@@ -537,15 +538,16 @@ export default function RollCall() {
                           border: 'none',
                           padding: 4,
                           cursor: 'pointer',
-                          color: status === 'absent' ? '#EF4444' : '#CBD5E1',
+                          color: '#EF4444',
+                          opacity: status === 'absent' ? 1 : 0.4,
                           display: 'inline-flex',
                           alignItems: 'center',
                           justifyContent: 'center',
                           transition: 'all 0.15s ease',
-                          transform: status === 'absent' ? 'scale(1.2)' : 'scale(1)'
+                          transform: status === 'absent' ? 'scale(1.25)' : 'scale(1)'
                         }}
                       >
-                        <IconUserX size={24} stroke={status === 'absent' ? 2.5 : 1.75} />
+                        <IconUserX size={24} stroke={status === 'absent' ? 2.5 : 2} />
                       </button>
                       <button
                         onClick={() => handleMark(camper.id, 'excused')}
@@ -555,15 +557,16 @@ export default function RollCall() {
                           border: 'none',
                           padding: 4,
                           cursor: 'pointer',
-                          color: status === 'excused' ? '#EAB308' : '#CBD5E1',
+                          color: '#EAB308',
+                          opacity: status === 'excused' ? 1 : 0.4,
                           display: 'inline-flex',
                           alignItems: 'center',
                           justifyContent: 'center',
                           transition: 'all 0.15s ease',
-                          transform: status === 'excused' ? 'scale(1.2)' : 'scale(1)'
+                          transform: status === 'excused' ? 'scale(1.25)' : 'scale(1)'
                         }}
                       >
-                        <IconUserMinus size={24} stroke={status === 'excused' ? 2.5 : 1.75} />
+                        <IconUserMinus size={24} stroke={status === 'excused' ? 2.5 : 2} />
                       </button>
                     </div>
                   </div>
