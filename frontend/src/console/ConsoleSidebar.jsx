@@ -46,7 +46,6 @@ const NAV_SECTIONS = [
     label: 'Administration',
     items: [
       { to: '/console/volunteers', label: 'Volunteers',       screenKey: 'staff',   icon: <IconUser size={18} /> },
-      { to: '/console/users',    label: 'User Management', screenKey: 'users',   icon: <IconUsersGroup size={18} /> },
       { to: '/console/reports',  label: 'Reports',         screenKey: 'reports', icon: <IconChartBar size={18} /> },
       { to: '/console/audit',    label: 'Audit Logs',      screenKey: 'audit',   icon: <IconFileText size={18} /> },
     ],

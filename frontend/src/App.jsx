@@ -28,7 +28,7 @@ import ConsoleAnnouncements from './console/ConsoleAnnouncements';
 import ConsoleReports from './console/ConsoleReports';
 import ConsoleSettings from './console/ConsoleSettings';
 import ConsoleActivity from './console/ConsoleActivity';
-import { ConsoleUserManagement, ConsoleAuditLog } from './console/ConsoleAdminPages';
+import { ConsoleAuditLog } from './console/ConsoleAdminPages';
 
 // ─── Smart Root Redirect ──────────────────────────────────────────────────────
 // Sends console-eligible users (Admin, Commander) to /console, others to /app
@@ -162,9 +162,6 @@ function App() {
           <Route element={<ConsoleRouteGuard screen="staff" />}>
             <Route path="staff" element={<ConsoleStaff />} />
             <Route path="volunteers" element={<ConsoleStaff />} />
-          </Route>
-          <Route element={<ConsoleRouteGuard screen="users" />}>
-            <Route path="users" element={<ConsoleUserManagement />} />
           </Route>
           <Route element={<ConsoleRouteGuard screen="reports" />}>
             <Route path="reports" element={<ConsoleReports />} />
