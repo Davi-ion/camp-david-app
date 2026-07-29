@@ -413,6 +413,32 @@ func CreateUserHandler(c *gin.Context) {
 	c.JSON(http.StatusCreated, staff)
 }
 
+func UpdateUserRoleHandler(c *gin.Context) {
+	id := c.Param("id")
+	var req struct {
+		Role string `json:"role" binding:"required"`
+	}
+
+	if err := c.ShouldBindJSON(&req); err != nil {
+		c.JSON(http.StatusBadRequest, gin.H{"error": err.Error()})
+		return
+	}
+
+	var staff models.Staff
+	if err := database.DB.First(&staff, "id = ?", id).Error; err != nil {
+		c.JSON(http.StatusNotFound, gin.H{"error": "User not found"})
+		return
+	}
+
+	staff.Role = req.Role
+	if err := database.DB.Save(&staff).Error; err != nil {
+		c.JSON(http.StatusInternalServerError, gin.H{"error": "Failed to update role"})
+		return
+	}
+
+	c.JSON(http.StatusOK, gin.H{"message": "Role updated successfully", "user": staff})
+}
+
 // ─── ROLES ─────────────────────────────────────────────────────────
 
 func GetRolesHandler(c *gin.Context) {

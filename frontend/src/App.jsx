@@ -161,6 +161,7 @@ function App() {
           </Route>
           <Route element={<ConsoleRouteGuard screen="staff" />}>
             <Route path="staff" element={<ConsoleStaff />} />
+            <Route path="volunteers" element={<ConsoleStaff />} />
           </Route>
           <Route element={<ConsoleRouteGuard screen="users" />}>
             <Route path="users" element={<ConsoleUserManagement />} />

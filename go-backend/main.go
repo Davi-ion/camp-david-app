@@ -49,7 +49,11 @@ func main() {
 		// Users / Staff
 		authGroup.GET("/users", handlers.GetUsersHandler)
 		authGroup.POST("/users", handlers.CreateUserHandler)
+		authGroup.PUT("/users/:id/role", handlers.UpdateUserRoleHandler)
+		authGroup.PUT("/users/:id", handlers.UpdateUserRoleHandler)
 		authGroup.GET("/staff", handlers.GetUsersHandler)
+		authGroup.PUT("/staff/:id/role", handlers.UpdateUserRoleHandler)
+		authGroup.PUT("/staff/:id", handlers.UpdateUserRoleHandler)
 
 		// Campers
 		authGroup.GET("/campers", handlers.GetCampersHandler)
