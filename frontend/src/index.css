@@ -1126,12 +1126,12 @@ label {
   background: rgba(255, 255, 255, 0.14);
   backdrop-filter: blur(16px);
   -webkit-backdrop-filter: blur(16px);
-  border: 1px solid rgba(255, 255, 255, 0.28);
+  border: 1px solid rgba(255, 255, 255, 0.3);
   border-radius: var(--radius-lg);
-  padding: 20px 24px;
-  margin-top: 20px;
+  padding: 16px 20px;
+  margin-top: 16px;
   position: relative;
-  box-shadow: 0 8px 24px rgba(0, 0, 0, 0.2), inset 0 1px 1px rgba(255, 255, 255, 0.35);
+  box-shadow: none;
 }
 
 .now-card-label {

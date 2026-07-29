@@ -205,7 +205,7 @@ export default function Programme() {
 
             {/* Current Event Hero Banner */}
             {currentEvent ? (
-              <div className="now-card" style={{ marginBottom: 0 }}>
+              <div className="now-card" style={{ marginBottom: 0, padding: '14px 18px', border: '1px solid rgba(255, 255, 255, 0.3)', boxShadow: 'none' }}>
                 <div className="now-card-label" style={{ display: 'flex', justifyContent: 'space-between', alignItems: 'center' }}>
                   <span>
                     <span className="now-dot" />
@@ -215,10 +215,10 @@ export default function Programme() {
                     {currentEvent.time} – {currentEvent.end}
                   </span>
                 </div>
-                <div className="now-card-header" style={{ marginTop: 6, display: 'flex', justifyContent: 'space-between', alignItems: 'center' }}>
-                  <div className="now-card-title" style={{ fontSize: '1.25rem', fontWeight: 700 }}>{currentEvent.title}</div>
+                <div className="now-card-header" style={{ marginTop: 4, display: 'flex', justifyContent: 'space-between', alignItems: 'center' }}>
+                  <div className="now-card-title" style={{ fontSize: '1.125rem', fontWeight: 700 }}>{currentEvent.title}</div>
                 </div>
-                <div className="now-card-meta" style={{ marginTop: 6, display: 'flex', gap: 16, opacity: 0.95, fontSize: '0.8125rem', alignItems: 'center' }}>
+                <div className="now-card-meta" style={{ marginTop: 4, display: 'flex', gap: 16, opacity: 0.95, fontSize: '0.8125rem', alignItems: 'center' }}>
                   <span style={{ display: 'inline-flex', alignItems: 'center', gap: 4 }}>
                     <IconMapPin size={15} /> {currentEvent.location}
                   </span>
@@ -228,7 +228,7 @@ export default function Programme() {
                 </div>
               </div>
             ) : (
-              <div className="now-card" style={{ background: 'rgba(255, 255, 255, 0.12)', border: '1px solid rgba(255, 255, 255, 0.2)', marginBottom: 0 }}>
+              <div className="now-card" style={{ background: 'rgba(255, 255, 255, 0.12)', border: '1px solid rgba(255, 255, 255, 0.3)', marginBottom: 0, padding: '14px 18px', boxShadow: 'none' }}>
                 <div style={{ fontSize: '0.875rem', fontWeight: 600, color: 'rgba(255, 255, 255, 0.95)', display: 'flex', alignItems: 'center', gap: 8 }}>
                   <IconCalendarEvent size={18} color="#A7F3D0" />
                   <span>Next Event Scheduled: {daySchedule[0]?.time || 'TBA'} — {daySchedule[0]?.title || 'See timeline below'}</span>
