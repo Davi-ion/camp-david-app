@@ -1,6 +1,8 @@
 import { useState, useEffect } from 'react';
 import { useApp } from '../context/AppContext';
 import { schedule, CAMP_DAYS } from '../data/schedule';
+import UserMenu from '../components/UserMenu';
+import NotificationCentre from '../components/NotificationCentre';
 
 const API = import.meta.env.VITE_API_URL || 'https://camp-david-app.onrender.com';
 
