@@ -41,6 +41,7 @@ func main() {
 	r.GET("/api/attendance/all", handlers.GetAllAttendanceHandler)
 	r.POST("/api/attendance/mark", handlers.MarkAttendanceHandler)
 	r.POST("/api/attendance/bulk-mark", handlers.BulkMarkAttendanceHandler)
+	r.GET("/api/attendance/session/:sessionId", handlers.GetSessionAttendanceHandler)
 
 	// 6. Authenticated Routes Group
 	authGroup := r.Group("/api")
@@ -48,12 +49,6 @@ func main() {
 	{
 		authGroup.POST("/auth/force-change-password", handlers.ForcePasswordChangeHandler)
 		authGroup.GET("/auth/me", handlers.GetMeHandler)
-
-		// Attendance
-		authGroup.GET("/attendance/all", handlers.GetAllAttendanceHandler)
-		authGroup.POST("/attendance/mark", handlers.MarkAttendanceHandler)
-		authGroup.POST("/attendance/bulk-mark", handlers.BulkMarkAttendanceHandler)
-		authGroup.GET("/attendance/session/:sessionId", handlers.GetSessionAttendanceHandler)
 
 		// Users / Staff
 		authGroup.GET("/users", handlers.GetUsersHandler)
