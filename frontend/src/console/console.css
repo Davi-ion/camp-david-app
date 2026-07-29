@@ -7,11 +7,11 @@
 :root {
   --console-sidebar-width: 256px;
   --console-topnav-height: 60px;
-  --console-sidebar-bg: #0D1117;
-  --console-sidebar-border: rgba(255,255,255,0.06);
-  --console-sidebar-text: rgba(255,255,255,0.55);
-  --console-sidebar-text-hover: rgba(255,255,255,0.9);
-  --console-sidebar-active-bg: rgba(255,255,255,0.08);
+  --console-sidebar-bg: #14442C;
+  --console-sidebar-border: rgba(255,255,255,0.12);
+  --console-sidebar-text: rgba(255,255,255,0.75);
+  --console-sidebar-text-hover: #ffffff;
+  --console-sidebar-active-bg: rgba(255,255,255,0.16);
   --console-sidebar-active-text: #fff;
   --console-sidebar-accent: #F49E82;
   --console-topnav-bg: rgba(255, 255, 255, 0.65);
@@ -82,13 +82,12 @@
 .console-brand-logo {
   width: 36px;
   height: 36px;
-  background: linear-gradient(135deg, #0A2418 0%, #14442C 100%);
-  box-shadow: 0 4px 12px rgba(20, 68, 44, 0.4);
-  border-radius: 9999px;
+  background: transparent;
+  box-shadow: none;
+  border-radius: 0;
   display: flex;
   align-items: center;
   justify-content: center;
-  font-size: 1.125rem;
   flex-shrink: 0;
 }
 
