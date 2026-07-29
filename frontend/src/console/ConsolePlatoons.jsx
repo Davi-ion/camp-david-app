@@ -1,5 +1,12 @@
 import { useState, useEffect } from 'react';
 import { usePermissions } from '../hooks/usePermissions';
+import {
+  IconFlag,
+  IconUsers,
+  IconChevronRight,
+  IconAlertTriangle,
+} from '@tabler/icons-react';
+
 const API = import.meta.env.VITE_API_URL || 'https://camp-david-app.onrender.com';
 
 function getInitials(name) {
@@ -55,47 +62,101 @@ export default function ConsolePlatoons() {
         <div style={{ display: 'grid', gridTemplateColumns: 'repeat(auto-fill, minmax(320px, 1fr))', gap: 20 }}>
           {platoons.map(p => {
             const medCount = p.campers?.filter(c => c.medicalNotes).length || 0;
+            const brandColor = p.colorHex || '#14442C';
+            const isSelected = selectedPlatoon?.id === p.id;
+            
             return (
-              <div key={p.id} className="console-card" style={{ display: 'flex', flexDirection: 'column' }}>
-                <div style={{ background: p.colorHex || 'var(--teal)', height: 8 }}></div>
-                <div className="console-card-header" style={{ padding: '20px 24px', borderBottom: 'none', display: 'flex', justifyContent: 'space-between', alignItems: 'flex-start' }}>
-                  <div>
-                    <div style={{ display: 'flex', alignItems: 'center', gap: 8, marginBottom: 4 }}>
-                      <span style={{ fontSize: '1.5rem' }}>{p.emoji}</span>
-                      <h2 style={{ fontSize: '1.25rem', fontWeight: 700, margin: 0, color: 'var(--text)' }}>{p.name}</h2>
-                    </div>
-                    {p.description && <p style={{ fontSize: '0.8125rem', color: 'var(--text-secondary)', margin: 0 }}>{p.description}</p>}
-                  </div>
-                  <button onClick={() => setSelectedPlatoon(p)} className="btn btn-text" style={{ fontSize: '0.75rem', padding: '4px 8px' }}>Open Platoon</button>
-                </div>
+              <div 
+                key={p.id} 
+                className={`console-card ${isSelected ? 'active' : ''}`}
+                style={{ 
+                  display: 'flex', 
+                  flexDirection: 'column', 
+                  cursor: 'pointer',
+                  borderRadius: 16,
+                  border: isSelected ? `2px solid ${brandColor}` : '1px solid var(--border)',
+                  boxShadow: isSelected ? '0 4px 20px rgba(0,0,0,0.08)' : '0 1px 3px rgba(0,0,0,0.04)',
+                  overflow: 'hidden',
+                  transition: 'all 0.2s ease',
+                  background: 'var(--bg-surface, #fff)'
+                }}
+                onClick={() => setSelectedPlatoon(p)}
+              >
+                {/* Top Accent Line */}
+                <div style={{ background: brandColor, height: 4 }}></div>
                 
-                <div className="console-card-body" style={{ flex: 1, display: 'flex', flexDirection: 'column', gap: 16, paddingTop: 0 }}>
-                  <div style={{ display: 'flex', alignItems: 'center', gap: 12, padding: '12px', background: 'var(--bg)', borderRadius: 8 }}>
-                    <div style={{ width: 32, height: 32, borderRadius: '50%', background: p.leader ? p.colorHex : '#D1D5DB', color: '#fff', display: 'flex', alignItems: 'center', justifyContent: 'center', fontSize: '0.75rem', fontWeight: 600 }}>
-                      {getInitials(p.leader?.name || 'Unassigned')}
+                {/* Header */}
+                <div style={{ padding: '20px 24px 16px', display: 'flex', justifyContent: 'space-between', alignItems: 'flex-start' }}>
+                  <div style={{ display: 'flex', alignItems: 'center', gap: 14 }}>
+                    <div style={{ 
+                      width: 44, 
+                      height: 44, 
+                      borderRadius: 12, 
+                      background: `${brandColor}15`, 
+                      color: brandColor, 
+                      display: 'flex', 
+                      alignItems: 'center', 
+                      justifyContent: 'center',
+                      fontSize: '1.25rem',
+                      fontWeight: 700,
+                      flexShrink: 0
+                    }}>
+                      {p.emoji || <IconFlag size={22} />}
                     </div>
                     <div>
-                      <div style={{ fontSize: '0.6875rem', fontWeight: 600, textTransform: 'uppercase', letterSpacing: '0.05em', color: 'var(--text-muted)' }}>Platoon Leader</div>
-                      <div style={{ fontSize: '0.875rem', fontWeight: 500, color: 'var(--text)' }}>{p.leader?.name || 'No leader assigned'}</div>
+                      <div style={{ display: 'flex', alignItems: 'center', gap: 8, marginBottom: 2 }}>
+                        <h2 style={{ fontSize: '1.125rem', fontWeight: 700, margin: 0, color: 'var(--text)', letterSpacing: '-0.01em' }}>{p.name}</h2>
+                        <span className="badge badge-teal" style={{ fontSize: '0.625rem', fontWeight: 700, padding: '3px 10px', borderRadius: 9999 }}>
+                          Platoon
+                        </span>
+                      </div>
+                      {p.description && (
+                        <p style={{ fontSize: '0.8125rem', color: 'var(--text-secondary)', margin: 0, fontWeight: 400, whiteSpace: 'nowrap', overflow: 'hidden', textOverflow: 'ellipsis', maxWidth: 180 }}>
+                          {p.description}
+                        </p>
+                      )}
+                    </div>
+                  </div>
+                </div>
+                
+                {/* Card Body */}
+                <div style={{ padding: '0 24px 20px', flex: 1, display: 'flex', flexDirection: 'column', gap: 16 }}>
+                  {/* Leader Info Pill */}
+                  <div style={{ display: 'flex', alignItems: 'center', gap: 12, padding: '12px 14px', background: 'var(--bg-light, #F8FAFC)', borderRadius: 12, border: '1px solid var(--border-light)' }}>
+                    <div style={{ width: 34, height: 34, borderRadius: 9999, background: p.leader ? brandColor : '#94A3B8', color: '#fff', display: 'flex', alignItems: 'center', justifyContent: 'center', fontSize: '0.75rem', fontWeight: 700, flexShrink: 0 }}>
+                      {getInitials(p.leader?.name || 'Unassigned')}
+                    </div>
+                    <div style={{ flex: 1, minWidth: 0 }}>
+                      <div style={{ fontSize: '0.625rem', fontWeight: 700, textTransform: 'uppercase', letterSpacing: '0.06em', color: 'var(--text-muted)' }}>Platoon Leader</div>
+                      <div style={{ fontSize: '0.875rem', fontWeight: 600, color: 'var(--text)', whiteSpace: 'nowrap', overflow: 'hidden', textOverflow: 'ellipsis' }}>{p.leader?.name || 'No leader assigned'}</div>
                     </div>
                   </div>
 
+                  {/* Metrics Grid */}
                   <div style={{ display: 'grid', gridTemplateColumns: '1fr 1fr', gap: 12 }}>
-                    <div style={{ padding: '12px', border: '1px solid var(--border-light)', borderRadius: 8 }}>
-                      <div style={{ fontSize: '0.6875rem', fontWeight: 600, color: 'var(--text-muted)' }}>Campers</div>
+                    <div style={{ padding: '12px 14px', border: '1px solid var(--border-light)', borderRadius: 12, background: '#fff' }}>
+                      <div style={{ fontSize: '0.625rem', fontWeight: 700, textTransform: 'uppercase', letterSpacing: '0.05em', color: 'var(--text-muted)', marginBottom: 4 }}>Campers</div>
                       <div style={{ fontSize: '1.25rem', fontWeight: 700, color: 'var(--text)' }}>{p.campers?.length || 0}</div>
                     </div>
-                    <div style={{ padding: '12px', border: '1px solid var(--border-light)', borderRadius: 8 }}>
-                      <div style={{ fontSize: '0.6875rem', fontWeight: 600, color: 'var(--text-muted)' }}>Staff Assigned</div>
+                    <div style={{ padding: '12px 14px', border: '1px solid var(--border-light)', borderRadius: 12, background: '#fff' }}>
+                      <div style={{ fontSize: '0.625rem', fontWeight: 700, textTransform: 'uppercase', letterSpacing: '0.05em', color: 'var(--text-muted)', marginBottom: 4 }}>Staff Assigned</div>
                       <div style={{ fontSize: '1.25rem', fontWeight: 700, color: 'var(--text)' }}>{p.staff?.length || 0}</div>
                     </div>
                   </div>
 
+                  {/* Medical Alert Badge if applicable */}
                   {medCount > 0 && (
-                    <div style={{ marginTop: 'auto', padding: '8px 12px', background: '#FFF7ED', color: 'var(--orange)', borderRadius: 6, fontSize: '0.75rem', fontWeight: 600, display: 'flex', alignItems: 'center', gap: 8 }}>
-                      <span>⚕️</span> {medCount} camper{medCount !== 1 ? 's' : ''} with medical alerts
+                    <div style={{ padding: '8px 12px', background: '#FDF2EE', color: '#E86A43', borderRadius: 8, fontSize: '0.75rem', fontWeight: 600, display: 'flex', alignItems: 'center', gap: 8 }}>
+                      <IconAlertTriangle size={16} /> {medCount} camper{medCount !== 1 ? 's' : ''} with medical notes
                     </div>
                   )}
+
+                  {/* Open Action Footer */}
+                  <div style={{ display: 'flex', justifyContent: 'flex-end', alignItems: 'center', paddingTop: 8, borderTop: '1px solid var(--border-light)', marginTop: 'auto' }}>
+                    <span style={{ fontSize: '0.8125rem', fontWeight: 600, color: brandColor, display: 'inline-flex', alignItems: 'center', gap: 4 }}>
+                      Manage Platoon <IconChevronRight size={16} />
+                    </span>
+                  </div>
                 </div>
               </div>
             );

@@ -1,5 +1,12 @@
 import { useState, useEffect } from 'react';
 import { useApp } from '../context/AppContext';
+import {
+  IconBuilding,
+  IconBed,
+  IconChevronRight,
+  IconUserCheck,
+  IconUsers,
+} from '@tabler/icons-react';
 
 const API = import.meta.env.VITE_API_URL || 'https://camp-david-app.onrender.com';
 
@@ -239,7 +246,8 @@ export default function ConsoleDorms() {
       <div style={{ display: 'grid', gridTemplateColumns: 'repeat(auto-fill, minmax(320px, 1fr))', gap: 20 }}>
         {dorms.map(dorm => {
           const isFemale = dorm.gender?.toLowerCase() === 'female';
-          const accentColor = isFemale ? '#EC4899' : '#14442C';
+          const brandColor = isFemale ? '#F49E82' : '#14442C';
+          const bgTint = isFemale ? '#FDF2EE' : '#F0FDF4';
           const isFull = dorm.occupancy >= dorm.capacity;
           const percentage = Math.round((dorm.occupancy / dorm.capacity) * 100) || 0;
           const remaining = dorm.capacity - dorm.occupancy;
@@ -249,53 +257,83 @@ export default function ConsoleDorms() {
             <div 
               key={dorm.id} 
               className={`console-card ${isSelected ? 'active' : ''}`}
-              style={{ display: 'flex', flexDirection: 'column', cursor: 'pointer', outline: isSelected ? `2px solid ${accentColor}` : undefined }}
+              style={{ 
+                display: 'flex', 
+                flexDirection: 'column', 
+                cursor: 'pointer',
+                borderRadius: 16,
+                border: isSelected ? `2px solid ${brandColor}` : '1px solid var(--border)',
+                boxShadow: isSelected ? '0 4px 20px rgba(0,0,0,0.08)' : '0 1px 3px rgba(0,0,0,0.04)',
+                overflow: 'hidden',
+                transition: 'all 0.2s ease',
+                background: 'var(--bg-surface, #fff)'
+              }}
               onClick={() => handleSelectDorm(dorm)}
             >
-              {/* Top Accent Color Bar */}
-              <div style={{ background: accentColor, height: 8 }}></div>
+              {/* Top Accent Line */}
+              <div style={{ background: brandColor, height: 4 }}></div>
               
-              {/* Card Header */}
-              <div className="console-card-header" style={{ padding: '20px 24px', borderBottom: 'none', display: 'flex', justifyContent: 'space-between', alignItems: 'flex-start' }}>
-                <div>
-                  <div style={{ display: 'flex', alignItems: 'center', gap: 8, marginBottom: 4 }}>
-                    <span style={{ fontSize: '1.5rem' }}>{isFemale ? '🏢' : '🛏️'}</span>
-                    <h2 style={{ fontSize: '1.25rem', fontWeight: 700, margin: 0, color: 'var(--text)' }}>{dorm.name}</h2>
-                    <span className="badge" style={{ background: isFemale ? '#FCE7F3' : '#E8F5F1', color: isFemale ? '#BE185D' : '#14442C', textTransform: 'capitalize', fontSize: '0.6875rem' }}>
-                      {dorm.gender}
-                    </span>
+              {/* Header */}
+              <div style={{ padding: '20px 24px 16px', display: 'flex', justifyContent: 'space-between', alignItems: 'flex-start' }}>
+                <div style={{ display: 'flex', alignItems: 'center', gap: 14 }}>
+                  <div style={{ 
+                    width: 44, 
+                    height: 44, 
+                    borderRadius: 12, 
+                    background: bgTint, 
+                    color: brandColor, 
+                    display: 'flex', 
+                    alignItems: 'center', 
+                    justifyContent: 'center',
+                    flexShrink: 0
+                  }}>
+                    {isFemale ? <IconBuilding size={24} /> : <IconBed size={24} />}
                   </div>
-                  <p style={{ fontSize: '0.8125rem', color: 'var(--text-secondary)', margin: 0 }}>
-                    {isFemale ? 'Female Accommodation Block' : 'Male Accommodation Block'}
-                  </p>
+                  <div>
+                    <div style={{ display: 'flex', alignItems: 'center', gap: 8, marginBottom: 2 }}>
+                      <h2 style={{ fontSize: '1.125rem', fontWeight: 700, margin: 0, color: 'var(--text)', letterSpacing: '-0.01em' }}>{dorm.name}</h2>
+                      <span className="badge" style={{ 
+                        background: isFemale ? '#FDF2EE' : '#E8F5F1', 
+                        color: isFemale ? '#E86A43' : '#14442C', 
+                        textTransform: 'uppercase', 
+                        fontSize: '0.625rem',
+                        fontWeight: 700,
+                        letterSpacing: '0.05em',
+                        padding: '3px 10px',
+                        borderRadius: 9999
+                      }}>
+                        {dorm.gender}
+                      </span>
+                    </div>
+                    <p style={{ fontSize: '0.8125rem', color: 'var(--text-secondary)', margin: 0, fontWeight: 400 }}>
+                      {isFemale ? 'Female Accommodation' : 'Male Accommodation'}
+                    </p>
+                  </div>
                 </div>
-                <button className="btn btn-text" style={{ fontSize: '0.75rem', padding: '4px 8px' }}>
-                  {isSelected ? 'Selected' : 'Open Dorm'}
-                </button>
               </div>
               
               {/* Card Body */}
-              <div className="console-card-body" style={{ flex: 1, display: 'flex', flexDirection: 'column', gap: 16, paddingTop: 0 }}>
+              <div style={{ padding: '0 24px 20px', flex: 1, display: 'flex', flexDirection: 'column', gap: 16 }}>
                 {/* Supervisor Info Pill */}
-                <div style={{ display: 'flex', alignItems: 'center', gap: 12, padding: '12px', background: 'var(--bg)', borderRadius: 8 }}>
-                  <div style={{ width: 32, height: 32, borderRadius: '50%', background: dorm.supervisor ? accentColor : '#D1D5DB', color: '#fff', display: 'flex', alignItems: 'center', justifyContent: 'center', fontSize: '0.75rem', fontWeight: 600 }}>
+                <div style={{ display: 'flex', alignItems: 'center', gap: 12, padding: '12px 14px', background: 'var(--bg-light, #F8FAFC)', borderRadius: 12, border: '1px solid var(--border-light)' }}>
+                  <div style={{ width: 34, height: 34, borderRadius: 9999, background: dorm.supervisor ? brandColor : '#94A3B8', color: '#fff', display: 'flex', alignItems: 'center', justifyContent: 'center', fontSize: '0.75rem', fontWeight: 700, flexShrink: 0 }}>
                     {getInitials(dorm.supervisor?.name || 'Unassigned')}
                   </div>
-                  <div style={{ flex: 1 }}>
-                    <div style={{ fontSize: '0.6875rem', fontWeight: 600, textTransform: 'uppercase', letterSpacing: '0.05em', color: 'var(--text-muted)' }}>Dorm Supervisor</div>
-                    <div style={{ fontSize: '0.875rem', fontWeight: 500, color: 'var(--text)' }}>{dorm.supervisor?.name || 'No supervisor assigned'}</div>
+                  <div style={{ flex: 1, minWidth: 0 }}>
+                    <div style={{ fontSize: '0.625rem', fontWeight: 700, textTransform: 'uppercase', letterSpacing: '0.06em', color: 'var(--text-muted)' }}>Dorm Supervisor</div>
+                    <div style={{ fontSize: '0.875rem', fontWeight: 600, color: 'var(--text)', whiteSpace: 'nowrap', overflow: 'hidden', textOverflow: 'ellipsis' }}>{dorm.supervisor?.name || 'No supervisor assigned'}</div>
                   </div>
                 </div>
 
-                {/* Occupancy Grid */}
+                {/* Metrics Grid */}
                 <div style={{ display: 'grid', gridTemplateColumns: '1fr 1fr', gap: 12 }}>
-                  <div style={{ padding: '12px', border: '1px solid var(--border-light)', borderRadius: 8 }}>
-                    <div style={{ fontSize: '0.6875rem', fontWeight: 600, color: 'var(--text-muted)' }}>Occupancy</div>
-                    <div style={{ fontSize: '1.25rem', fontWeight: 700, color: 'var(--text)' }}>{dorm.occupancy || 0} / {dorm.capacity}</div>
+                  <div style={{ padding: '12px 14px', border: '1px solid var(--border-light)', borderRadius: 12, background: '#fff' }}>
+                    <div style={{ fontSize: '0.625rem', fontWeight: 700, textTransform: 'uppercase', letterSpacing: '0.05em', color: 'var(--text-muted)', marginBottom: 4 }}>Occupancy</div>
+                    <div style={{ fontSize: '1.25rem', fontWeight: 700, color: 'var(--text)' }}>{dorm.occupancy || 0} <span style={{ fontSize: '0.8125rem', fontWeight: 500, color: 'var(--text-muted)' }}>/ {dorm.capacity}</span></div>
                   </div>
-                  <div style={{ padding: '12px', border: '1px solid var(--border-light)', borderRadius: 8 }}>
-                    <div style={{ fontSize: '0.6875rem', fontWeight: 600, color: 'var(--text-muted)' }}>Available Beds</div>
-                    <div style={{ fontSize: '1.25rem', fontWeight: 700, color: remaining > 0 ? 'var(--teal)' : 'var(--red)' }}>
+                  <div style={{ padding: '12px 14px', border: '1px solid var(--border-light)', borderRadius: 12, background: '#fff' }}>
+                    <div style={{ fontSize: '0.625rem', fontWeight: 700, textTransform: 'uppercase', letterSpacing: '0.05em', color: 'var(--text-muted)', marginBottom: 4 }}>Available Beds</div>
+                    <div style={{ fontSize: '1.25rem', fontWeight: 700, color: remaining > 0 ? '#14442C' : '#EF4444' }}>
                       {remaining > 0 ? remaining : 'Full'}
                     </div>
                   </div>
@@ -304,12 +342,19 @@ export default function ConsoleDorms() {
                 {/* Progress Bar */}
                 <div style={{ marginTop: 'auto' }}>
                   <div style={{ marginBottom: 6, display: 'flex', justifyContent: 'space-between', fontSize: '0.75rem', fontWeight: 600 }}>
-                    <span style={{ color: 'var(--text-muted)' }}>Bed Capacity</span>
-                    <span style={{ color: isFull ? 'var(--red)' : accentColor }}>{percentage}% ({dorm.occupancy} / {dorm.capacity})</span>
+                    <span style={{ color: 'var(--text-muted)' }}>Capacity Filled</span>
+                    <span style={{ color: isFull ? '#EF4444' : brandColor }}>{percentage}%</span>
                   </div>
-                  <div style={{ width: '100%', height: 6, background: 'var(--border-light)', borderRadius: 9999, overflow: 'hidden' }}>
-                    <div style={{ width: `${Math.min(percentage, 100)}%`, height: '100%', background: isFull ? 'var(--red)' : accentColor, borderRadius: 9999, transition: 'width 0.3s ease' }} />
+                  <div style={{ width: '100%', height: 6, background: 'var(--border-light, #E2E8F0)', borderRadius: 9999, overflow: 'hidden' }}>
+                    <div style={{ width: `${Math.min(percentage, 100)}%`, height: '100%', background: isFull ? '#EF4444' : brandColor, borderRadius: 9999, transition: 'width 0.4s ease' }} />
                   </div>
+                </div>
+
+                {/* Open Action Footer */}
+                <div style={{ display: 'flex', justifyContent: 'flex-end', alignItems: 'center', paddingTop: 8, borderTop: '1px solid var(--border-light)' }}>
+                  <span style={{ fontSize: '0.8125rem', fontWeight: 600, color: brandColor, display: 'inline-flex', alignItems: 'center', gap: 4 }}>
+                    {isSelected ? 'Viewing Roster' : 'Manage Dorm'} <IconChevronRight size={16} />
+                  </span>
                 </div>
               </div>
             </div>
