@@ -167,6 +167,18 @@ async function seed() {
       { name: 'Ephraim', emoji: '🦅', colorHex: '#3B82F6', description: 'The Eagle Tribe - Fruitful & Strong' },
       { name: 'Asher', emoji: '⚔️', colorHex: '#10B981', description: 'The Shield Tribe - Blessed & Mighty' },
       { name: 'Naphtali', emoji: '🔥', colorHex: '#EF4444', description: 'The Flame Tribe - Victory & Honor' },
+      { name: 'Reuben', emoji: '🛡️', colorHex: '#6366F1', description: 'The Vanguard Tribe - Firstborn Strength' },
+      { name: 'Simeon', emoji: '🗡️', colorHex: '#8B5CF6', description: 'The Sword Tribe - Steadfast & Resolute' },
+      { name: 'Levi', emoji: '✝️', colorHex: '#EC4899', description: 'The Sanctuary Tribe - Devoted & Faithful' },
+      { name: 'Issachar', emoji: '🏹', colorHex: '#F59E0B', description: 'The Archer Tribe - Wise & Discerning' },
+      { name: 'Zebulun', emoji: '⚓', colorHex: '#14B8A6', description: 'The Haven Tribe - Anchor of Hope' },
+      { name: 'Dan', emoji: '⚖️', colorHex: '#06B6D4', description: 'The Justice Tribe - Fair & Vigilant' },
+      { name: 'Gad', emoji: '🛡️', colorHex: '#84CC16', description: 'The Troop Tribe - Overcoming Victor' },
+      { name: 'Benjamin', emoji: '🐺', colorHex: '#F97316', description: 'The Wolf Tribe - Swift & Brave' },
+      { name: 'Manasseh', emoji: '🌿', colorHex: '#22C55E', description: 'The Branch Tribe - Growing & Prosperous' },
+      { name: 'Joseph', emoji: '👑', colorHex: '#A855F7', description: 'The Crown Tribe - Favored & Exalted' },
+      { name: 'Caleb', emoji: '🏔️', colorHex: '#64748B', description: 'The Mountain Tribe - Wholehearted Faith' },
+      { name: 'Joshua', emoji: '🎺', colorHex: '#D97304', description: 'The Conqueror Tribe - Champion Leader' },
     ];
 
     for (const p of platoons) {
