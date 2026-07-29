@@ -366,9 +366,50 @@ func CreateDrillHandler(c *gin.Context) {
 // ─── USERS / STAFF ─────────────────────────────────────────────────
 
 func GetUsersHandler(c *gin.Context) {
+	db := database.DB
+
+	var count int64
+	db.Model(&models.Staff{}).Count(&count)
+	if count <= 1 {
+		SeedUsersLogic()
+	}
+
+	query := db.Model(&models.Staff{}).Preload("RoleAssignment.Role").Preload("Platoon")
+
+	search := strings.TrimSpace(c.Query("search"))
+	status := strings.TrimSpace(c.Query("status"))
+
+	if search != "" {
+		s := "%" + strings.ToLower(search) + "%"
+		query = query.Where("LOWER(name) LIKE ? OR LOWER(email) LIKE ? OR LOWER(username) LIKE ?", s, s, s)
+	}
+
+	if status != "" && status != "all" {
+		query = query.Where("status = ?", status)
+	}
+
+	var total int64
+	query.Count(&total)
+
+	pageStr := c.DefaultQuery("page", "1")
+	limitStr := c.DefaultQuery("limit", "50")
+	page, _ := strconv.Atoi(pageStr)
+	limit, _ := strconv.Atoi(limitStr)
+	if page < 1 {
+		page = 1
+	}
+	if limit < 1 || limit > 200 {
+		limit = 50
+	}
+	offset := (page - 1) * limit
+
 	var staff []models.Staff
-	database.DB.Preload("RoleAssignment.Role").Preload("Platoon").Find(&staff)
-	c.JSON(http.StatusOK, staff)
+	query.Order("name asc").Offset(offset).Limit(limit).Find(&staff)
+
+	c.JSON(http.StatusOK, gin.H{
+		"users": staff,
+		"total": total,
+	})
 }
 
 func CreateUserHandler(c *gin.Context) {

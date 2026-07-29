@@ -45,8 +45,10 @@ export default function ConsoleStaff() {
         headers: { Authorization: `Bearer ${token}` }
       });
       const data = await res.json();
-      setStaffList(data.users || []);
-      setTotal(data.total || 0);
+      const users = Array.isArray(data) ? data : (data.users || []);
+      const totalUsers = Array.isArray(data) ? data.length : (data.total ?? users.length);
+      setStaffList(users);
+      setTotal(totalUsers);
     } catch (err) {
       console.error(err);
     } finally {
