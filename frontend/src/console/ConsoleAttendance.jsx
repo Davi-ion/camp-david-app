@@ -183,8 +183,8 @@ export default function ConsoleAttendance() {
                   minWidth: 90,
                   padding: '10px 14px',
                   borderRadius: 12,
-                  border: isActive ? '2px solid var(--primary)' : '1px solid var(--border)',
-                  background: isActive ? 'var(--primary)' : '#FFFFFF',
+                  border: isActive ? '2px solid var(--orange, #F49E82)' : '1px solid var(--border)',
+                  background: isActive ? 'var(--orange, #F49E82)' : '#FFFFFF',
                   color: isActive ? '#FFFFFF' : 'var(--text)',
                   cursor: 'pointer',
                   fontWeight: 600,
@@ -193,7 +193,7 @@ export default function ConsoleAttendance() {
                   flexDirection: 'column',
                   alignItems: 'center',
                   gap: 2,
-                  boxShadow: isActive ? '0 4px 12px rgba(27, 120, 101, 0.2)' : 'none',
+                  boxShadow: isActive ? '0 4px 14px rgba(244, 158, 130, 0.35)' : 'none',
                   transition: 'all 0.2s ease'
                 }}
               >
