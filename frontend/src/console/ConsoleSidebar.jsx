@@ -154,9 +154,28 @@ export default function ConsoleSidebar({ isOpen, onClose, isCollapsed, onToggleC
 
       {/* Back to Staff Portal */}
       <div className="console-sidebar-footer">
-        <Link to="/app" className="console-portal-link" title={isCollapsed ? "Return to Staff Portal" : undefined}>
-          <IconUser size={16} style={{ flexShrink: 0 }} />
-          {!isCollapsed && <span className="console-portal-link-text" style={{ marginLeft: 6 }}>Return to Staff Portal</span>}
+        <Link 
+          to="/app" 
+          className="console-portal-link" 
+          title={isCollapsed ? "Return to Staff Portal" : undefined}
+          style={{
+            display: 'flex',
+            alignItems: 'center',
+            justifyContent: isCollapsed ? 'center' : 'flex-start',
+            gap: 8,
+            padding: '10px 14px',
+            borderRadius: 10,
+            background: 'rgba(244, 158, 130, 0.12)',
+            border: '1px solid rgba(244, 158, 130, 0.3)',
+            color: 'var(--orange, #F49E82)',
+            fontWeight: 600,
+            fontSize: '0.8125rem',
+            textDecoration: 'none',
+            transition: 'all 0.15s ease'
+          }}
+        >
+          <IconUser size={18} style={{ flexShrink: 0, color: 'var(--orange, #F49E82)' }} />
+          {!isCollapsed && <span className="console-portal-link-text" style={{ marginLeft: 2, color: 'var(--orange, #F49E82)', fontWeight: 600 }}>Return to Staff Portal</span>}
         </Link>
       </div>
     </aside>

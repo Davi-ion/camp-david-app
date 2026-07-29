@@ -36,7 +36,7 @@ function AccessDenied() {
         <p className="console-denied-subtitle">
           You do not have the required permissions to access the Management Console.
         </p>
-        <Link to="/app" className="console-denied-btn">
+        <Link to="/app" className="console-denied-btn" style={{ background: 'var(--orange, #F49E82)', borderColor: 'var(--orange, #F49E82)', color: '#FFFFFF', fontWeight: 600 }}>
           <IconArrowLeft size={18} />
           <span>Return to Staff Portal</span>
         </Link>

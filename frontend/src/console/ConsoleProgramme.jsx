@@ -198,17 +198,17 @@ export default function ConsoleProgramme() {
             style={{
               padding: '12px 24px', 
               borderRadius: 14, 
-              border: selectedDay === day.key ? '2px solid var(--primary)' : '1px solid var(--border)',
-              background: selectedDay === day.key ? 'var(--primary)' : '#FFFFFF',
+              border: selectedDay === day.key ? '2px solid var(--orange, #F49E82)' : '1px solid var(--border)',
+              background: selectedDay === day.key ? 'var(--orange, #F49E82)' : '#FFFFFF',
               color: selectedDay === day.key ? '#FFFFFF' : 'var(--text)',
               cursor: 'pointer', 
               flexShrink: 0, 
               textAlign: 'left',
-              boxShadow: selectedDay === day.key ? '0 4px 12px rgba(27, 120, 101, 0.2)' : 'none',
+              boxShadow: selectedDay === day.key ? '0 4px 14px rgba(244, 158, 130, 0.35)' : 'none',
               transition: 'all 0.15s ease'
             }}
           >
-            <div style={{ fontSize: '0.75rem', textTransform: 'uppercase', letterSpacing: '0.05em', color: selectedDay === day.key ? 'rgba(255,255,255,0.85)' : 'var(--text-muted)' }}>
+            <div style={{ fontSize: '0.75rem', textTransform: 'uppercase', letterSpacing: '0.05em', color: selectedDay === day.key ? 'rgba(255,255,255,0.9)' : 'var(--text-muted)', fontWeight: 600 }}>
               Day {day.dayNum}
             </div>
             <div style={{ fontSize: '1rem', fontWeight: 700 }}>{day.full.split(',')[0]}</div>
