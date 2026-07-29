@@ -54,8 +54,10 @@ export default function ConsoleCampers() {
         headers: { Authorization: `Bearer ${token}` }
       });
       const data = await res.json();
-      setCampers(data.campers);
-      setTotal(data.total);
+      const list = Array.isArray(data) ? data : (data.campers || []);
+      const totalCount = Array.isArray(data) ? data.length : (data.total ?? list.length);
+      setCampers(list);
+      setTotal(totalCount);
     } catch (err) {
       console.error(err);
     } finally {
