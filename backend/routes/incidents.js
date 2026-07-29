@@ -59,23 +59,54 @@ router.get('/:id', authenticate, requirePermission('view:incidents'), async (req
 // ─── POST /api/incidents ──────────────────────────────────────────
 router.post('/', authenticate, requirePermission('create:incidents'), async (req, res) => {
   try {
-    const { title, description, category, severity, camperId, location, assignedStaffId } = req.body;
+    const { title, description, category, severity, camperId, camperIds, location, assignedStaffId } = req.body;
     if (!title || !description) return res.status(400).json({ error: 'Title and description required' });
-    const incident = await prisma.incident.create({
-      data: {
-        title, description,
-        category: category || 'other',
-        severity: severity || 'low',
-        camperId:        camperId        || null,
-        assignedStaffId: assignedStaffId || null,
-        reportedById:    req.user.id,
-        location:        location        || null,
-        status: 'open',
-      },
-      include: { camper: true, assignedStaff: { select: { name: true } }, reportedBy: { select: { name: true } } },
-    });
-    await logAudit({ userId: req.user.id, userName: req.user.name, action: 'CREATE_INCIDENT', targetType: 'Incident', targetId: incident.id, targetName: incident.title, ipAddress: req.ip });
-    res.status(201).json(incident);
+
+    let ids = [];
+    if (Array.isArray(camperIds) && camperIds.length > 0) {
+      ids = camperIds;
+    } else if (camperId) {
+      ids = [camperId];
+    } else {
+      ids = [null];
+    }
+
+    const createdIncidents = await Promise.all(
+      ids.map(cId =>
+        prisma.incident.create({
+          data: {
+            title,
+            description,
+            category: category || 'other',
+            severity: severity || 'low',
+            camperId: cId || null,
+            assignedStaffId: assignedStaffId || null,
+            reportedById: req.user.id,
+            location: location || null,
+            status: 'open',
+          },
+          include: {
+            camper: { select: { id: true, name: true, registrationNumber: true, platoon: { select: { name: true } } } },
+            assignedStaff: { select: { id: true, name: true } },
+            reportedBy: { select: { id: true, name: true } },
+          },
+        })
+      )
+    );
+
+    for (const incident of createdIncidents) {
+      await logAudit({
+        userId: req.user.id,
+        userName: req.user.name,
+        action: 'CREATE_INCIDENT',
+        targetType: 'Incident',
+        targetId: incident.id,
+        targetName: incident.title,
+        ipAddress: req.ip,
+      });
+    }
+
+    res.status(201).json(createdIncidents.length === 1 ? createdIncidents[0] : createdIncidents);
   } catch (err) {
     console.error(err);
     res.status(500).json({ error: 'Failed to create incident' });

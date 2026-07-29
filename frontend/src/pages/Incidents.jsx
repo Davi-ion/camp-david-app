@@ -180,70 +180,12 @@ export default function Incidents() {
         {/* New Incident Action Button */}
         <button
           className="btn btn-primary btn-full"
-          onClick={() => setShowForm(!showForm)}
-          style={{ marginBottom: 20, padding: '14px 20px', borderRadius: 12, fontWeight: 700, display: 'flex', alignItems: 'center', justifyContent: 'center', gap: 8, fontSize: '0.9375rem', boxShadow: '0 4px 14px rgba(4, 120, 87, 0.25)' }}
+          onClick={() => dispatch({ type: 'OPEN_INCIDENT_MODAL' })}
+          style={{ marginBottom: 20, padding: '14px 20px', borderRadius: 9999, fontWeight: 700, display: 'flex', alignItems: 'center', justifyContent: 'center', gap: 8, fontSize: '0.9375rem', boxShadow: '0 4px 14px rgba(4, 120, 87, 0.25)' }}
         >
           <IconPlus size={20} />
-          {showForm ? 'Cancel Incident Report' : 'Report New Incident'}
+          Report New Incident
         </button>
-
-        {/* New Incident Form Card */}
-        {showForm && (
-          <div className="card" style={{ marginBottom: 20, animation: 'fadeInUp 0.3s ease', padding: 24, borderRadius: 16, border: '1px solid var(--border)', boxShadow: '0 8px 24px rgba(0,0,0,0.06)' }}>
-            <h3 style={{ marginBottom: 18, fontSize: '1.125rem', fontWeight: 700 }}>New Incident Report</h3>
-
-            <div className="form-group" style={{ marginBottom: 16 }}>
-              <label style={{ fontWeight: 600, marginBottom: 6, display: 'block' }}>Select Camper</label>
-              <select 
-                value={formCamper} 
-                onChange={(e) => setFormCamper(e.target.value)}
-                style={{ width: '100%', padding: '12px 14px', borderRadius: 10, border: '1px solid var(--border)', fontSize: '0.9375rem' }}
-              >
-                <option value="">— Select camper —</option>
-                {selectableCampers.map((c) => {
-                  const group = GROUPS.find((g) => g.id === c.group);
-                  return (
-                    <option key={c.id} value={c.id}>
-                      {c.name} ({group?.name})
-                    </option>
-                  );
-                })}
-              </select>
-            </div>
-
-            <div className="form-group" style={{ marginBottom: 16 }}>
-              <label style={{ fontWeight: 600, marginBottom: 6, display: 'block' }}>Incident Category</label>
-              <div style={{ display: 'flex', gap: 10, flexWrap: 'wrap' }}>
-                {INCIDENT_TYPES.map((t) => (
-                  <button
-                    key={t.id}
-                    type="button"
-                    className={`session-btn ${formType === t.id ? 'active' : ''}`}
-                    style={formType === t.id ? { background: t.color, color: '#fff', borderColor: t.color, display: 'flex', alignItems: 'center', gap: 6, padding: '10px 16px', borderRadius: 10, fontWeight: 600 } : { display: 'flex', alignItems: 'center', gap: 6, padding: '10px 16px', borderRadius: 10 }}
-                    onClick={() => setFormType(t.id)}
-                  >
-                    {t.emoji} {t.label}
-                  </button>
-                ))}
-              </div>
-            </div>
-
-            <div className="form-group" style={{ marginBottom: 20 }}>
-              <label style={{ fontWeight: 600, marginBottom: 6, display: 'block' }}>Detailed Description</label>
-              <textarea
-                value={formDesc}
-                onChange={(e) => setFormDesc(e.target.value)}
-                placeholder="Describe the incident, context, and immediate actions taken..."
-                style={{ minHeight: 110, borderRadius: 10, border: '1px solid var(--border)', padding: 14, fontSize: '0.9375rem' }}
-              />
-            </div>
-
-            <button className="btn btn-primary btn-full" onClick={handleSubmit} style={{ padding: '14px', borderRadius: 10, fontWeight: 700 }}>
-              Submit Incident Report
-            </button>
-          </div>
-        )}
-
         {/* Status Filter Tabs */}
         <div className="filter-tabs" style={{ marginBottom: 20 }}>
           {STATUSES.map((s) => (

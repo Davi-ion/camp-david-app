@@ -88,9 +88,12 @@ function ConsoleRouteGuard({ screen }) {
 }
 
 // ─── Main App Component ────────────────────────────────────────────────────────
+import ReportIncidentModal from './components/ReportIncidentModal';
+
 function App() {
   return (
     <BrowserRouter>
+      <ReportIncidentModal />
       <Routes>
         {/* Public routes */}
         <Route path="/login" element={<Login />} />

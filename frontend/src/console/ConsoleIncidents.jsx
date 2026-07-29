@@ -1,5 +1,6 @@
 import { useState, useEffect } from 'react';
 import { Link } from 'react-router-dom';
+import { useApp } from '../context/AppContext';
 import { usePermissions } from '../hooks/usePermissions';
 const API = import.meta.env.VITE_API_URL || 'https://camp-david-app.onrender.com';
 
@@ -21,6 +22,7 @@ const STATUSES = [
 ];
 
 export default function ConsoleIncidents() {
+  const { state, dispatch } = useApp();
   const { hasPermission } = usePermissions();
 
   const [incidents, setIncidents] = useState([]);
@@ -57,7 +59,7 @@ export default function ConsoleIncidents() {
 
   useEffect(() => {
     fetchIncidents();
-  }, [page, statusFilter, categoryFilter]);
+  }, [page, statusFilter, categoryFilter, state.incidents]);
 
   const handleSearch = (e) => {
     e.preventDefault();
@@ -76,7 +78,10 @@ export default function ConsoleIncidents() {
         },
         body: JSON.stringify({ status })
       });
-      if (res.ok) fetchIncidents();
+      if (res.ok) {
+        dispatch({ type: 'UPDATE_INCIDENT_STATUS', payload: { id, status } });
+        fetchIncidents();
+      }
     } catch (err) {
       console.error(err);
     }
@@ -89,9 +94,13 @@ export default function ConsoleIncidents() {
           <h1 className="console-page-title">Incidents</h1>
           <p className="console-page-subtitle">All reported incidents across the camp ({total} total)</p>
         </div>
-        <Link to="/app/incidents" className="btn btn-primary" style={{ borderRadius: 9999, padding: '8px 20px', fontSize: '0.875rem', fontWeight: 600, display: 'inline-flex', alignItems: 'center', gap: 6, textDecoration: 'none' }}>
+        <button 
+          onClick={() => dispatch({ type: 'OPEN_INCIDENT_MODAL' })}
+          className="btn btn-primary" 
+          style={{ borderRadius: 9999, padding: '8px 20px', fontSize: '0.875rem', fontWeight: 600, display: 'inline-flex', alignItems: 'center', gap: 6, cursor: 'pointer', border: 'none', boxShadow: '0 4px 14px rgba(27,120,101,0.3)' }}
+        >
           + Report Incident
-        </Link>
+        </button>
       </div>
 
       <div className="console-card">

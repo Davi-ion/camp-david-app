@@ -135,9 +135,9 @@ export default function ConsoleDashboard() {
           <Link to="/app" style={{ display: 'inline-flex', alignItems: 'center', gap: 8, padding: '8px 20px', borderRadius: 9999, border: '1px solid var(--border)', fontSize: '0.875rem', fontWeight: 500, color: 'var(--text)', textDecoration: 'none', background: '#fff', boxShadow: 'var(--shadow-sm)' }}>
             📱 Staff Portal
           </Link>
-          <Link to="/app/incidents" style={{ display: 'inline-flex', alignItems: 'center', gap: 8, padding: '8px 20px', borderRadius: 9999, fontSize: '0.875rem', fontWeight: 600, color: '#fff', textDecoration: 'none', background: 'var(--teal)', boxShadow: 'var(--shadow-sm)' }}>
+          <button onClick={() => dispatch({ type: 'OPEN_INCIDENT_MODAL' })} style={{ display: 'inline-flex', alignItems: 'center', gap: 8, padding: '8px 20px', borderRadius: 9999, fontSize: '0.875rem', fontWeight: 600, color: '#fff', border: 'none', cursor: 'pointer', background: 'var(--teal)', boxShadow: 'var(--shadow-sm)' }}>
             + Report Incident
-          </Link>
+          </button>
         </div>
       </div>
 

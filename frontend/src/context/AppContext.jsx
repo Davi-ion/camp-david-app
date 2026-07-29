@@ -20,10 +20,17 @@ const initialState = {
   attendance: {},
   incidents: [],
   announcements: [],
+  isIncidentModalOpen: false,
 };
 
 function reducer(state, action) {
   switch (action.type) {
+    case 'OPEN_INCIDENT_MODAL':
+      return { ...state, isIncidentModalOpen: true };
+
+    case 'CLOSE_INCIDENT_MODAL':
+      return { ...state, isIncidentModalOpen: false };
+
     case 'LOGIN':
       // Store token securely
       localStorage.setItem('camp_token', action.payload.token);
@@ -95,8 +102,10 @@ function reducer(state, action) {
     case 'SET_PROGRAM_SESSIONS':
       return { ...state, programSessions: action.payload || [] };
 
-    case 'ADD_INCIDENT':
-      return { ...state, incidents: [action.payload, ...state.incidents] };
+    case 'ADD_INCIDENT': {
+      const newItems = Array.isArray(action.payload) ? action.payload : [action.payload];
+      return { ...state, incidents: [...newItems, ...state.incidents] };
+    }
 
     case 'UPDATE_INCIDENT_STATUS':
       return {

@@ -320,7 +320,7 @@ export default function Dashboard() {
             </div>
             Take Roll Call
           </button>
-          <button className="quick-action-btn" onClick={() => navigate('/app/incidents')}>
+          <button className="quick-action-btn" onClick={() => dispatch({ type: 'OPEN_INCIDENT_MODAL' })}>
             <div className="quick-action-icon orange">
               <IconAlertCircle size={24} />
             </div>
