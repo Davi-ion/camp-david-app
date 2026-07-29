@@ -12,6 +12,7 @@ import {
   IconFlag,
   IconBolt,
   IconLayoutDashboard,
+  IconDeviceMobile,
 } from '@tabler/icons-react';
 const API = import.meta.env.VITE_API_URL || 'https://camp-david-app.onrender.com';
 
@@ -126,14 +127,15 @@ export default function ConsoleDashboard() {
       {/* Page Header */}
       <div className="console-page-header">
         <div>
-          <h1 className="console-page-title">Good {greeting} 👋</h1>
+          <h1 className="console-page-title">Good {greeting}</h1>
           <p className="console-page-subtitle">
             Camp Day {campDay.dayNum} of 5 — {campDay.full} · {timeStr}
           </p>
         </div>
         <div style={{ display: 'flex', gap: 10 }}>
           <Link to="/app" style={{ display: 'inline-flex', alignItems: 'center', gap: 8, padding: '8px 20px', borderRadius: 9999, border: '1px solid var(--border)', fontSize: '0.875rem', fontWeight: 500, color: 'var(--text)', textDecoration: 'none', background: '#fff', boxShadow: 'var(--shadow-sm)' }}>
-            📱 Staff Portal
+            <IconDeviceMobile size={18} color="var(--teal)" />
+            <span>Staff Portal</span>
           </Link>
           <button onClick={() => dispatch({ type: 'OPEN_INCIDENT_MODAL' })} style={{ display: 'inline-flex', alignItems: 'center', gap: 8, padding: '8px 20px', borderRadius: 9999, fontSize: '0.875rem', fontWeight: 600, color: '#fff', border: 'none', cursor: 'pointer', background: 'var(--teal)', boxShadow: 'var(--shadow-sm)' }}>
             + Report Incident
