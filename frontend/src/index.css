@@ -411,29 +411,42 @@ label {
   position: fixed;
   bottom: 20px;
   left: 50%;
-  transform: translateX(-50%);
+  transform: translateX(-50%) scale(1.04);
   width: calc(100% - 32px);
-  max-width: 520px;
+  max-width: 530px;
   z-index: 1000;
   display: flex;
   justify-content: center;
   align-items: center;
-  padding: 6px;
+  padding: 7px;
   
-  /* Apple Water Glassmorphic Styling */
-  background: rgba(255, 255, 255, 0.45);
-  backdrop-filter: blur(8px) saturate(160%);
-  -webkit-backdrop-filter: blur(8px) saturate(160%);
+  /* Ultra High Refractive Index Glassmorphic Styling */
+  background: rgba(255, 255, 255, 0.58);
+  backdrop-filter: blur(28px) saturate(240%) contrast(125%) brightness(108%);
+  -webkit-backdrop-filter: blur(28px) saturate(240%) contrast(125%) brightness(108%);
   
-  border: 1px solid rgba(255, 255, 255, 0.6);
+  border: 1.5px solid rgba(255, 255, 255, 0.85);
   border-radius: 9999px;
   box-shadow: 
-    0 20px 40px -10px rgba(6, 78, 59, 0.22),
-    0 8px 24px -4px rgba(0, 0, 0, 0.1),
-    0 0 0 1px rgba(255, 255, 255, 0.7) inset,
-    0 2px 4px rgba(255, 255, 255, 0.9) inset;
+    0 28px 60px -12px rgba(6, 78, 59, 0.32),
+    0 12px 32px -4px rgba(0, 0, 0, 0.15),
+    0 0 0 1.5px rgba(255, 255, 255, 0.8) inset,
+    0 3px 8px rgba(255, 255, 255, 0.95) inset,
+    0 -2px 6px rgba(0, 0, 0, 0.05) inset;
   
-  transition: all 0.3s cubic-bezier(0.16, 1, 0.3, 1);
+  transition: all 0.35s cubic-bezier(0.16, 1, 0.3, 1);
+}
+
+.bottom-nav-floating:hover {
+  transform: translateX(-50%) scale(1.07);
+  background: rgba(255, 255, 255, 0.68);
+  backdrop-filter: blur(34px) saturate(280%) contrast(130%) brightness(112%);
+  -webkit-backdrop-filter: blur(34px) saturate(280%) contrast(130%) brightness(112%);
+  box-shadow: 
+    0 32px 70px -10px rgba(6, 78, 59, 0.38),
+    0 16px 40px -4px rgba(0, 0, 0, 0.18),
+    0 0 0 2px rgba(255, 255, 255, 0.9) inset,
+    0 4px 12px rgba(255, 255, 255, 1) inset;
 }
 
 .bottom-nav-track {
