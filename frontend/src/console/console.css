@@ -14,7 +14,7 @@
   --console-sidebar-active-bg: rgba(255,255,255,0.08);
   --console-sidebar-active-text: #fff;
   --console-sidebar-accent: #047857;
-  --console-topnav-bg: #ffffff;
+  --console-topnav-bg: rgba(255, 255, 255, 0.65);
   --console-topnav-border: #E5E7EB;
   --console-content-bg: #F4F6F8;
 }
@@ -240,6 +240,8 @@
 .console-topnav {
   height: var(--console-topnav-height);
   background: var(--console-topnav-bg);
+  backdrop-filter: blur(8px);
+  -webkit-backdrop-filter: blur(8px);
   border-bottom: 1px solid var(--console-topnav-border);
   display: flex;
   align-items: center;
@@ -676,17 +678,72 @@
   display: flex;
   align-items: center;
   justify-content: center;
-  background: var(--bg);
+  background: var(--console-content-bg, #F4F6F8);
+  padding: 24px;
 }
 
 .console-denied-card {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
   text-align: center;
-  max-width: 400px;
-  padding: 48px 40px;
-  background: #fff;
-  border-radius: 16px;
-  border: 1px solid var(--border);
-  box-shadow: 0 10px 40px rgba(0,0,0,0.06);
+  max-width: 420px;
+  width: 100%;
+  padding: 44px 36px;
+  background: #ffffff;
+  border-radius: 20px;
+  border: 1px solid rgba(0, 0, 0, 0.08);
+  box-shadow: 0 20px 40px -12px rgba(0, 0, 0, 0.08), 0 4px 12px rgba(0, 0, 0, 0.03);
+}
+
+.console-denied-icon-wrap {
+  width: 68px;
+  height: 68px;
+  border-radius: 50%;
+  background: #FEE2E2;
+  color: #DC2626;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  margin-bottom: 20px;
+  box-shadow: 0 8px 16px -4px rgba(220, 38, 38, 0.2);
+}
+
+.console-denied-title {
+  font-size: 1.5rem;
+  font-weight: 700;
+  color: #111827;
+  margin: 0 0 10px 0;
+  letter-spacing: -0.01em;
+}
+
+.console-denied-subtitle {
+  font-size: 0.9375rem;
+  color: #6B7280;
+  margin: 0 0 28px 0;
+  line-height: 1.55;
+}
+
+.console-denied-btn {
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+  gap: 8px;
+  padding: 12px 24px;
+  background: #047857;
+  color: #ffffff;
+  border-radius: 10px;
+  font-weight: 600;
+  font-size: 0.9375rem;
+  text-decoration: none;
+  transition: all 0.2s ease;
+  box-shadow: 0 4px 12px rgba(4, 120, 87, 0.25);
+}
+
+.console-denied-btn:hover {
+  background: #065F46;
+  transform: translateY(-1px);
+  box-shadow: 0 6px 16px rgba(4, 120, 87, 0.35);
 }
 
 /* ---------- Coming Soon / Placeholder ---------- */

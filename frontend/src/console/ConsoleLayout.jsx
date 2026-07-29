@@ -2,37 +2,43 @@ import { Navigate, Outlet, Link } from 'react-router-dom';
 import { useApp } from '../context/AppContext';
 import { usePermissions } from '../hooks/usePermissions';
 import { useState } from 'react';
+import { IconShieldLock, IconArrowLeft } from '@tabler/icons-react';
 import ConsoleSidebar from './ConsoleSidebar';
 import ConsoleTopNav from './ConsoleTopNav';
 import './console.css';
 
-// Roles that can access the management console
+// Roles/permissions that can access the management console
 const CONSOLE_PERMISSIONS = ['manage:users', 'manage:roles', 'view:audit', 'all'];
 
-function hasConsoleAccess(permissions = []) {
-  return CONSOLE_PERMISSIONS.some(p => permissions.includes(p));
+function hasConsoleAccess(user, permissions = [], isAdmin = false) {
+  if (!user) return false;
+  if (isAdmin) return true;
+  if (
+    user.role === 'admin' ||
+    user.role === 'Super Admin' ||
+    user.roleName === 'Super Admin' ||
+    user.roleName === 'Operations Admin' ||
+    user.roleName === 'Camp Director'
+  ) {
+    return true;
+  }
+  return CONSOLE_PERMISSIONS.some((p) => permissions.includes(p));
 }
 
 function AccessDenied() {
   return (
     <div className="console-denied">
       <div className="console-denied-card">
-        <div style={{ fontSize: '3rem', marginBottom: 16 }}>🔒</div>
-        <h2 style={{ fontSize: '1.375rem', fontWeight: 700, marginBottom: 8, color: 'var(--text)' }}>
-          Access Denied
-        </h2>
-        <p style={{ fontSize: '0.9375rem', color: 'var(--text-secondary)', marginBottom: 28, lineHeight: 1.6 }}>
+        <div className="console-denied-icon-wrap">
+          <IconShieldLock size={36} stroke={1.8} />
+        </div>
+        <h2 className="console-denied-title">Access Denied</h2>
+        <p className="console-denied-subtitle">
           You do not have the required permissions to access the Management Console.
         </p>
-        <Link
-          to="/app"
-          style={{
-            display: 'inline-flex', alignItems: 'center', gap: 8,
-            padding: '10px 24px', background: 'var(--teal)', color: '#fff',
-            borderRadius: 8, fontWeight: 600, fontSize: '0.9375rem', textDecoration: 'none'
-          }}
-        >
-          ← Return to Staff Portal
+        <Link to="/app" className="console-denied-btn">
+          <IconArrowLeft size={18} />
+          <span>Return to Staff Portal</span>
         </Link>
       </div>
     </div>
@@ -41,7 +47,7 @@ function AccessDenied() {
 
 export default function ConsoleLayout() {
   const { state } = useApp();
-  const { permissions } = usePermissions();
+  const { permissions, isAdmin } = usePermissions();
 
   const [isSidebarOpen, setSidebarOpen] = useState(false);
 
@@ -51,7 +57,7 @@ export default function ConsoleLayout() {
   }
 
   // Must have console access
-  if (!hasConsoleAccess(permissions)) {
+  if (!hasConsoleAccess(state.currentUser, permissions, isAdmin)) {
     return <AccessDenied />;
   }
 

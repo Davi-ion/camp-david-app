@@ -3,8 +3,11 @@ import { useApp } from '../context/AppContext';
 import { usePermissions } from '../hooks/usePermissions';
 import { GROUPS } from '../data/campers';
 import { staff } from '../data/staff';
-import TopBar from '../components/TopBar';
+import UserMenu from '../components/UserMenu';
+import NotificationCentre from '../components/NotificationCentre';
 import EmptyState from '../components/EmptyState';
+import { IconAlertTriangle, IconPlus, IconCheck, IconShieldCheck, IconAlertCircle } from '@tabler/icons-react';
+
 const INCIDENT_TYPES = [
   { id: 'medical', label: 'Medical', emoji: '⚕️', color: 'var(--red)' },
   { id: 'behavioural', label: 'Behavioural', emoji: '⚠️', color: 'var(--amber)' },
@@ -33,29 +36,30 @@ export default function Incidents() {
   const [formType, setFormType] = useState('medical');
   const [formDesc, setFormDesc] = useState('');
 
-  // Visible campers for the form selector
+  // Selectable campers for report form
   const selectableCampers = useMemo(() => {
     if (isAdmin || hasPermission('view:campers')) return state.campers;
     return state.campers.filter((c) => c.group === user?.group);
   }, [state.campers, user, isAdmin, hasPermission]);
 
-  // Filter incidents by role
+  // Filter incidents
   const visibleIncidents = useMemo(() => {
     let list = state.incidents;
     if (!isAdmin && !hasPermission('view:incidents')) {
-      // Very basic fallback
       list = list.filter((i) => i.reportedBy === user?.id);
     } else if (!isAdmin && hasPermission('view:incidents') && !hasPermission('manage:users')) {
-      // E.g. Platoon leader or similar
       const groupCamperIds = state.campers.filter((c) => c.group === user?.group).map((c) => c.id);
       list = list.filter((i) => groupCamperIds.includes(i.camperId) || i.reportedBy === user?.id);
     }
-    // Status filter
     if (statusFilter !== 'all') {
       list = list.filter((i) => i.status === statusFilter);
     }
     return list;
-  }, [state.incidents, user, statusFilter, state.campers]);
+  }, [state.incidents, user, statusFilter, state.campers, isAdmin, hasPermission]);
+
+  const openCount = useMemo(() => {
+    return state.incidents.filter((i) => i.status !== 'resolved').length;
+  }, [state.incidents]);
 
   const handleSubmit = () => {
     if (!formCamper || !formDesc.trim()) return;
@@ -82,26 +86,86 @@ export default function Incidents() {
   const canUpdateStatus = hasPermission('resolve:incidents');
 
   return (
-    <div className="page page-with-topbar">
-      <TopBar title="Incidents" />
-      <div className="container" style={{ paddingTop: 16 }}>
-        {/* New Incident Button */}
+    <div className="page">
+      {/* Home-style Header with bg-incidents */}
+      <div className="dash-header bg-incidents">
+        <div className="container">
+          <div className="dash-header-top">
+            <div className="dash-brand">
+              <div className="dash-logo" style={{ background: 'transparent' }}>
+                <img src="/logo-white.png" alt="Camp David Logo" style={{ width: '100%', height: '100%', objectFit: 'contain' }} />
+              </div>
+              Camp David 2026
+            </div>
+            <div style={{ display: 'flex', alignItems: 'center', gap: 16 }}>
+              <NotificationCentre lightMode={false} />
+              <UserMenu lightMode={true} />
+            </div>
+          </div>
+
+          <p className="dash-greeting">Health, Welfare & Safety Log</p>
+          <h1 className="dash-name">Incident Tracker</h1>
+
+          <div className="dash-day-strip" style={{ marginBottom: 16 }}>
+            <span className="dash-day-badge" style={{ background: openCount > 0 ? 'rgba(239, 68, 68, 0.35)' : 'rgba(255,255,255,0.2)' }}>
+              {openCount} OPEN INCIDENT{openCount !== 1 ? 'S' : ''}
+            </span>
+            <span>{state.incidents.length} Total Incidents Logged</span>
+          </div>
+
+          {/* Quick Stat Pill Glass Card */}
+          <div className="now-card">
+            <div className="now-card-label">
+              <span className="now-dot" />
+              INCIDENT OVERVIEW
+            </div>
+            <div style={{ display: 'grid', gridTemplateColumns: 'repeat(3, 1fr)', gap: 10, marginTop: 12 }}>
+              <div style={{ textAlign: 'center', padding: '10px 4px', background: 'rgba(255,255,255,0.12)', borderRadius: 12 }}>
+                <div style={{ fontSize: '1.25rem', fontWeight: 700, color: '#F87171' }}>
+                  {state.incidents.filter(i => i.type === 'medical').length}
+                </div>
+                <div style={{ fontSize: '0.75rem', color: 'rgba(255,255,255,0.95)', marginTop: 2 }}>Medical</div>
+              </div>
+              <div style={{ textAlign: 'center', padding: '10px 4px', background: 'rgba(255,255,255,0.12)', borderRadius: 12 }}>
+                <div style={{ fontSize: '1.25rem', fontWeight: 700, color: '#FBBF24' }}>
+                  {state.incidents.filter(i => i.type === 'behavioural').length}
+                </div>
+                <div style={{ fontSize: '0.75rem', color: 'rgba(255,255,255,0.95)', marginTop: 2 }}>Behavioural</div>
+              </div>
+              <div style={{ textAlign: 'center', padding: '10px 4px', background: 'rgba(255,255,255,0.12)', borderRadius: 12 }}>
+                <div style={{ fontSize: '1.25rem', fontWeight: 700, color: '#60A5FA' }}>
+                  {state.incidents.filter(i => i.type === 'welfare').length}
+                </div>
+                <div style={{ fontSize: '0.75rem', color: 'rgba(255,255,255,0.95)', marginTop: 2 }}>Welfare</div>
+              </div>
+            </div>
+          </div>
+        </div>
+      </div>
+
+      <div className="container" style={{ paddingTop: 20 }}>
+        {/* New Incident Action Button */}
         <button
           className="btn btn-primary btn-full"
           onClick={() => setShowForm(!showForm)}
-          style={{ marginBottom: 16 }}
+          style={{ marginBottom: 20, padding: '14px 20px', borderRadius: 12, fontWeight: 700, display: 'flex', alignItems: 'center', justifyContent: 'center', gap: 8, fontSize: '0.9375rem', boxShadow: '0 4px 14px rgba(4, 120, 87, 0.25)' }}
         >
-          {showForm ? 'Cancel' : '+ Report New Incident'}
+          <IconPlus size={20} />
+          {showForm ? 'Cancel Incident Report' : 'Report New Incident'}
         </button>
 
-        {/* New Incident Form */}
+        {/* New Incident Form Card */}
         {showForm && (
-          <div className="card" style={{ marginBottom: 16, animation: 'fadeInUp 0.3s ease' }}>
-            <h3 style={{ marginBottom: 16 }}>New Incident Report</h3>
+          <div className="card" style={{ marginBottom: 20, animation: 'fadeInUp 0.3s ease', padding: 24, borderRadius: 16, border: '1px solid var(--border)', boxShadow: '0 8px 24px rgba(0,0,0,0.06)' }}>
+            <h3 style={{ marginBottom: 18, fontSize: '1.125rem', fontWeight: 700 }}>New Incident Report</h3>
 
-            <div className="form-group">
-              <label>Camper</label>
-              <select value={formCamper} onChange={(e) => setFormCamper(e.target.value)}>
+            <div className="form-group" style={{ marginBottom: 16 }}>
+              <label style={{ fontWeight: 600, marginBottom: 6, display: 'block' }}>Select Camper</label>
+              <select 
+                value={formCamper} 
+                onChange={(e) => setFormCamper(e.target.value)}
+                style={{ width: '100%', padding: '12px 14px', borderRadius: 10, border: '1px solid var(--border)', fontSize: '0.9375rem' }}
+              >
                 <option value="">— Select camper —</option>
                 {selectableCampers.map((c) => {
                   const group = GROUPS.find((g) => g.id === c.group);
@@ -114,14 +178,15 @@ export default function Incidents() {
               </select>
             </div>
 
-            <div className="form-group">
-              <label>Type</label>
-              <div style={{ display: 'flex', gap: 8 }}>
+            <div className="form-group" style={{ marginBottom: 16 }}>
+              <label style={{ fontWeight: 600, marginBottom: 6, display: 'block' }}>Incident Category</label>
+              <div style={{ display: 'flex', gap: 10, flexWrap: 'wrap' }}>
                 {INCIDENT_TYPES.map((t) => (
                   <button
                     key={t.id}
+                    type="button"
                     className={`session-btn ${formType === t.id ? 'active' : ''}`}
-                    style={formType === t.id ? { background: t.color, color: '#fff', borderColor: t.color, display: 'flex', alignItems: 'center', gap: 6 } : { display: 'flex', alignItems: 'center', gap: 6 }}
+                    style={formType === t.id ? { background: t.color, color: '#fff', borderColor: t.color, display: 'flex', alignItems: 'center', gap: 6, padding: '10px 16px', borderRadius: 10, fontWeight: 600 } : { display: 'flex', alignItems: 'center', gap: 6, padding: '10px 16px', borderRadius: 10 }}
                     onClick={() => setFormType(t.id)}
                   >
                     {t.emoji} {t.label}
@@ -130,23 +195,24 @@ export default function Incidents() {
               </div>
             </div>
 
-            <div className="form-group">
-              <label>Description</label>
+            <div className="form-group" style={{ marginBottom: 20 }}>
+              <label style={{ fontWeight: 600, marginBottom: 6, display: 'block' }}>Detailed Description</label>
               <textarea
                 value={formDesc}
                 onChange={(e) => setFormDesc(e.target.value)}
-                placeholder="Describe the incident in detail..."
+                placeholder="Describe the incident, context, and immediate actions taken..."
+                style={{ minHeight: 110, borderRadius: 10, border: '1px solid var(--border)', padding: 14, fontSize: '0.9375rem' }}
               />
             </div>
 
-            <button className="btn btn-primary btn-full" onClick={handleSubmit}>
-              Submit Report
+            <button className="btn btn-primary btn-full" onClick={handleSubmit} style={{ padding: '14px', borderRadius: 10, fontWeight: 700 }}>
+              Submit Incident Report
             </button>
           </div>
         )}
 
-        {/* Status Filter */}
-        <div className="filter-tabs" style={{ marginBottom: 16 }}>
+        {/* Status Filter Tabs */}
+        <div className="filter-tabs" style={{ marginBottom: 20 }}>
           {STATUSES.map((s) => (
             <button
               key={s.id}
@@ -161,12 +227,12 @@ export default function Incidents() {
         {/* Incidents List */}
         {visibleIncidents.length === 0 ? (
           <EmptyState 
-            icon={<div style={{ fontSize: '3rem' }}>✓</div>}
+            icon={<IconShieldCheck size={48} color="var(--teal)" />}
             title={statusFilter === 'all' ? 'No incidents reported' : `No ${statusFilter.replace('_', ' ')} incidents`}
-            description="You're all caught up."
+            description="All campers are accounted for safely."
           />
         ) : (
-          <div style={{ display: 'flex', flexDirection: 'column', gap: 12 }}>
+          <div style={{ display: 'flex', flexDirection: 'column', gap: 14 }}>
             {visibleIncidents.map((inc) => {
               const camper = state.campers.find((c) => c.id === inc.camperId);
               const reporter = staff.find((s) => s.id === inc.reportedBy);
@@ -182,26 +248,28 @@ export default function Incidents() {
               });
 
               return (
-                <div key={inc.id} className="incident-card animate-in">
+                <div key={inc.id} className="incident-card animate-in" style={{ background: '#fff', borderRadius: 14, border: '1px solid var(--border)', overflow: 'hidden', boxShadow: '0 4px 14px rgba(0,0,0,0.04)' }}>
                   <div className={`incident-bar ${inc.type}`} />
-                  <div className="incident-body">
-                    <div style={{ display: 'flex', alignItems: 'flex-start', justifyContent: 'space-between', marginBottom: 8 }}>
-                      <div style={{ display: 'flex', alignItems: 'center', gap: 10 }}>
-                        <div className="avatar avatar-sm">
+                  <div className="incident-body" style={{ padding: 18 }}>
+                    <div style={{ display: 'flex', alignItems: 'flex-start', justifyContent: 'space-between', marginBottom: 10 }}>
+                      <div style={{ display: 'flex', alignItems: 'center', gap: 12 }}>
+                        <div className="avatar avatar-sm" style={{ background: 'var(--teal)', color: '#fff', fontWeight: 700 }}>
                           {getInitials(camper?.name || '?')}
                         </div>
                         <div>
-                          <div className="font-semibold" style={{ fontSize: '0.9375rem' }}>{camper?.name || 'Unknown'}</div>
-                          <div className="text-xs text-muted">{group?.emoji || '🛡️'} {group?.name} · Reported by {reporter?.name || 'Unknown'}</div>
+                          <div className="font-semibold" style={{ fontSize: '1rem', color: 'var(--text)', fontWeight: 700 }}>{camper?.name || 'Unknown Camper'}</div>
+                          <div className="text-xs text-muted" style={{ marginTop: 2 }}>{group?.emoji || '🛡️'} {group?.name} · Reported by {reporter?.name || 'Staff Member'}</div>
                         </div>
                       </div>
                     </div>
-                    <p style={{ fontSize: '0.8125rem', color: 'var(--text-secondary)', lineHeight: 1.5, marginBottom: 10 }}>
+
+                    <p style={{ fontSize: '0.875rem', color: 'var(--text-secondary)', lineHeight: 1.55, marginBottom: 12 }}>
                       {inc.description}
                     </p>
-                    <div style={{ display: 'flex', alignItems: 'center', justifyContent: 'space-between', flexWrap: 'wrap', gap: 8 }}>
+
+                    <div style={{ display: 'flex', alignItems: 'center', justifyContent: 'space-between', flexWrap: 'wrap', gap: 10 }}>
                       <div style={{ display: 'flex', alignItems: 'center', gap: 8 }}>
-                        <span className={`badge ${type?.id === 'medical' ? 'badge-red' : type?.id === 'behavioural' ? 'badge-amber' : 'badge-blue'}`} style={{ display: 'flex', alignItems: 'center', gap: 4 }}>
+                        <span className={`badge ${type?.id === 'medical' ? 'badge-red' : type?.id === 'behavioural' ? 'badge-amber' : 'badge-blue'}`} style={{ display: 'flex', alignItems: 'center', gap: 4, fontWeight: 700 }}>
                           {type?.emoji} {type?.label}
                         </span>
                         <span className={`status-badge status-${inc.status}`}>
@@ -211,14 +279,14 @@ export default function Incidents() {
                       <span className="text-xs text-muted">{timeStr}</span>
                     </div>
 
-                    {/* Status Update (Team Lead / Admin) */}
+                    {/* Status Update Actions */}
                     {canUpdateStatus && inc.status !== 'resolved' && (
-                      <div style={{ marginTop: 10, display: 'flex', gap: 6 }}>
+                      <div style={{ marginTop: 14, paddingTop: 12, borderTop: '1px solid var(--border)', display: 'flex', gap: 8 }}>
                         {inc.status === 'open' && (
                           <button
                             className="btn btn-sm btn-outline"
                             onClick={() => handleStatusChange(inc.id, 'in_progress')}
-                            style={{ fontSize: '0.75rem', padding: '6px 12px' }}
+                            style={{ fontSize: '0.8125rem', padding: '8px 14px', borderRadius: 8, fontWeight: 600 }}
                           >
                             Mark In Progress
                           </button>
@@ -226,9 +294,9 @@ export default function Incidents() {
                         <button
                           className="btn btn-sm btn-primary"
                           onClick={() => handleStatusChange(inc.id, 'resolved')}
-                          style={{ fontSize: '0.75rem', padding: '6px 12px', display: 'flex', alignItems: 'center', gap: 4 }}
+                          style={{ fontSize: '0.8125rem', padding: '8px 14px', borderRadius: 8, fontWeight: 600, display: 'flex', alignItems: 'center', gap: 6 }}
                         >
-                          ✓ Resolve
+                          <IconCheck size={16} /> Resolve Incident
                         </button>
                       </div>
                     )}

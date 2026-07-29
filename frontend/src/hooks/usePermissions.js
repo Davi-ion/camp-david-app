@@ -3,19 +3,29 @@ import { useApp } from '../context/AppContext';
 export function usePermissions() {
   const { state } = useApp();
   const permissions = state.currentUser?.permissions || [];
+  const user = state.currentUser;
+
+  const isAdmin =
+    user?.role === 'admin' ||
+    user?.role === 'Super Admin' ||
+    user?.roleName === 'Super Admin' ||
+    user?.roleName === 'Operations Admin' ||
+    user?.roleName === 'Camp Director' ||
+    permissions.includes('all') ||
+    permissions.includes('manage:users');
 
   const hasPermission = (permission) => {
-    if (permissions.includes('all')) return true;
+    if (isAdmin || permissions.includes('all')) return true;
     return permissions.includes(permission);
   };
 
   const hasAnyPermission = (...required) => {
-    if (permissions.includes('all')) return true;
+    if (isAdmin || permissions.includes('all')) return true;
     return required.some((p) => permissions.includes(p));
   };
 
   const hasAllPermissions = (...required) => {
-    if (permissions.includes('all')) return true;
+    if (isAdmin || permissions.includes('all')) return true;
     return required.every((p) => permissions.includes(p));
   };
 
@@ -24,6 +34,6 @@ export function usePermissions() {
     hasPermission,
     hasAnyPermission,
     hasAllPermissions,
-    isAdmin: hasPermission('manage:users') || hasPermission('all'),
+    isAdmin,
   };
 }
