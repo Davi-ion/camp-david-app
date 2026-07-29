@@ -280,3 +280,23 @@ type DrillChecklistItem struct {
 }
 
 func (DrillChecklistItem) TableName() string { return "DrillChecklistItem" }
+
+type AttendanceRecord struct {
+	ID           string    `gorm:"primaryKey;column:id;type:varchar(191)" json:"id"`
+	SessionID    string    `gorm:"column:sessionId;type:varchar(191)" json:"sessionId"`
+	CamperID     *string   `gorm:"column:camperId;type:varchar(191)" json:"camperId,omitempty"`
+	StaffID      *string   `gorm:"column:staffId;type:varchar(191)" json:"staffId,omitempty"`
+	Status       string    `gorm:"column:status;type:varchar(191)" json:"status"`
+	Timestamp    time.Time `gorm:"column:timestamp;default:current_timestamp(3)" json:"timestamp"`
+	RecordedByID *string   `gorm:"column:recordedById;type:varchar(191)" json:"recordedById,omitempty"`
+	Notes        *string   `gorm:"column:notes;type:varchar(191)" json:"notes,omitempty"`
+	CreatedAt    time.Time `gorm:"column:createdAt;default:current_timestamp(3)" json:"createdAt"`
+	UpdatedAt    time.Time `gorm:"column:updatedAt" json:"updatedAt"`
+
+	Camper     *Camper `gorm:"foreignKey:CamperID" json:"camper,omitempty"`
+	Staff      *Staff  `gorm:"foreignKey:StaffID" json:"staff,omitempty"`
+	RecordedBy *Staff  `gorm:"foreignKey:RecordedByID" json:"recordedBy,omitempty"`
+}
+
+func (AttendanceRecord) TableName() string { return "AttendanceRecord" }
+

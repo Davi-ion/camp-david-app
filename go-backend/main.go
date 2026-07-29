@@ -38,6 +38,9 @@ func main() {
 	r.POST("/api/seed/campers", handlers.SeedCampersEndpointHandler)
 	r.POST("/api/seed/users", handlers.SeedUsersEndpointHandler)
 	r.POST("/api/auth/login", handlers.LoginHandler)
+	r.GET("/api/attendance/all", handlers.GetAllAttendanceHandler)
+	r.POST("/api/attendance/mark", handlers.MarkAttendanceHandler)
+	r.POST("/api/attendance/bulk-mark", handlers.BulkMarkAttendanceHandler)
 
 	// 6. Authenticated Routes Group
 	authGroup := r.Group("/api")
@@ -45,6 +48,12 @@ func main() {
 	{
 		authGroup.POST("/auth/force-change-password", handlers.ForcePasswordChangeHandler)
 		authGroup.GET("/auth/me", handlers.GetMeHandler)
+
+		// Attendance
+		authGroup.GET("/attendance/all", handlers.GetAllAttendanceHandler)
+		authGroup.POST("/attendance/mark", handlers.MarkAttendanceHandler)
+		authGroup.POST("/attendance/bulk-mark", handlers.BulkMarkAttendanceHandler)
+		authGroup.GET("/attendance/session/:sessionId", handlers.GetSessionAttendanceHandler)
 
 		// Users / Staff
 		authGroup.GET("/users", handlers.GetUsersHandler)
