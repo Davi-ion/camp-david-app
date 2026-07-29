@@ -572,17 +572,21 @@ export default function RollCall() {
                     }}
                   >
                     <div style={{ display: 'flex', alignItems: 'center', gap: 12, flex: 1, minWidth: 0 }}>
-                      <div className="avatar avatar-sm" style={{
-                        background: status === 'present' ? '#22C55E' :
-                                   status === 'absent' ? '#EF4444' :
-                                   status === 'excused' ? '#EAB308' : '#64748B',
-                        color: '#fff',
-                        fontWeight: 700,
-                        flexShrink: 0,
-                        borderRadius: 9999
-                      }}>
-                        {getInitials(camper.name)}
-                      </div>
+                      <img 
+                        src={camper.photo && (camper.photo.startsWith('/') || camper.photo.startsWith('http')) ? camper.photo : `/avatars/character${(idx % 20) + 1}.jpg`} 
+                        alt={camper.name} 
+                        style={{
+                          width: 36,
+                          height: 36,
+                          borderRadius: 9999,
+                          objectFit: 'cover',
+                          flexShrink: 0,
+                          border: status === 'present' ? '2px solid #22C55E' :
+                                  status === 'absent' ? '2px solid #EF4444' :
+                                  status === 'excused' ? '2px solid #EAB308' : '2px solid #E2E8F0',
+                          boxShadow: '0 2px 6px rgba(0,0,0,0.08)'
+                        }}
+                      />
                       <div className="camper-info" style={{ minWidth: 0 }}>
                         <div className="camper-name" style={{ fontWeight: 600, color: 'var(--text)', whiteSpace: 'nowrap', overflow: 'hidden', textOverflow: 'ellipsis' }}>
                           {camper.name}
