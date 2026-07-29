@@ -1,6 +1,8 @@
 import { useState, useRef, useEffect } from 'react';
 import { Link, useNavigate } from 'react-router-dom';
 import { useApp } from '../context/AppContext';
+import { IconUser, IconLayoutDashboard, IconLogout } from '@tabler/icons-react';
+
 function getInitials(name) {
   return name ? name.split(' ').map(w => w[0]).join('').toUpperCase().slice(0, 2) : '??';
 }
@@ -13,7 +15,6 @@ export default function UserMenu({ lightMode = false }) {
   const [dropdownOpen, setDropdownOpen] = useState(false);
   const dropdownRef = useRef(null);
 
-  const unreadCount = state.notifications?.filter(n => !n.isRead).length || 0;
   const isConsoleUser = (user?.permissions || []).some(p =>
     ['manage:users', 'manage:roles', 'view:audit', 'all'].includes(p)
   );
@@ -70,12 +71,12 @@ export default function UserMenu({ lightMode = false }) {
             <div className="dropdown-divider" />
 
             <Link to="/app/profile" className="dropdown-item" onClick={() => setDropdownOpen(false)} style={{ display: 'flex', alignItems: 'center', gap: 8 }}>
-              👤 My Profile
+              <IconUser size={16} /> My Profile
             </Link>
 
             {isConsoleUser && (
               <Link to="/console" className="dropdown-item" onClick={() => setDropdownOpen(false)} style={{ display: 'flex', alignItems: 'center', gap: 8 }}>
-                ⚙️ Management Console
+                <IconLayoutDashboard size={16} /> Management Console
               </Link>
             )}
 
@@ -86,7 +87,7 @@ export default function UserMenu({ lightMode = false }) {
               className="dropdown-item"
               style={{ width: '100%', textAlign: 'left', color: 'var(--red)', display: 'flex', alignItems: 'center', gap: 8 }}
             >
-              🚪 Log Out
+              <IconLogout size={16} /> Log Out
             </button>
           </div>
         )}

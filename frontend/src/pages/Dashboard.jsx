@@ -5,6 +5,7 @@ import { CAMP_DAYS, schedule } from '../data/schedule';
 import { sessions } from '../data/sessions';
 import UserMenu from '../components/UserMenu';
 import NotificationCentre from '../components/NotificationCentre';
+import { IconClipboardCheck, IconAlertCircle, IconAlertTriangle } from '@tabler/icons-react';
 const API = import.meta.env.VITE_API_URL || 'http://localhost:3001';
 
 function formatTime12(timeStr) {
@@ -142,7 +143,9 @@ export default function Dashboard() {
         <div className="container">
           <div className="dash-header-top">
             <div className="dash-brand">
-              <div className="dash-logo">⛺</div>
+              <div className="dash-logo" style={{ background: 'transparent' }}>
+                <img src="/logo-white.png" alt="Camp David Logo" style={{ width: '100%', height: '100%', objectFit: 'contain' }} />
+              </div>
               Camp David 2026
             </div>
             <div style={{ display: 'flex', alignItems: 'center', gap: 16 }}>
@@ -190,7 +193,9 @@ export default function Dashboard() {
                 background: '#FEF2F2', border: '1px solid #FCA5A5', borderRadius: 12, padding: 16,
                 boxShadow: '0 4px 12px rgba(239,68,68,0.15)', display: 'flex', gap: 16, alignItems: 'flex-start'
               }}>
-                <div style={{ fontSize: '2rem', animation: 'pulse 2s infinite' }}>🚨</div>
+                <div style={{ display: 'flex', alignItems: 'center', justifyContent: 'center' }}>
+                  <IconAlertTriangle size={32} color="#DC2626" />
+                </div>
                 <div style={{ flex: 1 }}>
                   <h3 style={{ color: '#991B1B', margin: '0 0 4px 0', fontSize: '1.125rem' }}>{alert.title}</h3>
                   <p style={{ color: '#B91C1C', fontSize: '0.9375rem', margin: 0, lineHeight: 1.5 }}>{alert.body}</p>
@@ -310,11 +315,15 @@ export default function Dashboard() {
         {/* Quick Actions */}
         <div className="quick-actions">
           <button className="quick-action-btn" onClick={() => navigate('/app/rollcall')}>
-            <div className="quick-action-icon teal" style={{ fontSize: '1.5rem' }}>📋</div>
+            <div className="quick-action-icon teal">
+              <IconClipboardCheck size={24} />
+            </div>
             Take Roll Call
           </button>
           <button className="quick-action-btn" onClick={() => navigate('/app/incidents')}>
-            <div className="quick-action-icon orange" style={{ fontSize: '1.5rem' }}>⚠️</div>
+            <div className="quick-action-icon orange">
+              <IconAlertCircle size={24} />
+            </div>
             Report Incident
           </button>
         </div>

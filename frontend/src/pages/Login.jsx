@@ -1,12 +1,25 @@
-import { useState } from 'react';
+import { useState, useEffect } from 'react';
 import { useNavigate, Link } from 'react-router-dom';
 import { useApp } from '../context/AppContext';
 
 const API = import.meta.env.VITE_API_URL || 'http://localhost:3001';
 
+const BG_IMAGES = [
+  '/bg1.jpg',
+  '/bg2.jpg',
+  '/bg3.jpeg',
+  '/bg4.jpg',
+  '/bg5.jpg',
+  '/bg6.jpg',
+  '/bg7.jpg',
+  '/bg8.jpg',
+];
+
 export default function Login() {
   const { dispatch } = useApp();
   const navigate = useNavigate();
+
+  const [currentBg, setCurrentBg] = useState(0);
 
   const [identifier, setIdentifier] = useState('');
   const [password, setPassword] = useState('');
@@ -19,6 +32,14 @@ export default function Login() {
   // Force password change flow
   const [forceChange, setForceChange] = useState(false);
   const [newPassword, setNewPassword] = useState('');
+
+  // Cinematic background slideshow timer
+  useEffect(() => {
+    const interval = setInterval(() => {
+      setCurrentBg((prev) => (prev + 1) % BG_IMAGES.length);
+    }, 5500);
+    return () => clearInterval(interval);
+  }, []);
 
   const triggerShake = () => {
     setShake(true);
@@ -53,14 +74,12 @@ export default function Login() {
       }
 
       if (data.user.forcePasswordChange) {
-        // Store token temporarily to allow force-change request
         localStorage.setItem('camp_token', data.token);
         setForceChange(true);
         setLoading(false);
         return;
       }
 
-      // Fetch all active campers so they are available globally
       try {
         const campersRes = await fetch(`${API}/api/campers?status=active`, {
           headers: { 'Authorization': `Bearer ${data.token}` }
@@ -123,129 +142,187 @@ export default function Login() {
   };
 
   return (
-    <div className="login-page">
-      <div 
-        className="login-card"
-        style={shake ? { animation: 'shake 0.4s ease' } : {}}
-      >
-        <div className="login-logo">⛺</div>
-        <h1 className="login-title">Camp David 2026</h1>
-        <p className="login-subtitle">
-          {forceChange ? 'Set New Password' : 'Staff Portal — David\'s Army'}
-        </p>
-
-        {error && (
-          <div style={{
-            background: '#FDE8EA', color: '#DC3545', borderRadius: 8,
-            padding: '10px 14px', fontSize: 13, marginBottom: 16, fontWeight: 500,
-            textAlign: 'center'
-          }}>
-            {error}
-          </div>
-        )}
-
-        {!forceChange ? (
-          <form onSubmit={handleLogin}>
-            <div className="form-group">
-              <label>Email or Username</label>
-              <input
-                type="text"
-                className="form-control"
-                value={identifier}
-                onChange={(e) => setIdentifier(e.target.value)}
-                placeholder="Enter your email"
-                disabled={loading}
-                autoFocus
-              />
-            </div>
-
-            <div className="form-group">
-              <label>Password</label>
-              <div style={{ position: 'relative' }}>
-                <input
-                  type={showPassword ? 'text' : 'password'}
-                  className="form-control"
-                  value={password}
-                  onChange={(e) => setPassword(e.target.value)}
-                  placeholder="Enter your password"
-                  disabled={loading}
-                  style={{ paddingRight: 40 }}
-                />
-                <button
-                  type="button"
-                  onClick={() => setShowPassword(!showPassword)}
-                  style={{
-                    position: 'absolute', right: 10, top: '50%', transform: 'translateY(-50%)',
-                    background: 'none', border: 'none', cursor: 'pointer', fontSize: 18, color: '#666'
-                  }}
-                  title={showPassword ? 'Hide Password' : 'Show Password'}
-                >
-                  {showPassword ? '👁️' : '👁️‍🗨️'}
-                </button>
-              </div>
-            </div>
-
-            <div style={{ display: 'flex', justifyContent: 'space-between', alignItems: 'center', marginBottom: 24, fontSize: 13 }}>
-              <label style={{ display: 'flex', alignItems: 'center', gap: 6, margin: 0, cursor: 'pointer', color: '#555' }}>
-                <input type="checkbox" /> Remember Me
-              </label>
-              <Link to="/forgot-password" style={{ color: 'var(--teal)', textDecoration: 'none', fontWeight: 500 }}>
-                Forgot Password?
-              </Link>
-            </div>
-
-            <button
-              type="submit"
-              className="btn btn-primary btn-full"
-              style={{ height: 48, opacity: loading ? 0.7 : 1 }}
-              disabled={loading}
-            >
-              {loading ? 'Signing in…' : 'Sign In'}
-            </button>
-          </form>
-        ) : (
-          <form onSubmit={handleForceChange}>
-            <p style={{ fontSize: 14, color: '#555', marginBottom: 20, textAlign: 'center' }}>
-              Welcome! For security reasons, you must set a new personal password before continuing.
-            </p>
-
-            <div className="form-group">
-              <label>New Password</label>
-              <div style={{ position: 'relative' }}>
-                <input
-                  type={showPassword ? 'text' : 'password'}
-                  className="form-control"
-                  value={newPassword}
-                  onChange={(e) => setNewPassword(e.target.value)}
-                  placeholder="At least 8 characters"
-                  disabled={loading}
-                  autoFocus
-                  style={{ paddingRight: 40 }}
-                />
-                <button
-                  type="button"
-                  onClick={() => setShowPassword(!showPassword)}
-                  style={{
-                    position: 'absolute', right: 10, top: '50%', transform: 'translateY(-50%)',
-                    background: 'none', border: 'none', cursor: 'pointer', fontSize: 18, color: '#666'
-                  }}
-                >
-                  {showPassword ? '👁️' : '👁️‍🗨️'}
-                </button>
-              </div>
-            </div>
-
-            <button
-              type="submit"
-              className="btn btn-primary btn-full"
-              style={{ height: 48, opacity: loading ? 0.7 : 1 }}
-              disabled={loading}
-            >
-              {loading ? 'Updating…' : 'Save & Continue'}
-            </button>
-          </form>
-        )}
+    <div className="login-cinema-container">
+      {/* Cinematic Background Crossfade Slideshow */}
+      <div className="cinema-bg-stack">
+        {BG_IMAGES.map((imgSrc, idx) => (
+          <div
+            key={imgSrc}
+            className={`cinema-bg-slide ${idx === currentBg ? 'active' : ''}`}
+            style={{ backgroundImage: `url(${imgSrc})` }}
+          />
+        ))}
       </div>
+
+      {/* Lush Green Overlay */}
+      <div className="cinema-green-overlay" />
+
+      {/* Header Navigation Bar */}
+      <header className="cinema-header">
+        <div className="cinema-brand-wrap">
+          <img src="/logo-white.png" alt="Camp David Logo" className="cinema-logo-img" />
+        </div>
+      </header>
+
+      {/* Main Split Body: Hero Text Left + Login Card Right */}
+      <main className="cinema-main">
+        {/* Left Hero Section */}
+        <div className="cinema-hero-content">
+          <div className="cinema-eyebrow">
+            <span className="cinema-eyebrow-line" />
+            <span className="cinema-eyebrow-text">WELCOME TO CAMP DAVID</span>
+          </div>
+
+          <h1 className="cinema-title">
+            <span className="cinema-title-white">Timeless</span>
+            <span className="cinema-title-white">Global</span>
+            <span className="cinema-title-peach">Teens</span>
+            <span className="cinema-title-peach">Experience.</span>
+          </h1>
+
+          <p className="cinema-subtitle">
+            A non-denominational gathering of teenagers from around the world for an experience of a lifetime.
+          </p>
+
+          <div className="cinema-date-badge">
+            Camp David 2026 · 29 July 2026 – 2 August 2026
+          </div>
+
+          {/* Carousel Dots Indicator */}
+          <div className="cinema-dots">
+            {BG_IMAGES.map((_, idx) => (
+              <button
+                key={idx}
+                type="button"
+                className={`cinema-dot ${idx === currentBg ? 'active' : ''}`}
+                onClick={() => setCurrentBg(idx)}
+                aria-label={`Slide ${idx + 1}`}
+              />
+            ))}
+          </div>
+        </div>
+
+        {/* Right Floating Glassmorphism Login Card */}
+        <div className="cinema-login-wrap">
+          <div 
+            className="cinema-login-card"
+            style={shake ? { animation: 'shake 0.4s ease' } : {}}
+          >
+            <div className="cinema-card-header">
+              <img src="/logo-white.png" alt="Logo" className="cinema-card-logo" />
+              <h2 className="cinema-card-title">
+                {forceChange ? 'Set New Password' : 'Staff Sign In'}
+              </h2>
+              <p className="cinema-card-sub">
+                {forceChange 
+                  ? 'Update your password for first-time login'
+                  : "Enter your David's Army credentials to access portal"}
+              </p>
+            </div>
+
+            {error && (
+              <div className="cinema-error-alert">
+                {error}
+              </div>
+            )}
+
+            {!forceChange ? (
+              <form onSubmit={handleLogin} className="cinema-form">
+                <div className="form-group">
+                  <label className="cinema-label">Email or Username</label>
+                  <input
+                    type="text"
+                    className="form-control cinema-input"
+                    value={identifier}
+                    onChange={(e) => setIdentifier(e.target.value)}
+                    placeholder="name@campdavid.org or username"
+                    disabled={loading}
+                    autoFocus
+                  />
+                </div>
+
+                <div className="form-group">
+                  <label className="cinema-label">Password</label>
+                  <div style={{ position: 'relative' }}>
+                    <input
+                      type={showPassword ? 'text' : 'password'}
+                      className="form-control cinema-input"
+                      value={password}
+                      onChange={(e) => setPassword(e.target.value)}
+                      placeholder="••••••••••••"
+                      disabled={loading}
+                      style={{ paddingRight: 44 }}
+                    />
+                    <button
+                      type="button"
+                      className="cinema-toggle-pw"
+                      onClick={() => setShowPassword(!showPassword)}
+                      title={showPassword ? 'Hide Password' : 'Show Password'}
+                    >
+                      {showPassword ? '👁️' : '👁️‍🗨️'}
+                    </button>
+                  </div>
+                </div>
+
+                <div className="cinema-form-options">
+                  <label className="cinema-checkbox-label">
+                    <input type="checkbox" className="cinema-checkbox" />
+                    <span>Remember Me</span>
+                  </label>
+                  <Link to="/forgot-password" className="cinema-forgot-link">
+                    Forgot Password?
+                  </Link>
+                </div>
+
+                <button
+                  type="submit"
+                  className="cinema-submit-btn"
+                  disabled={loading}
+                >
+                  {loading ? 'Signing in…' : 'SIGN IN'}
+                </button>
+              </form>
+            ) : (
+              <form onSubmit={handleForceChange} className="cinema-form">
+                <p className="cinema-force-notice">
+                  Welcome! For security reasons, you must set a new password before continuing.
+                </p>
+
+                <div className="form-group">
+                  <label className="cinema-label">New Password</label>
+                  <div style={{ position: 'relative' }}>
+                    <input
+                      type={showPassword ? 'text' : 'password'}
+                      className="form-control cinema-input"
+                      value={newPassword}
+                      onChange={(e) => setNewPassword(e.target.value)}
+                      placeholder="At least 8 characters"
+                      disabled={loading}
+                      autoFocus
+                      style={{ paddingRight: 44 }}
+                    />
+                    <button
+                      type="button"
+                      className="cinema-toggle-pw"
+                      onClick={() => setShowPassword(!showPassword)}
+                    >
+                      {showPassword ? '👁️' : '👁️‍🗨️'}
+                    </button>
+                  </div>
+                </div>
+
+                <button
+                  type="submit"
+                  className="cinema-submit-btn"
+                  disabled={loading}
+                >
+                  {loading ? 'Updating…' : 'SAVE & CONTINUE'}
+                </button>
+              </form>
+            )}
+          </div>
+        </div>
+      </main>
 
       <style>{`
         @keyframes shake {

@@ -1,12 +1,12 @@
 // Camp David 2026 — Phase 3: Full Camp Management System
 
 generator client {
-  provider = "prisma-client"
+  provider = "prisma-client-js"
   output   = "../generated/prisma"
 }
 
 datasource db {
-  provider = "postgresql"
+  provider = "mysql"
 }
 
 // ─── Staff / Users ───────────────────────────────────────────────

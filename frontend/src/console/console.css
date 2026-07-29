@@ -13,7 +13,7 @@
   --console-sidebar-text-hover: rgba(255,255,255,0.9);
   --console-sidebar-active-bg: rgba(255,255,255,0.08);
   --console-sidebar-active-text: #fff;
-  --console-sidebar-accent: #1B7865;
+  --console-sidebar-accent: #047857;
   --console-topnav-bg: #ffffff;
   --console-topnav-border: #E5E7EB;
   --console-content-bg: #F4F6F8;
@@ -61,7 +61,8 @@
 .console-brand-logo {
   width: 36px;
   height: 36px;
-  background: var(--console-sidebar-accent);
+  background: linear-gradient(135deg, #064e3b 0%, #047857 100%);
+  box-shadow: 0 4px 12px rgba(6, 78, 59, 0.4);
   border-radius: 8px;
   display: flex;
   align-items: center;
