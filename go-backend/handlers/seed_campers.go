@@ -101,13 +101,24 @@ func SeedCampersLogic() (int, int, int, error) {
 		}
 	}
 
-	// 3. Seed Campers
+	// 3. Seed Campers in batch
 	var records []SeedCamperRecord
 	if err := json.Unmarshal(campersJSON, &records); err != nil {
 		return platoonsCreated, dormsCreated, 0, fmt.Errorf("failed to unmarshal campers JSON: %v", err)
 	}
 
+	var existingCampers []models.Camper
+	db.Select("id", "registrationNumber").Find(&existingCampers)
+	existingMap := make(map[string]models.Camper)
+	for _, ec := range existingCampers {
+		if ec.RegistrationNumber != nil {
+			existingMap[*ec.RegistrationNumber] = ec
+		}
+	}
+
+	var toCreate []models.Camper
 	campersUpserted := 0
+
 	for _, r := range records {
 		var platoonID *string
 		if pid, ok := platoonMap[strings.ToLower(r.Platoon)]; ok {
@@ -119,12 +130,18 @@ func SeedCampersLogic() (int, int, int, error) {
 			dormID = &did
 		}
 
-		var existing models.Camper
 		regNo := r.RegistrationNumber
-		err := db.Where("registrationNumber = ?", regNo).First(&existing).Error
-
-		if err != nil {
-			newC := models.Camper{
+		if existing, ok := existingMap[regNo]; ok {
+			existing.Name = r.Name
+			existing.Gender = strPtr(r.Gender)
+			existing.TShirtSize = strPtr(r.TShirtSize)
+			existing.Age = r.Age
+			existing.PlatoonID = platoonID
+			existing.DormID = dormID
+			db.Save(&existing)
+			campersUpserted++
+		} else {
+			toCreate = append(toCreate, models.Camper{
 				ID:                 generateID(),
 				RegistrationNumber: &regNo,
 				Name:               r.Name,
@@ -135,27 +152,15 @@ func SeedCampersLogic() (int, int, int, error) {
 				DormID:             dormID,
 				QRCode:             strPtr(regNo),
 				Status:             "active",
-			}
-			if err := db.Create(&newC).Error; err == nil {
-				campersUpserted++
-			} else {
-				log.Printf("[SEED ERROR] Failed to create camper %s (%s): %v", r.Name, regNo, err)
-			}
+			})
+		}
+	}
+
+	if len(toCreate) > 0 {
+		if err := db.CreateInBatches(&toCreate, 100).Error; err != nil {
+			log.Printf("[SEED ERROR] CreateInBatches failed: %v", err)
 		} else {
-			existing.Name = r.Name
-			existing.Gender = strPtr(r.Gender)
-			existing.TShirtSize = strPtr(r.TShirtSize)
-			existing.Age = r.Age
-			existing.PlatoonID = platoonID
-			existing.DormID = dormID
-			if existing.QRCode == nil {
-				existing.QRCode = strPtr(regNo)
-			}
-			if err := db.Save(&existing).Error; err == nil {
-				campersUpserted++
-			} else {
-				log.Printf("[SEED ERROR] Failed to update camper %s (%s): %v", r.Name, regNo, err)
-			}
+			campersUpserted += len(toCreate)
 		}
 	}
 
