@@ -325,7 +325,7 @@
 .console-notif-btn {
   width: 36px;
   height: 36px;
-  border-radius: 8px;
+  border-radius: 9999px;
   background: transparent;
   border: 1px solid var(--border);
   display: flex;

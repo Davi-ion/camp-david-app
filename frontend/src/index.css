@@ -174,7 +174,7 @@ h4 { font-size: 1rem; }
   align-items: center;
   gap: 4px;
   padding: 4px 10px;
-  border-radius: var(--radius-sm);
+  border-radius: 9999px;
   font-size: 0.75rem;
   font-weight: 600;
   white-space: nowrap;
@@ -275,7 +275,7 @@ button:focus-visible {
   width: 36px;
   height: 36px;
   padding: 0;
-  border-radius: var(--radius-sm);
+  border-radius: 9999px;
   display: inline-flex;
   align-items: center;
   justify-content: center;
@@ -301,14 +301,28 @@ button:focus-visible {
 .avatar-lg { width: 48px; height: 48px; font-size: 1rem; }
 
 /* ---------- Form Elements ---------- */
-input, select, textarea {
+input, select {
   font-family: inherit;
   font-size: 0.9375rem;
   color: var(--text);
   width: 100%;
-  padding: 10px 14px;
+  padding: 10px 18px;
   border: 1px solid var(--border);
-  border-radius: var(--radius-sm);
+  border-radius: 9999px;
+  background: var(--card);
+  transition: all 0.2s ease;
+  outline: none;
+  box-shadow: var(--shadow-sm);
+}
+
+textarea {
+  font-family: inherit;
+  font-size: 0.9375rem;
+  color: var(--text);
+  width: 100%;
+  padding: 12px 16px;
+  border: 1px solid var(--border);
+  border-radius: 12px;
   background: var(--card);
   transition: all 0.2s ease;
   outline: none;
